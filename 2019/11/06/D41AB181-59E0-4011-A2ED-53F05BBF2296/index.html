@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="可视化,python,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="黎明已经不远" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Using Matplotlib引入：绘制正弦和余弦函数12345678910111213141516171819202122232425262728import matplotlib.pyplot as pltimport numpy as np X = np.linspace(-np.pi, np.pi, 256, endpoint=True) C, S = np.cos(X), np.sin">
+<meta name="keywords" content="可视化,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Matplotlib操作整理">
+<meta property="og:url" content="http://www.poetryisland.cn/2019/11/06/D41AB181-59E0-4011-A2ED-53F05BBF2296/index.html">
+<meta property="og:site_name" content="黎明已经不远">
+<meta property="og:description" content="Using Matplotlib引入：绘制正弦和余弦函数12345678910111213141516171819202122232425262728import matplotlib.pyplot as pltimport numpy as np X = np.linspace(-np.pi, np.pi, 256, endpoint=True) C, S = np.cos(X), np.sin">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-06T14:48:56.664Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Matplotlib操作整理">
+<meta name="twitter:description" content="Using Matplotlib引入：绘制正弦和余弦函数12345678910111213141516171819202122232425262728import matplotlib.pyplot as pltimport numpy as np X = np.linspace(-np.pi, np.pi, 256, endpoint=True) C, S = np.cos(X), np.sin">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.poetryisland.cn/2019/11/06/D41AB181-59E0-4011-A2ED-53F05BBF2296/">
+
+
+
+
+
+  <title>Matplotlib操作整理 | 黎明已经不远</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎明已经不远</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">洗洗睡吧</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.poetryisland.cn/2019/11/06/D41AB181-59E0-4011-A2ED-53F05BBF2296/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Syiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎明已经不远">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Matplotlib操作整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-06T22:48:32+08:00">
+                2019-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/06/D41AB181-59E0-4011-A2ED-53F05BBF2296/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/06/D41AB181-59E0-4011-A2ED-53F05BBF2296/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Using-Matplotlib"><a href="#Using-Matplotlib" class="headerlink" title="Using Matplotlib"></a>Using Matplotlib</h1><h2 id="引入：绘制正弦和余弦函数"><a href="#引入：绘制正弦和余弦函数" class="headerlink" title="引入：绘制正弦和余弦函数"></a>引入：绘制正弦和余弦函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import numpy as np </span><br><span class="line"></span><br><span class="line">X = np.linspace(-np.pi, np.pi, 256, endpoint=True) </span><br><span class="line">C, S = np.cos(X), np.sin(X)</span><br><span class="line"></span><br><span class="line">plt.plot(X, C)</span><br><span class="line">plt.plot(X, S)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">numpy.linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None, axis=0)主要用于创建等差序列</span><br><span class="line">Return evenly spaced numbers over a specified interval.</span><br><span class="line">(在start和stop之间返回均匀间隔的数据)</span><br><span class="line">Returns num evenly spaced samples, calculated over the interval [start, stop].</span><br><span class="line">(返回的是 [start, stop]之间的均匀分布)</span><br><span class="line">The endpoint of the interval can optionally be excluded.</span><br><span class="line">Changed in version 1.16.0: Non-scalar start and stop are now supported.</span><br><span class="line">(可以选择是否排除间隔的终点)</span><br><span class="line"></span><br><span class="line">start:返回样本数据开始点</span><br><span class="line">stop:返回样本数据结束点</span><br><span class="line">num:生成的样本数据量，默认为50</span><br><span class="line">endpoint：True则包含stop；False则不包含stop</span><br><span class="line">retstep：If True, return (samples, step), where step is the spacing between samples.(即如果为True则结果会给出数据间隔)</span><br><span class="line">dtype：输出数组类型</span><br><span class="line">axis：0(默认)或-1</span><br><span class="line">&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>图像(figure):<br>num：默认为1，图像数量<br>figsize：图像的长和宽（英寸）<br>dpi：分辨率（点/英寸）<br>faceclolor：绘图区域的背景颜色<br>edgecolor：绘图区域边缘的颜色<br>frameon：是否绘制图像边缘</p>
+</li>
+<li><p>Subplot</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#均匀</span><br><span class="line">plt.figure() </span><br><span class="line">plt.subplot(2,2,1)#将整个图像分成2行2列，当前位置为1</span><br><span class="line">plt.subplot(2,2,2）</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">#不均匀</span><br><span class="line">plt.figure() </span><br><span class="line">plt.subplot(2,1,1)#将整个图像分成2行2列，当前位置为1</span><br><span class="line">plt.subplot(2,3,4）</span><br><span class="line">plt.subplot(2,3,5）</span><br><span class="line">plt.subplot(2,3,6）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>坐标轴</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plt.xlim(-1,2) #x轴范围</span><br><span class="line">plt.ylim(-2,3) #y轴范围</span><br><span class="line">plt.label(&apos;x axis&apos;) #x轴标签</span><br><span class="line">plt.label(&apos;y axis&apos;)</span><br><span class="line"></span><br><span class="line">new_ticks = np.linspace(-1, 2, 5) #-1到2分成5段，包含端点</span><br><span class="line">plt.xticks(new_ticks) #显示x横坐标</span><br><span class="line">Plt.yticks([-2, -1, -, 1, 2], [r&apos;$really\ bad$&apos;, &apos;$bad$&apos;, &apos;$0$&apos;, &apos;$well$&apos;, &apos;$really\ well$&apos;]) #替换y坐标</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>边框属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ax = plt.gca() #get current axis</span><br><span class="line">#上边框右边框不可见</span><br><span class="line">ax.spines[&apos;right&apos;].set_color(&apos;none&apos;) </span><br><span class="line">Ax.spines[&apos;top&apos;].set_color(&apos;none&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移动坐标轴</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ax.xaxis.set_ticks_position(&apos;bottom&apos;) #设置x坐标刻度数字或名称的位置，所有属性为：top， bottom， both， default， none</span><br><span class="line">ax.spines[&apos;bottom&apos;].set_position((&apos;data&apos;, 0)) #设置spine边框x轴，set_position设置边框位置y=0位置；位置所有属性有outward， axes， data</span><br><span class="line">ax.yaxis.set_ticks_position(&apos;left&apos;)</span><br><span class="line">ax.spines[&apos;left&apos;].set_position((&apos;data&apos;, 0)) #坐标中心点在（0，0）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>legend图例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">l1 = plt.plot(x, y1, color=&apos;red&apos;, linewidth=2, linestyle=&apos;--&apos;, label=&apos;linear line&apos;)</span><br><span class="line">l2 = ...</span><br><span class="line">plt.legend(loc=&apos;best&apos;)</span><br><span class="line"></span><br><span class="line">#单独修改label信息</span><br><span class="line">plt.legend(loc=&apos;best&apos;, handles=[l1,l2], labels=[&apos;up&apos;, &apos;down&apos;])</span><br><span class="line"> </span><br><span class="line">#除&apos;best&apos;，另外loc属性有：&apos;upper right&apos;, &apos;upper left&apos;, &apos;lower left&apos;, &apos;lower right&apos;, &apos;right&apos;, &apos;center left&apos;, &apos;center right&apos;, &apos;lower center&apos;, &apos;upper center&apos;, &apos;center&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Annotation标注</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">plt.annotate(s = r&apos;$2x+1=%s$&apos; % y0, xy=(x0, y0),xytext=(+30,-30), xycoords=&apos;data&apos;,textcoords=&apos;offset points&apos;, fontsize=16,arrowprops=dict(arrowstyle=&apos;&lt;-&apos;, connectionstyle=&quot;arc3,rad=.2&quot;))</span><br><span class="line"></span><br><span class="line"># 直接在图片上添加文字做标注，实际是添加文字</span><br><span class="line"># (-4,3)坐标处开始输入，输入的内容空格要用\转义，</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.text(-4, 3, r&apos;$This\ is\ the\ some\ text. \mu\ \sigma_i\ \alpha_t$&apos;,fontdict=&#123;&apos;size&apos;: 16, &apos;color&apos;: &apos;r&apos;&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>参数：</p>
+<pre><code>*     s 为注释文本内容
+*     xy 为被注释的坐标点
+*     xytext 为注释文字的坐标位置
+*     xycoords 参数如下:
+◦    figure points：图左下角的点
+◦    figure pixels：图左下角的像素
+◦    figure fraction：图的左下部分
+◦    axes points：坐标轴左下角的点
+◦    axes pixels：坐标轴左下角的像素
+◦    axes fraction：左下轴的分数
+◦    data：使用被注释对象的坐标系统(默认)
+◦    polar(theta,r)：if not native ‘data’ coordinates t
+*     weight 设置字体线型
+◦    {‘ultralight’, ‘light’, ‘normal’, ‘regular’, ‘book’, ‘medium’, ‘roman’, ‘semibold’, ‘demibold’, ‘demi’, ‘bold’, ‘heavy’, ‘extra bold’, ‘black’}
+*     color 设置字体颜色
+◦    {‘b’, ‘g’, ‘r’, ‘c’, ‘m’, ‘y’, ‘k’, ‘w’}
+◦    ‘black’,&apos;red’等
+◦    [0,1]之间的浮点型数据
+◦    RGB或者RGBA, 如: (0.1, 0.2, 0.5)、(0.1, 0.2, 0.5, 0.3)等
+*     arrowprops #箭头参数,参数类型为字典dict
+◦    width：箭头的宽度(以点为单位)
+◦    headwidth：箭头底部以点为单位的宽度
+◦    headlength：箭头的长度(以点为单位)
+◦    shrink：总长度的一部分，从两端“收缩”
+◦    facecolor：箭头颜色
+*     bbox给标题增加外框 ，常用参数如下：
+◦    boxstyle：方框外形
+◦    facecolor：(简写fc)背景颜色
+◦    edgecolor：(简写ec)边框线条颜色
+◦    edgewidth：边框线条大小
+</code></pre><h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><ul>
+<li><p>Scatter 散点图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X, Y, s=76, c=T, alpha=0.5) #s即size, c为color</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Bar 条形图 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.bar(X, Y, facecolor=&apos;#9999ff&apos;, edgecolor=&apos;white&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Contours等高线图 </p>
+</li>
+<li>Image图片<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#a是一个numpy数组</span><br><span class="line">plt.imshow(a, interpolation=&apos;nearest&apos;, camp=&apos;bone&apos;, origin=&apos;lower&apos;)</span><br><span class="line">plt.colorbar（shrink=.92）#shrink参数将图片长度变为原来的92%</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/可视化/" rel="tag"># 可视化</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/06/A0AC213B-A11B-47B3-928B-B19CCEB04A20/" rel="next" title="《单向度的人》阅读记录">
+                <i class="fa fa-chevron-left"></i> 《单向度的人》阅读记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/06/6FDAF392-4A0B-41AC-A795-CD2FE44E7812/" rel="prev" title="强化学习">
+                强化学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Syiao</p>
+              <p class="site-description motion-element" itemprop="description">“多新鲜啊~~”</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Using-Matplotlib"><span class="nav-number">1.</span> <span class="nav-text">Using Matplotlib</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引入：绘制正弦和余弦函数"><span class="nav-number">1.1.</span> <span class="nav-text">引入：绘制正弦和余弦函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.2.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像"><span class="nav-number">1.3.</span> <span class="nav-text">图像</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+<!--��վ��������-->
+
+<div class="powered-by">
+
+<i class="fa fa-user"></i>
+<span id="busuanzi_container_site_uv">
+  
+<span id="busuanzi_value_site_uv"></span>
+
+</span>
+
+<!--��վ���ʴ���-->
+
+<span class="post-meta-divider">|</span>
+
+<span id="busuanzi_container_site_pv">
+<i class="fa fa-eye"></i>
+    
+<span id="busuanzi_value_site_pv">
+</span>
+</span>
+
+</div>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Syiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaokankan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.poetryisland.cn/2019/11/06/D41AB181-59E0-4011-A2ED-53F05BBF2296/';
+          this.page.identifier = '2019/11/06/D41AB181-59E0-4011-A2ED-53F05BBF2296/';
+          this.page.title = 'Matplotlib操作整理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaokankan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '2pFuMW7pKAlzws74ACKKcAgT-gzGzoHsz',
+        appKey: 'yYrRJimHiq17HTEglErakNj7',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

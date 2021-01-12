@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="sklearn,降维,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="黎明已经不远" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="降维 能够加速训练，但会轻微降低系统性能，使流水线更加复杂，维护难度上升。高维空间数据集很大可能是非常稀疏的。 训练集维度越高，过拟合风险就越大。  数据降维的主要方法   投影    流形学习对训练实例进行流形建模。2D流形就是一个能够在更高维空间里弯曲和扭转的2D形状。d维流形就是n（d&amp;lt;n）维空间的一部分，局部类似于一个d维超平面。 在训练模型前降低训练集的维度，肯定可以加快训练速度，">
+<meta name="keywords" content="sklearn,降维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sklearn实现降维">
+<meta property="og:url" content="http://www.poetryisland.cn/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/index.html">
+<meta property="og:site_name" content="黎明已经不远">
+<meta property="og:description" content="降维 能够加速训练，但会轻微降低系统性能，使流水线更加复杂，维护难度上升。高维空间数据集很大可能是非常稀疏的。 训练集维度越高，过拟合风险就越大。  数据降维的主要方法   投影    流形学习对训练实例进行流形建模。2D流形就是一个能够在更高维空间里弯曲和扭转的2D形状。d维流形就是n（d&amp;lt;n）维空间的一部分，局部类似于一个d维超平面。 在训练模型前降低训练集的维度，肯定可以加快训练速度，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.poetryisland.cn/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/%E9%99%8D%E7%BB%B4/IMG_0016.PNG">
+<meta property="og:image" content="http://www.poetryisland.cn/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/%E9%99%8D%E7%BB%B4/IMG_0017.PNG">
+<meta property="og:updated_time" content="2019-11-06T15:03:44.156Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sklearn实现降维">
+<meta name="twitter:description" content="降维 能够加速训练，但会轻微降低系统性能，使流水线更加复杂，维护难度上升。高维空间数据集很大可能是非常稀疏的。 训练集维度越高，过拟合风险就越大。  数据降维的主要方法   投影    流形学习对训练实例进行流形建模。2D流形就是一个能够在更高维空间里弯曲和扭转的2D形状。d维流形就是n（d&amp;lt;n）维空间的一部分，局部类似于一个d维超平面。 在训练模型前降低训练集的维度，肯定可以加快训练速度，">
+<meta name="twitter:image" content="http://www.poetryisland.cn/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/%E9%99%8D%E7%BB%B4/IMG_0016.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.poetryisland.cn/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/">
+
+
+
+
+
+  <title>sklearn实现降维 | 黎明已经不远</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎明已经不远</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">洗洗睡吧</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.poetryisland.cn/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Syiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎明已经不远">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">sklearn实现降维</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-06T23:03:44+08:00">
+                2019-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h1><blockquote>
+<p>能够加速训练，但会轻微降低系统性能，使流水线更加复杂，维护难度上升。<br>高维空间数据集很大可能是非常稀疏的。 训练集维度越高，过拟合风险就越大。</p>
+<ol>
+<li>数据降维的主要方法</li>
+</ol>
+<ul>
+<li>投影</li>
+</ul>
+</blockquote>
+<ul>
+<li>流形学习<br>对训练实例进行流形建模。<br>2D流形就是一个能够在更高维空间里弯曲和扭转的2D形状。<br>d维流形就是n（d&lt;n）维空间的一部分，局部类似于一个d维超平面。<blockquote>
+<p>在训练模型前降低训练集的维度，肯定可以加快训练速度，但这并不总会导致更好或更简单的解决方案，它取决于数据集。  </p>
+</blockquote>
+</li>
+</ul>
+<ol start="2">
+<li>PCA<br>识别出最接近数据的超平面，然后将数据投影其上。</li>
+</ol>
+<ul>
+<li><p>保留差异性<br>识别哪条轴对差异性贡献最高，与第一条轴垂直的轴对剩余差异性贡献最高。<br>奇异值分解（svd）可用于寻找主成分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X_centered = X - X.mean(axis=0)</span><br><span class="line">U, s, V = np.linalg.svd(X_centered)</span><br><span class="line">C1 = V.T[:,0]</span><br><span class="line">C2 = V.T[:,1]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>低维度投影<br>X_d-prom =X点乘W_d</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">W2 = V.T[:,:2]</span><br><span class="line">X2D = X_centered.dot(W2)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用Scikit-Learn</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#pca类借助SVD分解实现主成分分析</span><br><span class="line">From sklearn.decoposition import PCA</span><br><span class="line">PCA = PCA(n_components = 2)</span><br><span class="line">X2D = PCA.fit_transform(X)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方差解释率<br>表示每个主成分轴对整个数据集的方差的贡献度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Print(PCA.explained_variance_ratio_)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>选择正确数量的维数<br>法1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pca = PCA()</span><br><span class="line">Pca.fit(X)</span><br><span class="line">Cumsum = np.cumsum(pca.explained_variance_ratio_)</span><br><span class="line">d = np.argmax(cumsum &gt;= 0.95) + 1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>法2：直接设置保留的方差比<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pca = PCA(n_components=0.95)</span><br><span class="line">X_reduced = pca.fit_transform(X)</span><br></pre></td></tr></table></figure></p>
+<p>法3：绘制cumsum，找到曲线拐点</p>
+<ul>
+<li>PCA压缩<br>原始数据和重建数据（压缩之后解压缩）之间的均方距离，被称为<strong>重建误差</strong>。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Pca = PCA(n_components = 154)</span><br><span class="line">X_mnist_reduced = pca.fit_transform(X_mnist)</span><br><span class="line">X_mnist_recovered = pca.inverse_transform(X_mnist_reduced)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>X_recovered = X_d-project 点乘 W_d.T</p>
+<ul>
+<li>增量PCA<br>将训练集分成一个个小批量，一次给IPCA算法喂一个。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.decomposition import incrementalPCA</span><br><span class="line">N_batches = 100</span><br><span class="line">Inc_pca = IncrementalPCA(n_component=154)</span><br><span class="line">For x_batch in np.array_split(X_mnist, n_batches):</span><br><span class="line">		inc_pca.partial_fit(X_batch)</span><br><span class="line">X_mnist_reduced = inc_pca.transform(X_mnist)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>使用numpy的memmap类，仅在需要时加载内存中需要的数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">X_mm = np.memmap(filename, dtype=“float32”, mode=“readonly”, shape=(m,n))</span><br><span class="line"></span><br><span class="line">Batch_size = m // n_batches</span><br><span class="line">Inc_pca = IncrementalPCA(n_components=154, 				</span><br><span class="line">batch_size=batch_size)</span><br><span class="line">Inc_pca.fit(X_mm)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>随机PCA<br>快速找到主成分的近似值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rnd_pca = PCA(n_components=154, svd_solver=“randomized”)</span><br><span class="line">X_reduced =rnd_pca.fit_transform(X_mnist)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>核主成分分析<br>核技巧，隐形地将实例映射到高维特征空间，使支持向量机能进行非线性分类和回归。</p>
+</li>
+</ul>
+<p>可应用于PCA<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.decomposition import KernelPCA</span><br><span class="line"></span><br><span class="line">Rbf_pca = KernelPCA(n_components=2, kernel=“rbf”, gamma=0.04)</span><br><span class="line">X_reduced = rbf_pca.fit_transform(X)</span><br></pre></td></tr></table></figure></p>
+<p>选择核函数核调整超参数</p>
+<blockquote>
+<p>由于kPCA是一种无监督学习方法，没有明显的性能指标来帮助选择最佳核函数核超参数值。 而降维通常是监督学习的准备步骤，所以可以使用网格搜索，来找到使任务性能最佳的核和超参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.model_selection import GridSearchCV</span><br><span class="line">from sklearn.linear_model import LogisticRegression</span><br><span class="line">from sklearn.pipeline import Pipeline</span><br><span class="line"></span><br><span class="line">clf = Pipeline([</span><br><span class="line">        (&quot;kpca&quot;, KernelPCA(n_components=2)),</span><br><span class="line">        (&quot;log_reg&quot;, LogisticRegression(solver=&quot;liblinear&quot;))</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line">param_grid = [&#123;</span><br><span class="line">        &quot;kpca__gamma&quot;: np.linspace(0.03, 0.05, 10),</span><br><span class="line">        &quot;kpca__kernel&quot;: [&quot;rbf&quot;, &quot;sigmoid&quot;]</span><br><span class="line">    &#125;]</span><br><span class="line"></span><br><span class="line">grid_search = GridSearchCV(clf, param_grid, cv=3)</span><br><span class="line">grid_search.fit(X, y)</span><br><span class="line"></span><br><span class="line">Print(grid_search.best_params_)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>法2：选择重建误差最低的核和超参数，但是因为映射维度问题实现不容易。<br>可在原始空间找一点，使其映射于重建点，这被称为重建原像。<br>通过设置fit_inverse_transform=True实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Rbf_pca = KernelPCA(n_component=2, kernel=“rbf”, gamma=0.0443,</span><br><span class="line">	fit_inverse_transform=True)</span><br><span class="line">X_reduced = rbf_pca.fit_transform(X)</span><br><span class="line">X_preimage = rbf_pca.inverse_transform(X_reduced)</span><br></pre></td></tr></table></figure></p>
+<p>计算重建原像误差。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.metrics import mean_squared_error</span><br><span class="line"></span><br><span class="line">mean_squared_error(X, X_preimage)</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>局部线性嵌入（LLE） 另一种非线性降维（NLDR）技术<br>一种流形学习技术。<br>LLE首先测量每个算法如何与其最近的邻居线性相关，然后寻找一个能最大程度保留这些局部关系的低维表示。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.manifold import LocallyLinearEmbedding</span><br><span class="line"></span><br><span class="line">Lyle = locallyLinearEmbedding(n_components=2, n_neighbors=10)</span><br><span class="line">X_reduced = ole.fit_transform(X)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>公式（P293）</p>
+<ol start="4">
+<li>其他降维技巧<br>MDS、 Isomap、 t-SNE、 LDA<br><img src="%E9%99%8D%E7%BB%B4/IMG_0016.PNG" alt></li>
+</ol>
+<p><img src="%E9%99%8D%E7%BB%B4/IMG_0017.PNG" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sklearn/" rel="tag"># sklearn</a>
+          
+            <a href="/tags/降维/" rel="tag"># 降维</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/" rel="next" title="sklearn集成学习和随机森林">
+                <i class="fa fa-chevron-left"></i> sklearn集成学习和随机森林
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/06/221B146F-F963-4421-A711-CA2215884E08/" rel="prev" title="sklearn实现决策树">
+                sklearn实现决策树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Syiao</p>
+              <p class="site-description motion-element" itemprop="description">“多新鲜啊~~”</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#降维"><span class="nav-number">1.</span> <span class="nav-text">降维</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+<!--��վ��������-->
+
+<div class="powered-by">
+
+<i class="fa fa-user"></i>
+<span id="busuanzi_container_site_uv">
+  
+<span id="busuanzi_value_site_uv"></span>
+
+</span>
+
+<!--��վ���ʴ���-->
+
+<span class="post-meta-divider">|</span>
+
+<span id="busuanzi_container_site_pv">
+<i class="fa fa-eye"></i>
+    
+<span id="busuanzi_value_site_pv">
+</span>
+</span>
+
+</div>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Syiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaokankan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.poetryisland.cn/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/';
+          this.page.identifier = '2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/';
+          this.page.title = 'sklearn实现降维';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaokankan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '2pFuMW7pKAlzws74ACKKcAgT-gzGzoHsz',
+        appKey: 'yYrRJimHiq17HTEglErakNj7',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

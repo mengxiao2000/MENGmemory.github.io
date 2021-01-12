@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="sklearn,集成学习，随机森林,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="黎明已经不远" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="集成学习和随机森林 投票分类器 当预测器尽可能相互独立时，集成方法的效果最优。获得更多种分类器的方法之一就是使用不同的算法进行训练。   12345678910111213From sklearn.ensemble import RandomForestClassifierFrom sklearn.ensemble import RandomForestClassifierFrom sklearn">
+<meta name="keywords" content="sklearn,集成学习，随机森林">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sklearn集成学习和随机森林">
+<meta property="og:url" content="http://www.poetryisland.cn/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/index.html">
+<meta property="og:site_name" content="黎明已经不远">
+<meta property="og:description" content="集成学习和随机森林 投票分类器 当预测器尽可能相互独立时，集成方法的效果最优。获得更多种分类器的方法之一就是使用不同的算法进行训练。   12345678910111213From sklearn.ensemble import RandomForestClassifierFrom sklearn.ensemble import RandomForestClassifierFrom sklearn">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-06T15:02:40.068Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sklearn集成学习和随机森林">
+<meta name="twitter:description" content="集成学习和随机森林 投票分类器 当预测器尽可能相互独立时，集成方法的效果最优。获得更多种分类器的方法之一就是使用不同的算法进行训练。   12345678910111213From sklearn.ensemble import RandomForestClassifierFrom sklearn.ensemble import RandomForestClassifierFrom sklearn">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.poetryisland.cn/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/">
+
+
+
+
+
+  <title>sklearn集成学习和随机森林 | 黎明已经不远</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎明已经不远</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">洗洗睡吧</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.poetryisland.cn/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Syiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎明已经不远">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">sklearn集成学习和随机森林</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-06T23:02:40+08:00">
+                2019-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="集成学习和随机森林"><a href="#集成学习和随机森林" class="headerlink" title="集成学习和随机森林"></a>集成学习和随机森林</h1><ol>
+<li>投票分类器<blockquote>
+<p>当预测器尽可能相互独立时，集成方法的效果最优。<br>获得更多种分类器的方法之一就是使用不同的算法进行训练。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import RandomForestClassifier</span><br><span class="line">From sklearn.ensemble import RandomForestClassifier</span><br><span class="line">From sklearn.linear_model import LogisticRegression</span><br><span class="line">From sklearn.svm import SVC</span><br><span class="line"></span><br><span class="line">Log_clf=</span><br><span class="line">Rnd_clf=</span><br><span class="line">Svm_clf=</span><br><span class="line">Voting_clf=VotingClassifier(</span><br><span class="line">		estimators=[(‘lr’, log_clf),(‘rf’,rnf_clf),(‘svc’,svm_clf)],</span><br><span class="line">		voting=‘hard</span><br><span class="line">)</span><br><span class="line">Voting_clf.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ol>
+<p>软投票法：当所有分类器都可以估算类别的概率（有predict_proba方法），可以将概率在所有当个分类器上平均，给出平均概率最高的类别作为预测，这被称为软投票法。通常比硬投票法更优。通过设置超参数voting=‘soft’完成。</p>
+<blockquote>
+<p>默认情况下SVC类没有predict_proba，需要设置超参数probabil=True。  </p>
+</blockquote>
+<ol start="2">
+<li>bagging 和 pasting<br>每个预测集使用的算法相同，但在不同的训练集随机子集上进行训练。<br>bagging采样时将样本放回，pasting采样时样本不放回（bootstrap=False）</li>
+</ol>
+<p>与直接在原始训练集上训练单个预测器相比，集成的偏差相近，但方差更低。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import BaggingClassifier</span><br><span class="line">From sklearn.tree import DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line">Bag_clf = BaggingClassifier(</span><br><span class="line">		DecisionTreeClassifier(), n_estimators=500,</span><br><span class="line">		max_samples=100, bootstrap=True, n_jobs=-1</span><br><span class="line">)</span><br><span class="line">Bag_clf.fit()</span><br><span class="line">Y_pred = Bag_clf.predict(X_test)</span><br></pre></td></tr></table></figure></p>
+<p>如果基础分类器能估算类别概率，具备predict_proba()，那么BaggingClassifier自动执行的就是软投票法而不是硬投票法。</p>
+<p>自助法给每个训练子集引入了更高的多样性，所以bagging比pasting偏差略高，但预测器之间的关联度更低，集成方差降低。bagging生成的模型通常更好。</p>
+<ul>
+<li>包外评估<br>使用bagging时有些实例可能根本不会被采样。<br>用这些实例进行评估，将每个预测器在其包外实例上的评估结果进行平均，就可以得到集成的评估。<br>通过设置oob_score=True来实现训练结束后自动包外评估。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Bag_clf = BaggingClassifier(</span><br><span class="line">		DecisionTreeClassifier(), n_estimators=500,</span><br><span class="line">		botstrap=True, n_jobs=-1, oob_score=True</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在测试集评估模型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.metrics import accuracy_score</span><br><span class="line">Y_pred= bag_clf.predict(X_test)</span><br><span class="line">accuracy_score(y_test, y_pred)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#获得每个训练实例的包外决策函数，本例中基础决策器有predict_proba()所以返回每个实例的类别概率</span><br><span class="line">Bag_clf.oob_decision_funtion_</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Random Patches 和随机子空间<br>BaggingClassifier也支持对特征进行抽样，通过超参数max_features和bootstrap_features控制，工作方式与实例抽样相同，只是对象时特征。</li>
+</ol>
+<p>对于处理高位输入特别有用（如图像）。<br>对训练实例和特征都进行抽样称为<strong>Random Patches</strong>方法。<br>保留所有训练实例（bootstrap=False且max_samples=1.0）但是对特征进行抽样(bootstrap_features=True且/或max_features&lt;1.0)，被称为<strong>随机子空间</strong>法。</p>
+<p>对特征抽样给预测器带来更大多样性，得到更高偏差和更低方差。</p>
+<ol start="4">
+<li>随机森林<br>是决策树的集成，通常用bagging训练，训练集大小通过max_samples设置。<br>两种实现方法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import RandomForestClassifer</span><br><span class="line"></span><br><span class="line">Rnd_clf = RandomForestCLassifier(n_estimators=500, max_leaf_nodes=16, n_jobs=-1)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Bag_clf = BaggingClassifier(</span><br><span class="line">		DecisionTreeClassifier(splitter=“random”, max_leaf_nodes=16),</span><br><span class="line">		n_estimators=500, </span><br><span class="line">		max_samples=1.0, </span><br><span class="line">		bootstrap=True, </span><br><span class="line">		n_jobs=-1</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>极端随机树<br>节点分裂时，每个特征使用随机阈值，而不是搜索得出的最佳阈值。<br>这种极端随机的决策树组成的森林被称为极端随机树。<br>高偏差换取低方差。<br>通过ExtraTreesClasifier创建，API与RandomForestClassifier相同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import ExtraTreesClassifier</span><br><span class="line">Ext_clf = ExtraTreesClassifier(n_estimators=500, max_leaf_nodes=16, n_jobs=-1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>特征重要性<br>重要特征更可能出现在根节点位置。<br>通过计算一个特征早森林中所有树上的平均深度可以估算一个特征的重要程度。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">For name,score in zip(iris[“feature_names”),rnd_clf.feature_importances_):</span><br><span class="line">		print(name, score)</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>提升法（Boosting）<br>指将几个弱学习器结合成一个强学习器的任意集成方法。</li>
+</ol>
+<ul>
+<li>AdaBoost<br>新预测器对其前序进行纠正的办法之一，更多关注前序拟合不足的实例。<br>无法并行，每个预测器要在前一个预测器训练评估后才能开始训练。<br>每个实例赋予初始权重，预测器依据加权误差率计算预测器权重，更新实例的权重，归一化所有实例权重，然后训练新的预测器。</li>
+</ul>
+<p>预测时计算预测器的预测结果，并通过权重加权，得到大多数加权投票的类别为预测类别。</p>
+<blockquote>
+<p>Sick it-learn使用的是Adaboost的一个多分类版本，叫SAMME（基于多类指数损失函数的逐步添加模型），只有两个类别时，SAMME等同于AdaBoost。<br>此外，预测器可以估算类别概率时，sklearn会使用SAMME的变体，称为SAMME.R，依赖的是类别概率而不是类别预测，通常表现更好。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import AdaBoostClassifier</span><br><span class="line"></span><br><span class="line">Ada_clf = AdaBoostClassifer(</span><br><span class="line">		DecisionTreeClassifier(max_depth=1, n_estimators=200,</span><br><span class="line">			algorithm=“SAMME.R”, learning_rate=0.5</span><br><span class="line">		)</span><br><span class="line">		#学习率影响误分类实例的重视程度</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>梯度提升Gradient Boosting<br>让新的预测器针对前一个预测器的残差进行拟合，各预测器预测结果相加得出最后预测结果。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import GradientBoostingRegressor</span><br><span class="line"></span><br><span class="line">Gbrt = GradientBoostingRegressor(max_depth=2, n_estimators=3, learning_rate=1.0)</span><br><span class="line">#learning_rate对咩个数的贡献进行缩放。</span><br><span class="line">#如果设为低值，如0.1，则需要更多树来拟合训练集，但时预测繁华效果通常更好。</span><br></pre></td></tr></table></figure>
+<p>找到最佳的树的数量可使用<strong>早期停止法</strong>。</p>
+<blockquote>
+<p>简单的实现方法使用<strong>staged_predict()</strong>方法：在训练每个阶段都对集成的预测返回一个迭代器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Gbrt = GradientBoostingRegressor(max_depth=2, n_estimator=120)</span><br><span class="line">Gbrt.fit(X_train, y_train)</span><br><span class="line">Errors = [mean_squared_error(y_val, y_pred)</span><br><span class="line">			for y_pred in gbrt.staged_predict(X_val)]</span><br><span class="line">Bst_n_estimators = np.argmin(errors)</span><br><span class="line">Gbrt_best = GradientBoostingRegressor(max_depth=2, n_estimators=bst_n_estimator)</span><br><span class="line">Gbrt_best.fit(X_train, y_train)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>设置<strong>warm_start=True</strong>,当fit()被调用时，Scikit-learn会保留现在树，从而允许增量训练。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">gbrt = GradientBoostingRegressor(max_depth=2, warm_start=True)</span><br><span class="line"></span><br><span class="line">min_val_error = float(&quot;inf&quot;)</span><br><span class="line">error_going_up = 0 </span><br><span class="line">for n_estimators in range(1,120):</span><br><span class="line">    gbrt.n_estimators =n_estimators</span><br><span class="line">    gbrt.fit(X_train, y_train)</span><br><span class="line">    y_pred = gbrt.predict(X_val)</span><br><span class="line">    val_error = mean_squared_error(y_val, y_pred)</span><br><span class="line">    if val_error &lt; min_val_error:</span><br><span class="line">        min_val_error = val_error</span><br><span class="line">        error_going_up = 0</span><br><span class="line">    else:</span><br><span class="line">        error_going_up += 1</span><br><span class="line">			#连续5次未改善时停止训练</span><br><span class="line">        if error_going_up == 5:</span><br><span class="line">            print(n_estimators-5)</span><br><span class="line">            break</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ol start="6">
+<li>堆叠法（stacking）<br>训练一个模型来执行对所有预测器的聚合<br>混合器将预测器的输出作为输入训练集，进行最终预测。<br>Scikit-learn不直接支持堆叠。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier</span><br><span class="line">from sklearn.svm import LinearSVC</span><br><span class="line">from sklearn.neural_network import MLPClassifier</span><br><span class="line"></span><br><span class="line">random_forest_clf = RandomForestClassifier(n_estimators=10, random_state=42)</span><br><span class="line">extra_trees_clf = ExtraTreesClassifier(n_estimators=10, random_state=42)</span><br><span class="line">svm_clf = LinearSVC(random_state=42)</span><br><span class="line">mlp_clf = MLPClassifier(random_state=42)</span><br><span class="line"></span><br><span class="line">#第一层预测器训练</span><br><span class="line">estimators = [random_forest_clf, extra_trees_clf, svm_clf, mlp_clf]</span><br><span class="line">for estimator in estimators:</span><br><span class="line">    print(&quot;Training the&quot;, estimator)</span><br><span class="line">    estimator.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line">#第一层预测器形成训练集</span><br><span class="line">X_val_predictions = np.empty((len(X_val), len(estimators)), dtype=np.float32)</span><br><span class="line"></span><br><span class="line">for index, estimator in enumerate(estimators):</span><br><span class="line">    X_val_predictions[:, index] = estimator.predict(X_val)</span><br><span class="line"></span><br><span class="line">#训练混合器</span><br><span class="line">rnd_forest_blender = RandomForestClassifier(n_estimators=200, oob_score=True, random_state=42)</span><br><span class="line">rnd_forest_blender.fit(X_val_predictions, y_val)</span><br><span class="line"></span><br><span class="line">#生成测试集</span><br><span class="line">X_test_predictions = np.empty((len(X_test), len(estimators)), dtype=np.float32)</span><br><span class="line"></span><br><span class="line">for index, estimator in enumerate(estimators):</span><br><span class="line">    X_test_predictions[:, index] = estimator.predict(X_test)</span><br><span class="line"></span><br><span class="line">#预测</span><br><span class="line">y_pred = rnd_forest_blender.predict(X_test_predictions)</span><br><span class="line"></span><br><span class="line">#评估</span><br><span class="line">from sklearn.metrics import accuracy_score</span><br><span class="line">accuracy_score(y_test, y_pred)</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sklearn/" rel="tag"># sklearn</a>
+          
+            <a href="/tags/集成学习，随机森林/" rel="tag"># 集成学习，随机森林</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/06/A8E255A0-8354-4CBC-A3C9-37F780898882/" rel="next" title="ANN简介基于TensorFlow">
+                <i class="fa fa-chevron-left"></i> ANN简介基于TensorFlow
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/" rel="prev" title="sklearn实现降维">
+                sklearn实现降维 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Syiao</p>
+              <p class="site-description motion-element" itemprop="description">“多新鲜啊~~”</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集成学习和随机森林"><span class="nav-number">1.</span> <span class="nav-text">集成学习和随机森林</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+<!--��վ��������-->
+
+<div class="powered-by">
+
+<i class="fa fa-user"></i>
+<span id="busuanzi_container_site_uv">
+  
+<span id="busuanzi_value_site_uv"></span>
+
+</span>
+
+<!--��վ���ʴ���-->
+
+<span class="post-meta-divider">|</span>
+
+<span id="busuanzi_container_site_pv">
+<i class="fa fa-eye"></i>
+    
+<span id="busuanzi_value_site_pv">
+</span>
+</span>
+
+</div>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Syiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaokankan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.poetryisland.cn/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/';
+          this.page.identifier = '2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/';
+          this.page.title = 'sklearn集成学习和随机森林';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaokankan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '2pFuMW7pKAlzws74ACKKcAgT-gzGzoHsz',
+        appKey: 'yYrRJimHiq17HTEglErakNj7',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

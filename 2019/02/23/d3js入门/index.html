@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="可视化,D3,饼图,弦图,打包图,力学图,簇状图,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="黎明已经不远" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="D3js入门学习 依据数据可视化专题站的教学进行学习  饼图案例弦图案例打包图案例力学图案例簇状图案例  步骤归纳： 定义变量和数据 布局（数据转换）layout 画布生成svg 绘制   饼图123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555">
+<meta name="keywords" content="可视化,D3,饼图,弦图,打包图,力学图,簇状图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="D3js入门">
+<meta property="og:url" content="http://www.poetryisland.cn/2019/02/23/d3js入门/index.html">
+<meta property="og:site_name" content="黎明已经不远">
+<meta property="og:description" content="D3js入门学习 依据数据可视化专题站的教学进行学习  饼图案例弦图案例打包图案例力学图案例簇状图案例  步骤归纳： 定义变量和数据 布局（数据转换）layout 画布生成svg 绘制   饼图123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-26T13:42:38.660Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="D3js入门">
+<meta name="twitter:description" content="D3js入门学习 依据数据可视化专题站的教学进行学习  饼图案例弦图案例打包图案例力学图案例簇状图案例  步骤归纳： 定义变量和数据 布局（数据转换）layout 画布生成svg 绘制   饼图123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.poetryisland.cn/2019/02/23/d3js入门/">
+
+
+
+
+
+  <title>D3js入门 | 黎明已经不远</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎明已经不远</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">洗洗睡吧</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.poetryisland.cn/2019/02/23/d3js入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Syiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎明已经不远">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">D3js入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-23T17:31:18+08:00">
+                2019-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/可视化/" itemprop="url" rel="index">
+                    <span itemprop="name">可视化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/23/d3js入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/02/23/d3js入门/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h1 id="D3js入门学习"><a href="#D3js入门学习" class="headerlink" title="D3js入门学习"></a>D3js入门学习</h1><hr>
+<p>依据<a href="http://www.ourd3js.com/wordpress/396/" target="_blank" rel="noopener">数据可视化专题站</a>的教学进行学习</p>
+<hr>
+<p><a href="http://www.poetryisland.cn/mydemo/pie.html">饼图案例</a><br><a href="http://www.poetryisland.cn/mydemo/chord.html">弦图案例</a><br><a href="http://www.poetryisland.cn/mydemo/pack.html">打包图案例</a><br><a href="http://www.poetryisland.cn/mydemo/force.html">力学图案例</a><br><a href="http://www.poetryisland.cn/mydemo/cluster.html">簇状图案例</a></p>
+<hr>
+<h1 id="步骤归纳："><a href="#步骤归纳：" class="headerlink" title="步骤归纳："></a>步骤归纳：</h1><ul>
+<li>定义变量和数据</li>
+<li>布局（数据转换）layout</li>
+<li>画布生成svg</li>
+<li>绘制</li>
+</ul>
+<hr>
+<h2 id="饼图"><a href="#饼图" class="headerlink" title="饼图"></a>饼图</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src='http://d3js.org/d3.v3.min.js' charset="utf-8"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line"></span><br><span class="line">        var width = <span class="number">400</span>;</span><br><span class="line">        var height = <span class="number">400</span>;</span><br><span class="line"></span><br><span class="line">        var dataset = [<span class="number">30</span> , <span class="number">10</span> ,<span class="number">43</span> , <span class="number">55</span> , <span class="number">13</span>];</span><br><span class="line">        <span class="comment">//生成画布</span></span><br><span class="line">        var svg = d3.select('body').append('svg').attr('width',width).attr('height',height);</span><br><span class="line">        <span class="comment">//布局 获得绘图需要的数据</span></span><br><span class="line"></span><br><span class="line">        var pie = d3.layout.pie(); <span class="comment">//定义一个布局</span></span><br><span class="line"></span><br><span class="line">        var piedata = pie(dataset); <span class="comment">//转换数据</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//弧生成器</span></span><br><span class="line">        var outerRadius = <span class="number">150</span> ; <span class="comment">//外半径</span></span><br><span class="line">        var innerRadius = <span class="number">50</span> ; <span class="comment">//内半径</span></span><br><span class="line"></span><br><span class="line">        var arc = d3.svg.arc() <span class="comment">//弧生成器</span></span><br><span class="line">            .innerRadius(innerRadius)<span class="comment">//设置外半径</span></span><br><span class="line">            .outerRadius(outerRadius);</span><br><span class="line"></span><br><span class="line">        var arcs = svg.selectAll(<span class="string">'g'</span>)</span><br><span class="line">            .data(piedata)</span><br><span class="line">            .enter()</span><br><span class="line">            .append(<span class="string">'g'</span>)</span><br><span class="line">            .attr('transform','translate('+(width/2)+','+(width/2)+')');</span><br><span class="line"></span><br><span class="line">        var color = d3.scale.category10(); <span class="comment">//有10种颜色的颜色比例尺</span></span><br><span class="line"></span><br><span class="line">        arcs.append('path')</span><br><span class="line">            .attr('fill',function (d,i) &#123;</span><br><span class="line">                <span class="keyword">return</span> color(i);</span><br><span class="line">            &#125;)</span><br><span class="line">            .attr(<span class="string">'d'</span>,function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> arc(d)</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">        arcs.append('text')</span><br><span class="line">            .attr('transform',function (d) &#123;</span><br><span class="line">                return 'translate('+ arc.centroid(d) + ')'; //arc.centroid 计算弧线的中心 文字的起始点为圆心</span><br><span class="line"></span><br><span class="line">            &#125;)</span><br><span class="line">            .attr('text-anchor','middle')</span><br><span class="line">            <span class="comment">//text-anchor="start"时，(x,y)为&lt;text&gt;的起始坐标。</span></span><br><span class="line">            <span class="comment">//text-anchor="middle"时，(x,y)为&lt;text&gt;的中轴坐标。</span></span><br><span class="line">            <span class="comment">//text-anchor="end"时，(x,y)为&lt;text&gt;的结束坐标。</span></span><br><span class="line">            .text(function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> d.data;</span><br><span class="line"></span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="力学图"><a href="#力学图" class="headerlink" title="力学图"></a>力学图</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src='http://d3js.org/d3.v3.min.js' charset="utf-8"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var nodes = [ &#123; name: <span class="string">"桂林"</span> &#125;, &#123; name: <span class="string">"广州"</span> &#125;,</span><br><span class="line">              &#123; name: <span class="string">"厦门"</span> &#125;, &#123; name: <span class="string">"杭州"</span> &#125;,</span><br><span class="line">              &#123; name: <span class="string">"上海"</span> &#125;, &#123; name: <span class="string">"青岛"</span> &#125;,</span><br><span class="line">              &#123; name: <span class="string">"天津"</span> &#125; ];</span><br><span class="line"></span><br><span class="line">        var edges = [ &#123; source : <span class="number">0</span> , target: <span class="number">1</span> &#125; , &#123; source : <span class="number">0</span> , target: <span class="number">2</span> &#125; ,</span><br><span class="line">                       &#123; source : <span class="number">0</span> , target: <span class="number">3</span> &#125; , &#123; source : <span class="number">1</span> , target: <span class="number">4</span> &#125; ,</span><br><span class="line">                       &#123; source : <span class="number">1</span> , target: <span class="number">5</span> &#125; , &#123; source : <span class="number">1</span> , target: <span class="number">6</span> &#125; ];</span><br><span class="line"></span><br><span class="line">        var width = <span class="number">500</span>;</span><br><span class="line">        var height = <span class="number">500</span>;</span><br><span class="line">        <span class="comment">//画布</span></span><br><span class="line">        var svg = d3.select('body').append('svg').attr('width',width).attr('height',height)</span><br><span class="line">        <span class="comment">//布局</span></span><br><span class="line">        var force = d3.layout.force()</span><br><span class="line">            .nodes(nodes) <span class="comment">//指定节点数组</span></span><br><span class="line">            .links(edges) <span class="comment">//指定连线数组</span></span><br><span class="line">            .size([width , height]) <span class="comment">//指定作用域范围</span></span><br><span class="line">            .linkDistance(<span class="number">150</span>)<span class="comment">//指定连线长度</span></span><br><span class="line">            .charge([<span class="number">-400</span>]); <span class="comment">//相互之间作用力</span></span><br><span class="line"></span><br><span class="line">        force.start(); <span class="comment">//开始作用</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//绘制</span></span><br><span class="line">        <span class="comment">//添加连线</span></span><br><span class="line">        var svg_edges = svg.selectAll('line')</span><br><span class="line">            .data(edges)</span><br><span class="line">            .enter()</span><br><span class="line">            .append('line')</span><br><span class="line">            .style('stroke','#ccc')</span><br><span class="line">            .style('stroke',1);</span><br><span class="line">        </span><br><span class="line">        var color = d3.scale.category20();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//添加节点</span></span><br><span class="line">        var svg_nodes = svg.selectAll('circle')</span><br><span class="line">            .data(nodes)</span><br><span class="line">            .enter()</span><br><span class="line">            .append('circle')</span><br><span class="line">            .attr(<span class="string">'r'</span>,function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">10</span> * d.weight;</span><br><span class="line">            &#125;)</span><br><span class="line">            .style('fill',function (d,i) &#123;</span><br><span class="line">                <span class="keyword">return</span> color(i)</span><br><span class="line">                </span><br><span class="line">            &#125;)</span><br><span class="line">            .call(force.drag); <span class="comment">//使节点能够拖动</span></span><br><span class="line">            </span><br><span class="line">        <span class="comment">//添加描述节点的文字</span></span><br><span class="line">        var svg_texts = svg.selectAll('text')</span><br><span class="line">            .data(nodes)</span><br><span class="line">            .enter()</span><br><span class="line">            .append('text')</span><br><span class="line">            .style('fill','black')</span><br><span class="line">            .attr('dx',20)</span><br><span class="line">            .attr('dy',8)</span><br><span class="line">            .text(function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> d.name;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//更新</span></span><br><span class="line">        force.on('tick',function () &#123;//对于每一个时间间隔</span><br><span class="line">            <span class="comment">//更新连线坐标</span></span><br><span class="line">            svg_edges.attr('x1',function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> d.source.x;</span><br><span class="line">            &#125;).attr('y1',function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.source.y;</span><br><span class="line">            &#125;).attr('x2',function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.target.x;</span><br><span class="line">            &#125;).attr('y2',function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> d.target.y;</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//更新节点坐标</span></span><br><span class="line">            svg_nodes.attr('cx',function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> d.x;</span><br><span class="line"></span><br><span class="line">            &#125;).attr('cy',function(d)&#123;</span><br><span class="line">                <span class="keyword">return</span> d.y;</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//更新文字坐标</span></span><br><span class="line">            svg_texts.attr(<span class="string">'x'</span>,function(d)&#123;</span><br><span class="line">                <span class="keyword">return</span> d.x;</span><br><span class="line">            &#125;).attr(<span class="string">'y'</span>,function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> d.y;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="弦图"><a href="#弦图" class="headerlink" title="弦图"></a>弦图</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	.chord path &#123;</span><br><span class="line">  		fill-opacity: <span class="number">0.67</span>;</span><br><span class="line">  		stroke: #<span class="number">000</span>;</span><br><span class="line">  		stroke-width: <span class="number">0.5</span>px;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src='http://d3js.org/d3.v3.min.js' charset="utf-8"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var city_name = [ <span class="string">"北京"</span> , <span class="string">"上海"</span> , <span class="string">"广州"</span> , <span class="string">"深圳"</span> , <span class="string">"香港"</span>  ];</span><br><span class="line"></span><br><span class="line">        var population = [</span><br><span class="line">          [ <span class="number">1000</span>,  <span class="number">3045</span>　 , <span class="number">4567</span>　, <span class="number">1234</span> , <span class="number">3714</span> ], <span class="comment">//各城市的人口来源</span></span><br><span class="line">          [ <span class="number">3214</span>,  <span class="number">2000</span>　 , <span class="number">2060</span>　, <span class="number">124</span>  , <span class="number">3234</span> ],</span><br><span class="line">          [ <span class="number">8761</span>,  <span class="number">6545</span>　 , <span class="number">3000</span>　, <span class="number">8045</span> , <span class="number">647</span>  ],</span><br><span class="line">          [ <span class="number">3211</span>,  <span class="number">1067</span>  , <span class="number">3214</span> , <span class="number">4000</span>  , <span class="number">1006</span> ],</span><br><span class="line">          [ <span class="number">2146</span>,  <span class="number">1034</span>　 , <span class="number">6745</span> , <span class="number">4764</span>  , <span class="number">5000</span> ]</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//布局</span></span><br><span class="line">        var chord_layout = d3.layout.chord()</span><br><span class="line">            .padding(<span class="number">0.03</span>) <span class="comment">//节点间隔</span></span><br><span class="line">            .sortSubgroups(d3.descending) <span class="comment">//排序</span></span><br><span class="line">            .matrix(population); <span class="comment">//输入矩阵</span></span><br><span class="line"></span><br><span class="line">        var groups = chord_layout.groups();<span class="comment">//节点</span></span><br><span class="line">        var chords = chord_layout.chords();<span class="comment">//连线或弦</span></span><br><span class="line"></span><br><span class="line">        console.<span class="built_in">log</span>(groups);</span><br><span class="line">        console.<span class="built_in">log</span>(chords);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//定义相关变量</span></span><br><span class="line">        var width = <span class="number">600</span>;</span><br><span class="line">        var height = <span class="number">600</span>;</span><br><span class="line">        var innerRadius = width/<span class="number">2</span> * <span class="number">0.7</span>;</span><br><span class="line">        var outerRadius = innerRadius * <span class="number">1.1</span>;</span><br><span class="line"></span><br><span class="line">        var color20 = d3.scale.category20();</span><br><span class="line"></span><br><span class="line">        var svg = d3.select('body').append('svg').attr('width',width).attr('height',height)</span><br><span class="line">            .append('g').attr('transform','translate(' + width/2 + ',' + height/2 + ')');</span><br><span class="line"></span><br><span class="line">        <span class="comment">//绘制节点</span></span><br><span class="line">        var outer_arc = d3.svg.arc()</span><br><span class="line">            .innerRadius(innerRadius)</span><br><span class="line">            .outerRadius(outerRadius);</span><br><span class="line"></span><br><span class="line">        var g_outer = svg.append(<span class="string">'g'</span>);</span><br><span class="line"></span><br><span class="line">        g_outer.selectAll('path')</span><br><span class="line">            .data(groups)</span><br><span class="line">            .enter()</span><br><span class="line">            .append('path')</span><br><span class="line">            .style('fill',function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> color20(d.index);</span><br><span class="line">            &#125;)</span><br><span class="line">            .style('stroke',function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> color20(d.index);</span><br><span class="line">            &#125;)</span><br><span class="line">            .attr(<span class="string">'d'</span>,outer_arc);</span><br><span class="line"></span><br><span class="line">        g_outer.selectAll('text')</span><br><span class="line">            .data(groups)</span><br><span class="line">            .enter()</span><br><span class="line">            .append('text')</span><br><span class="line">            .each(function (d,i) &#123;</span><br><span class="line">                d.angle = (d.startAngle + d.endAngle)/<span class="number">2</span>; <span class="comment">//计算起始角度和终止角度的平均值</span></span><br><span class="line">                d.name = city_name[i];</span><br><span class="line">            &#125;)</span><br><span class="line">            .attr('dy','.35em') //相对于字体大小  dy是文本相对基点y向下偏移的距离</span><br><span class="line">            .attr('transform',function (d) &#123;</span><br><span class="line">                return 'rotate('+ (d.angle * 180/Math.PI) + ')'+ //d.angle 是弧度角</span><br><span class="line">                        'translate(0,' +  -1.0*(outerRadius + 10 ) + ')' +</span><br><span class="line">                    ((d.angle &gt; Math.PI*3/4 &amp;&amp; d.angle &lt; Math.PI* 5/4 ) ? 'rotate(180)' : '');</span><br><span class="line">            &#125;)</span><br><span class="line">            .text(function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> d.name;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//绘制连线</span></span><br><span class="line">        var inner_chord = d3.svg.chord()</span><br><span class="line">            .radius(innerRadius);</span><br><span class="line"></span><br><span class="line">        svg.append(<span class="string">'g'</span>)</span><br><span class="line">            .attr('class','chord')</span><br><span class="line">            .selectAll('path')</span><br><span class="line">            .data(chords)</span><br><span class="line">            .enter()</span><br><span class="line">            .append('path')</span><br><span class="line">            .attr(<span class="string">'d'</span>,inner_chord)</span><br><span class="line">            .style('fill',function (d) &#123;</span><br><span class="line">                <span class="keyword">return</span> color20(d.source.index);</span><br><span class="line"></span><br><span class="line">            &#125;)</span><br><span class="line">            .style('opacity',1)</span><br><span class="line">            .on('mouseover',function (d,i) &#123;</span><br><span class="line">                d3.select(<span class="keyword">this</span>)</span><br><span class="line">                    .transition()</span><br><span class="line">                    .duration(<span class="number">1000</span>)</span><br><span class="line">                    .style('fill',color20(d.source.index));</span><br><span class="line"></span><br><span class="line">            &#125;)</span><br><span class="line">            .on(<span class="string">"mouseout"</span>,function(d,i) &#123;</span><br><span class="line">                d3.select(<span class="keyword">this</span>)</span><br><span class="line">                    .transition()</span><br><span class="line">                    .duration(<span class="number">1000</span>)</span><br><span class="line">                    .style(<span class="string">"fill"</span>,color20(d.source.index));</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="打包图"><a href="#打包图" class="headerlink" title="打包图"></a>打包图</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src='http://d3js.org/d3.v3.min.js' charset="utf-8"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        width = <span class="number">500</span>;</span><br><span class="line">        height = <span class="number">500</span>;</span><br><span class="line">        <span class="comment">//布局</span></span><br><span class="line">        var pack = d3.layout.pack()</span><br><span class="line">            .size([width,height]) <span class="comment">//size() 设定转换的范围，即转换后顶点的坐标(x,y)，都会在此范围内</span></span><br><span class="line">            .radius(<span class="number">20</span>); <span class="comment">//radius() 设定转换后最小的圆的半径</span></span><br><span class="line"></span><br><span class="line">        d3.json('d3-5.json',function (error,root) &#123;</span><br><span class="line">            var nodes = pack.nodes(root);</span><br><span class="line">            var links = pack.links(nodes);</span><br><span class="line">            console.<span class="built_in">log</span>(nodes);</span><br><span class="line">            <span class="comment">//画布</span></span><br><span class="line">            var svg = d3.select(<span class="string">"body"</span>).append(<span class="string">"svg"</span>)</span><br><span class="line">                .attr(<span class="string">"width"</span>, width)</span><br><span class="line">                .attr(<span class="string">"height"</span>, height)</span><br><span class="line">                .append(<span class="string">"g"</span>)</span><br><span class="line">                .attr(<span class="string">"transform"</span>, <span class="string">"translate(0,0)"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//绘制</span></span><br><span class="line">            svg.selectAll('circle')</span><br><span class="line">                .data(nodes)</span><br><span class="line">                .enter()</span><br><span class="line">                .append('circle')</span><br><span class="line">                .attr('fill','rgb(31,119,180')</span><br><span class="line">                .attr(<span class="string">"fill-opacity"</span>,<span class="string">"0.4"</span>)</span><br><span class="line">                .attr('cx',function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.x;</span><br><span class="line">                &#125;)</span><br><span class="line">                .attr('cy',function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.y;</span><br><span class="line">                &#125;)</span><br><span class="line">                .attr(<span class="string">'r'</span>,function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.r</span><br><span class="line"></span><br><span class="line">                &#125;)</span><br><span class="line">                .on('mouseover',function (d,i) &#123;</span><br><span class="line">                    d3.select(<span class="keyword">this</span>)</span><br><span class="line">                        .attr('fill','yellow')</span><br><span class="line"></span><br><span class="line">                &#125;)</span><br><span class="line">                .on('mouseout',function (d,i) &#123;</span><br><span class="line">                    d3.select(<span class="keyword">this</span>)</span><br><span class="line">                        .attr('fill','rgb(31,119,180')</span><br><span class="line">                &#125;);</span><br><span class="line">            <span class="comment">//文字</span></span><br><span class="line">            svg.selectAll('text')</span><br><span class="line">                .data(nodes)</span><br><span class="line">                .enter()</span><br><span class="line">                .append('text')</span><br><span class="line">                .attr('font-size','10px')</span><br><span class="line">                .attr('fill','white')</span><br><span class="line">                .attr('fill-opacity',function (d) &#123;</span><br><span class="line">                    <span class="keyword">if</span>(d.depth == <span class="number">2</span>) <span class="comment">//深度为2则可视文本标签</span></span><br><span class="line">                        return '0.9';</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                        <span class="keyword">return</span> <span class="string">'0'</span>;</span><br><span class="line">                &#125;)</span><br><span class="line">                .attr(<span class="string">'x'</span>,function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.x;</span><br><span class="line"></span><br><span class="line">                &#125;)</span><br><span class="line">                .attr(<span class="string">'y'</span>,function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.y</span><br><span class="line">                &#125;)</span><br><span class="line">                .attr('dx',-12)</span><br><span class="line">                .attr('dy',1)</span><br><span class="line">                .text(function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.name;</span><br><span class="line">                &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="簇状图"><a href="#簇状图" class="headerlink" title="簇状图"></a>簇状图</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    .node circle &#123;</span><br><span class="line">      fill: #fff;</span><br><span class="line">      stroke: steelblue;</span><br><span class="line">      stroke-width: <span class="number">1.5</span>px;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .node &#123;</span><br><span class="line">      font: <span class="number">12</span>px sans-serif;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .link &#123;</span><br><span class="line">      fill: none;</span><br><span class="line">      stroke: <span class="meta">#ccc;</span></span><br><span class="line">      stroke-width: <span class="number">1.5</span>px;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">   &lt;script src='http://d3js.org/d3.v3.min.js' charset="utf-8"&gt;&lt;/script&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">        var width = <span class="number">500</span>,</span><br><span class="line">            height = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//布局</span></span><br><span class="line">        var cluster = d3.layout.cluster() <span class="comment">//将实体聚集成树状图</span></span><br><span class="line">            .size([width, height - <span class="number">200</span>]);</span><br><span class="line"></span><br><span class="line">        var diagonal = d3.svg.diagonal() <span class="comment">//新建一个对角线生成器</span></span><br><span class="line">            .projection(function(d) &#123; <span class="keyword">return</span> [d.y, d.x]; &#125;);</span><br><span class="line">        console.<span class="built_in">log</span>(diagonal);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//画布</span></span><br><span class="line">        var svg = d3.select(<span class="string">"body"</span>).append(<span class="string">"svg"</span>)</span><br><span class="line">            .attr(<span class="string">"width"</span>, width)</span><br><span class="line">            .attr(<span class="string">"height"</span>, height)</span><br><span class="line">            .append(<span class="string">"g"</span>)</span><br><span class="line">            .attr(<span class="string">"transform"</span>, <span class="string">"translate(40,0)"</span>);</span><br><span class="line"></span><br><span class="line">        d3.json(<span class="string">"d3-5.json"</span>, function(error, root) &#123;</span><br><span class="line"></span><br><span class="line">          var nodes = cluster.nodes(root); <span class="comment">//计算簇布局并返回节点数组</span></span><br><span class="line">          var links = cluster.links(nodes); <span class="comment">//技术树节点之间的父子连接</span></span><br><span class="line"></span><br><span class="line">          console.<span class="built_in">log</span>(nodes);</span><br><span class="line">          console.<span class="built_in">log</span>(links);</span><br><span class="line"></span><br><span class="line">          var link = svg.selectAll(<span class="string">".link"</span>)</span><br><span class="line">              .data(links)</span><br><span class="line">              .enter()</span><br><span class="line">              .append(<span class="string">"path"</span>)</span><br><span class="line">              .attr(<span class="string">"class"</span>, <span class="string">"link"</span>)</span><br><span class="line">              .attr(<span class="string">"d"</span>, diagonal);</span><br><span class="line"></span><br><span class="line">          var node = svg.selectAll(<span class="string">".node"</span>)</span><br><span class="line">              .data(nodes)</span><br><span class="line">              .enter()</span><br><span class="line">              .append(<span class="string">"g"</span>)</span><br><span class="line">              .attr(<span class="string">"class"</span>, <span class="string">"node"</span>)</span><br><span class="line">              .attr(<span class="string">"transform"</span>, function(d) &#123; <span class="keyword">return</span> <span class="string">"translate("</span> + d.y + <span class="string">","</span> + d.x + <span class="string">")"</span>; &#125;);</span><br><span class="line"></span><br><span class="line">          node.append(<span class="string">"circle"</span>)</span><br><span class="line">              .attr(<span class="string">"r"</span>, <span class="number">4.5</span>);</span><br><span class="line"></span><br><span class="line">          node.append(<span class="string">"text"</span>)</span><br><span class="line">              .attr(<span class="string">"dx"</span>, function(d) &#123; <span class="keyword">return</span> d.children ? <span class="number">-8</span> : <span class="number">8</span>; &#125;)</span><br><span class="line">              .attr(<span class="string">"dy"</span>, <span class="number">3</span>)</span><br><span class="line">              .style(<span class="string">"text-anchor"</span>, function(d) &#123; <span class="keyword">return</span> d.children ? <span class="string">"end"</span> : <span class="string">"start"</span>; &#125;)  <span class="comment">//text-anchor 文本对齐方式</span></span><br><span class="line">              .text(function(d) &#123; <span class="keyword">return</span> d.name; &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/可视化/" rel="tag"># 可视化</a>
+          
+            <a href="/tags/D3/" rel="tag"># D3</a>
+          
+            <a href="/tags/饼图/" rel="tag"># 饼图</a>
+          
+            <a href="/tags/弦图/" rel="tag"># 弦图</a>
+          
+            <a href="/tags/打包图/" rel="tag"># 打包图</a>
+          
+            <a href="/tags/力学图/" rel="tag"># 力学图</a>
+          
+            <a href="/tags/簇状图/" rel="tag"># 簇状图</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/22/d3js柱状图/" rel="next" title="D3js柱状图">
+                <i class="fa fa-chevron-left"></i> D3js柱状图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/23/d3_map/" rel="prev" title="D3js地图+力学图">
+                D3js地图+力学图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Syiao</p>
+              <p class="site-description motion-element" itemprop="description">“多新鲜啊~~”</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#D3js入门学习"><span class="nav-number">1.</span> <span class="nav-text">D3js入门学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#步骤归纳："><span class="nav-number">2.</span> <span class="nav-text">步骤归纳：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#饼图"><span class="nav-number">2.1.</span> <span class="nav-text">饼图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#力学图"><span class="nav-number">2.2.</span> <span class="nav-text">力学图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#弦图"><span class="nav-number">2.3.</span> <span class="nav-text">弦图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包图"><span class="nav-number">2.4.</span> <span class="nav-text">打包图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#簇状图"><span class="nav-number">2.5.</span> <span class="nav-text">簇状图</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+<!--��վ��������-->
+
+<div class="powered-by">
+
+<i class="fa fa-user"></i>
+<span id="busuanzi_container_site_uv">
+  
+<span id="busuanzi_value_site_uv"></span>
+
+</span>
+
+<!--��վ���ʴ���-->
+
+<span class="post-meta-divider">|</span>
+
+<span id="busuanzi_container_site_pv">
+<i class="fa fa-eye"></i>
+    
+<span id="busuanzi_value_site_pv">
+</span>
+</span>
+
+</div>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Syiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaokankan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.poetryisland.cn/2019/02/23/d3js入门/';
+          this.page.identifier = '2019/02/23/d3js入门/';
+          this.page.title = 'D3js入门';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaokankan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '2pFuMW7pKAlzws74ACKKcAgT-gzGzoHsz',
+        appKey: 'yYrRJimHiq17HTEglErakNj7',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

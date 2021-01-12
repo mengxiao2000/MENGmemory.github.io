@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="爬虫 python,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="黎明已经不远" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="新浪微博话题下微博采集Typora这个Markdown编辑器过于简洁大方。另，第三方采集器有些鸡肋。 1234567import requestsfrom bs4 import BeautifulSoupimport xlwtimport timeimport csvimport reimport pandas as pd 运行12345678910111213141516171819#开始采集d">
+<meta name="keywords" content="爬虫 python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新浪微博话题下微博采集">
+<meta property="og:url" content="http://www.poetryisland.cn/2020/04/23/weibo-topic/index.html">
+<meta property="og:site_name" content="黎明已经不远">
+<meta property="og:description" content="新浪微博话题下微博采集Typora这个Markdown编辑器过于简洁大方。另，第三方采集器有些鸡肋。 1234567import requestsfrom bs4 import BeautifulSoupimport xlwtimport timeimport csvimport reimport pandas as pd 运行12345678910111213141516171819#开始采集d">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-04-23T07:49:08.746Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="新浪微博话题下微博采集">
+<meta name="twitter:description" content="新浪微博话题下微博采集Typora这个Markdown编辑器过于简洁大方。另，第三方采集器有些鸡肋。 1234567import requestsfrom bs4 import BeautifulSoupimport xlwtimport timeimport csvimport reimport pandas as pd 运行12345678910111213141516171819#开始采集d">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.poetryisland.cn/2020/04/23/weibo-topic/">
+
+
+
+
+
+  <title>新浪微博话题下微博采集 | 黎明已经不远</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎明已经不远</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">洗洗睡吧</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.poetryisland.cn/2020/04/23/weibo-topic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Syiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎明已经不远">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">新浪微博话题下微博采集</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-23T15:36:15+08:00">
+                2020-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/23/weibo-topic/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/23/weibo-topic/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="新浪微博话题下微博采集"><a href="#新浪微博话题下微博采集" class="headerlink" title="新浪微博话题下微博采集"></a>新浪微博话题下微博采集</h1><p><u>Typora</u>这个Markdown编辑器过于简洁大方。另，第三方采集器有些鸡肋。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#开始采集</span></span><br><span class="line">data_ = []</span><br><span class="line">url = <span class="string">'https://s.weibo.com/weibo?q=%23%E4%B8%96%E7%95%8C%E5%9C%B0%E7%90%83%E6%97%A5%23&amp;page='</span></span><br><span class="line">error = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">60</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        page = i + <span class="number">1</span></span><br><span class="line">        print(<span class="string">'正在获取第'</span>,page,<span class="string">'页'</span>)</span><br><span class="line">        weibos = get_page_weibos(url,page)</span><br><span class="line">        weibo_getinfo(weibos)</span><br><span class="line">        time.sleep(<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        error += <span class="number">1</span></span><br><span class="line">        print(<span class="string">'error!'</span>)</span><br><span class="line">        <span class="keyword">if</span> error &gt; <span class="number">5</span>:</span><br><span class="line">            print(<span class="string">'错误大于5次退出采集'</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">print(<span class="string">'采集完成'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="读取单页微博"><a href="#读取单页微博" class="headerlink" title="读取单页微博"></a>读取单页微博</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取单页微博</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_page_weibos</span><span class="params">(url,page)</span>:</span></span><br><span class="line">    <span class="comment">#url = 'https://s.weibo.com/weibo?q=%23毕业前最后一次寝室夜谈%23&amp;page='</span></span><br><span class="line">    url = url + str(page)</span><br><span class="line">    headers = &#123;</span><br><span class="line">            <span class="string">'Accept'</span>: 		<span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'</span></span><br><span class="line">            , <span class="string">'Accept-Encoding'</span>: <span class="string">'gzip, deflate, sdch'</span></span><br><span class="line">            , <span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.8'</span></span><br><span class="line">            , <span class="string">'Cache-Control'</span>: <span class="string">'max-age=0'</span></span><br><span class="line">            , <span class="string">'Connection'</span>: <span class="string">'keep-alive'</span></span><br><span class="line">            , <span class="string">'Content-Type'</span>:<span class="string">'text/html;charset=utf-8'</span></span><br><span class="line">            ,<span class="string">'Cookie'</span>: 你的cookie</span><br><span class="line">            , <span class="string">'Host'</span>: <span class="string">'s.weibo.com'</span></span><br><span class="line">            , <span class="string">'Referer'</span>: url</span><br><span class="line">            , <span class="string">'Upgrade-Insecure-Requests'</span>: <span class="string">'1'</span></span><br><span class="line">            ,</span><br><span class="line">            <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'</span></span><br><span class="line">    &#125;</span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    </span><br><span class="line">    soup = BeautifulSoup(response.text,<span class="string">'lxml'</span>)</span><br><span class="line">    weibos = soup.find_all(<span class="string">'div'</span>,class_=<span class="string">'card-wrap'</span>)</span><br><span class="line">    <span class="comment">#print(weibos[1])</span></span><br><span class="line">    <span class="keyword">return</span> weibos</span><br></pre></td></tr></table></figure>
+<h2 id="时间戳处理"><a href="#时间戳处理" class="headerlink" title="时间戳处理"></a>时间戳处理</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br><span class="line"><span class="comment">#微博时间戳处理</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">time_transform</span><span class="params">(publish_time)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">"刚刚"</span> <span class="keyword">in</span> publish_time:</span><br><span class="line">        publish_time = datetime.now().strftime(<span class="string">'%Y-%m-%d %H:%M'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">elif</span> <span class="string">"分钟"</span> <span class="keyword">in</span> publish_time:</span><br><span class="line">        minute = publish_time[:publish_time.find(<span class="string">"分钟"</span>)]</span><br><span class="line">        minute = timedelta(minutes=int(minute))</span><br><span class="line">        publish_time = (</span><br><span class="line">            datetime.now() - minute).strftime(</span><br><span class="line">            <span class="string">"%Y-%m-%d %H:%M"</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="string">"今天"</span> <span class="keyword">in</span> publish_time:</span><br><span class="line">        today = datetime.now().strftime(<span class="string">"%Y-%m-%d"</span>)</span><br><span class="line">        time = publish_time.replace(<span class="string">'今天'</span>,<span class="string">''</span>)</span><br><span class="line">        publish_time = today + <span class="string">" "</span> + time</span><br><span class="line"></span><br><span class="line">    <span class="keyword">elif</span> <span class="string">"月"</span> <span class="keyword">in</span> publish_time:</span><br><span class="line">        year = datetime.now().strftime(<span class="string">"%Y"</span>)</span><br><span class="line">        publish_time = str(publish_time)</span><br><span class="line">        <span class="comment">#print(publish_time)</span></span><br><span class="line"></span><br><span class="line">        publish_time = year + <span class="string">"-"</span> +publish_time.replace(<span class="string">'月'</span>,<span class="string">'-'</span>).replace(<span class="string">'日'</span>,<span class="string">''</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        publish_time = publish_time[:<span class="number">16</span>]</span><br><span class="line">    <span class="keyword">return</span> publish_time</span><br></pre></td></tr></table></figure>
+<h2 id="解析单页微博"><a href="#解析单页微博" class="headerlink" title="解析单页微博"></a>解析单页微博</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#解析单页微博</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weibo_getinfo</span><span class="params">(weibos)</span>:</span></span><br><span class="line">    print(len(weibos))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(weibos)):</span><br><span class="line">        <span class="comment">#print(weibos[i])</span></span><br><span class="line">        <span class="comment">#print('---------------------------------------------------------')</span></span><br><span class="line"><span class="comment">#         if len(weibos[i].find_all('strong')) &gt; 0:</span></span><br><span class="line"><span class="comment">#             continue</span></span><br><span class="line">        <span class="comment">#print(len(weibos[i].find_all('div',class_='card-act')))</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#判断</span></span><br><span class="line">        weibo = weibos[i].find(<span class="string">'div'</span>,class_=<span class="string">'card'</span>)</span><br><span class="line">        <span class="keyword">if</span> len(weibos[i].find_all(<span class="string">'div'</span>,class_=<span class="string">'card-act'</span>)) &lt; <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="comment">#mid</span></span><br><span class="line">        mid =  weibos[i][<span class="string">'mid'</span>]</span><br><span class="line">        <span class="comment">#昵称</span></span><br><span class="line">        name =  weibo.find(<span class="string">'a'</span>,class_=<span class="string">'name'</span>).get_text()</span><br><span class="line">        <span class="comment">#内容</span></span><br><span class="line">        content = weibo.find_all(<span class="string">'p'</span>, class_=<span class="string">'txt'</span>)</span><br><span class="line">        content = content[<span class="number">1</span>].get_text() <span class="keyword">if</span> len(content) &gt; <span class="number">1</span> <span class="keyword">else</span> content[<span class="number">0</span>].get_text()</span><br><span class="line">        content = content.strip()</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#时间</span></span><br><span class="line">        ptime = weibo.find(<span class="string">'p'</span>, class_=<span class="string">'from'</span>).get_text().split(<span class="string">'来自'</span>)[<span class="number">0</span>].split(<span class="string">'转赞'</span>)[<span class="number">0</span>].strip()</span><br><span class="line">        <span class="comment">#print(ptime)</span></span><br><span class="line">        ptime = str(time_transform(ptime))</span><br><span class="line">        <span class="comment">#图片与视频</span></span><br><span class="line">        image = weibo.find(<span class="string">'div'</span>, class_=<span class="string">'media media-piclist'</span>)</span><br><span class="line">        video = weibo.find(<span class="string">'div'</span>, class_=<span class="string">'media media-video-a'</span>)</span><br><span class="line">        <span class="keyword">if</span> image != <span class="literal">None</span>:</span><br><span class="line">            image_num = len(image.find_all(<span class="string">'img'</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            image_num = <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> video != <span class="literal">None</span>:</span><br><span class="line">            <span class="comment">#print(video)</span></span><br><span class="line">            video_num = <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            video_num = <span class="number">0</span></span><br><span class="line">        <span class="comment">#互动信息</span></span><br><span class="line">        inter_info = weibo.find(<span class="string">'div'</span>,class_=<span class="string">'card-act'</span>).find_all(<span class="string">'a'</span>)</span><br><span class="line">        inter_info =  [re.findall(<span class="string">r'\d+'</span>,item.get_text()) <span class="keyword">for</span> item <span class="keyword">in</span> inter_info[<span class="number">1</span>:<span class="number">4</span>] ] </span><br><span class="line">        inter_ = []</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> info <span class="keyword">in</span> inter_info:</span><br><span class="line">            <span class="keyword">if</span> info == []:</span><br><span class="line">                inter_.append(<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                inter_.append(int(info[<span class="number">0</span>]))</span><br><span class="line">        new = [mid, name, content, ptime ,image_num, video_num, inter_[<span class="number">0</span>], inter_[<span class="number">1</span>], inter_[<span class="number">2</span>]]</span><br><span class="line">        <span class="comment">#print(new)</span></span><br><span class="line">        data_.append(new)</span><br><span class="line">        <span class="comment">#print(len(data_))</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫-python/" rel="tag"># 爬虫 python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/08/ggplot2/" rel="next" title="ggplot22学习">
+                <i class="fa fa-chevron-left"></i> ggplot22学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/18/jisuanchuanbo/" rel="prev" title="《计算传播学导论》阅读">
+                《计算传播学导论》阅读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Syiao</p>
+              <p class="site-description motion-element" itemprop="description">“多新鲜啊~~”</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#新浪微博话题下微博采集"><span class="nav-number">1.</span> <span class="nav-text">新浪微博话题下微博采集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行"><span class="nav-number">1.1.</span> <span class="nav-text">运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取单页微博"><span class="nav-number">1.2.</span> <span class="nav-text">读取单页微博</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间戳处理"><span class="nav-number">1.3.</span> <span class="nav-text">时间戳处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析单页微博"><span class="nav-number">1.4.</span> <span class="nav-text">解析单页微博</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+<!--��վ��������-->
+
+<div class="powered-by">
+
+<i class="fa fa-user"></i>
+<span id="busuanzi_container_site_uv">
+  
+<span id="busuanzi_value_site_uv"></span>
+
+</span>
+
+<!--��վ���ʴ���-->
+
+<span class="post-meta-divider">|</span>
+
+<span id="busuanzi_container_site_pv">
+<i class="fa fa-eye"></i>
+    
+<span id="busuanzi_value_site_pv">
+</span>
+</span>
+
+</div>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Syiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaokankan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.poetryisland.cn/2020/04/23/weibo-topic/';
+          this.page.identifier = '2020/04/23/weibo-topic/';
+          this.page.title = '新浪微博话题下微博采集';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaokankan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '2pFuMW7pKAlzws74ACKKcAgT-gzGzoHsz',
+        appKey: 'yYrRJimHiq17HTEglErakNj7',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

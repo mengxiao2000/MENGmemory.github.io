@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="TensorFlow,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="黎明已经不远" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="运行TensorFlowSTART 安装：pip安装成功但是不能运行（可能是版本不匹配还有环境不行）用conda安装成功运行。 运行变量初始化；x.initializer.run()等价于tf.get_default_session().run(x.initializer)f.eval等价于tf.get_default_session().run(f)Init=tf.global_variable">
+<meta name="keywords" content="TensorFlow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运行TensorFlow">
+<meta property="og:url" content="http://www.poetryisland.cn/2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/index.html">
+<meta property="og:site_name" content="黎明已经不远">
+<meta property="og:description" content="运行TensorFlowSTART 安装：pip安装成功但是不能运行（可能是版本不匹配还有环境不行）用conda安装成功运行。 运行变量初始化；x.initializer.run()等价于tf.get_default_session().run(x.initializer)f.eval等价于tf.get_default_session().run(f)Init=tf.global_variable">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-06T15:00:44.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="运行TensorFlow">
+<meta name="twitter:description" content="运行TensorFlowSTART 安装：pip安装成功但是不能运行（可能是版本不匹配还有环境不行）用conda安装成功运行。 运行变量初始化；x.initializer.run()等价于tf.get_default_session().run(x.initializer)f.eval等价于tf.get_default_session().run(f)Init=tf.global_variable">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.poetryisland.cn/2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/">
+
+
+
+
+
+  <title>运行TensorFlow | 黎明已经不远</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎明已经不远</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">洗洗睡吧</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.poetryisland.cn/2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Syiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎明已经不远">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">运行TensorFlow</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-06T23:00:44+08:00">
+                2019-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="运行TensorFlow"><a href="#运行TensorFlow" class="headerlink" title="运行TensorFlow"></a>运行TensorFlow</h1><h3 id="START"><a href="#START" class="headerlink" title="START"></a>START</h3><ul>
+<li>安装：pip安装成功但是不能运行（可能是版本不匹配还有环境不行）<br>用conda安装成功运行。</li>
+<li>运行<br>变量初始化；x.initializer.run()等价于tf.get_default_session().run(x.initializer)<br>f.eval等价于tf.get_default_session().run(f)<br>Init=tf.global_variables_initializer()在图中创建一个节点，这个节点在会话执行时初始化所有变量。<br>sess=tf.InteractiveSession()在创建时会把自己设为默认会话。不用with块，但结束后要手动close。<blockquote>
+<p>一个TensorFlow程序通常可分为计算图（构建阶段）和执行图（执行阶段）。  </p>
+</blockquote>
+</li>
+<li>管理图<br>管理多个互不依赖的图时，可创建新图并设为默认图<br>Graph = tf.Graph()<br>with graphs.as_default():<br>实验中多次执行同一命令会导致重复节点的添加，可以重启Jupyter内核，或者重置默认图tf.reset_defauly_graph()</li>
+<li>节点生命周期<br>图每次执行期间，所有节点值都会被丢弃，但是变量不会，变量由会话维护，由初始化器开始，到关闭结束。</li>
+</ul>
+<h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><p>闭式解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X = tf.constant(housing_data_plus_bias, dtype=tf.float32, name=“X”)</span><br><span class="line">y = tf.constant(housing.target.reshape(-1,1), dtype=tf.float32, name=“y”)</span><br><span class="line">XT = tf.transpose(X)</span><br><span class="line">theta = tf.matmul(tf.matmul(tf.matrix_inverse(tf.matmul(XT,X)),XT),y)</span><br><span class="line"></span><br><span class="line">with tf.session() as sess:</span><br><span class="line">		theta = theta.eval()</span><br></pre></td></tr></table></figure></p>
+<p>梯度下降<br>    要先对数据归一化，否则过程会很慢。<br>    tf.random_uniform（[,]，,）创建一个节点，生成一个由传入形状和值域随机生成的数填充的张量。<br>    tf.assign(,)创建为变量赋值的节点。<br>自动微分<br>    gradients = tf.gradients(muse, [theta])[0]</p>
+<h3 id="使用优化器"><a href="#使用优化器" class="headerlink" title="使用优化器"></a>使用优化器</h3><p>optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning=learninig)<br>动量优化器<br>optimzer = tf.train.MomentumOptimizer(learning_rate=learninig_rate, momentum=0.9)</p>
+<h3 id="为算法提供数据"><a href="#为算法提供数据" class="headerlink" title="为算法提供数据"></a>为算法提供数据</h3><p>占位符节点<br>A = tf.placeholder（tf.float32, shape=(None,3), name=“A”）#None表示任意尺寸</p>
+<h3 id="保存和恢复模型"><a href="#保存和恢复模型" class="headerlink" title="保存和恢复模型"></a>保存和恢复模型</h3><p>在构造器末尾（所有变量节点都创建后）创建Saver节点。<br>saver = tf.train.Saver()<br>在执行器调用save方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with tf.Session() as sess:</span><br><span class="line">	......</span><br><span class="line">	save_path = saver.save(sess, “./mymodel_final.ckpt”)</span><br></pre></td></tr></table></figure></p>
+<p>恢复模型：<br>在构造器末尾创建Saver节点， 在执行期开始时，不是用init节点初始化变量，而是调用restore方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with ......:</span><br><span class="line">	saver.restore(sess, “./mymodel_fianl.ckpt”)</span><br><span class="line">	......</span><br></pre></td></tr></table></figure></p>
+<p>保存恢复制定名称：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Beta = tf.train.Saver(&#123;“weights”: theta&#125;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="TensorBoard可视化"><a href="#TensorBoard可视化" class="headerlink" title="TensorBoard可视化"></a>TensorBoard可视化</h3><p>为防止Tensorboard将每次状态信息合并，用时间戳的方式命名日志文件夹。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">From datetime import datetime</span><br><span class="line"></span><br><span class="line">Now = datetime.utcnow().strftime(“%Y%m%d%H%M%S”)</span><br><span class="line">Root_logdir = “tf_logs”</span><br><span class="line">Log_dir = “&#123;&#125;/run-&#123;&#125;/”.format(root_logdir, now)</span><br></pre></td></tr></table></figure></p>
+<p>在构造期最后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Mse_summary = tf.summary.scalar(‘MSE’, mse)</span><br><span class="line">#scalar是用于显示accuracy，cross entropy，dropout等标量变化趋势的函数。</span><br><span class="line">File_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())</span><br></pre></td></tr></table></figure></p>
+<p>在执行器，训练时定期求值mse_summary节点。<br>通过file_writer写入事件文件中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Summary_str = mse_summary.eval(feed_dict=&#123;X:X_batch, y:y_batch&#125;)</span><br><span class="line">Step = epoch* n_batches + batch_index</span><br><span class="line">File_writer.add_summary(summary_str, step)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>避免在每一步都记录状态信息，会严重拖慢训练速度。<br>程序结束时关闭FileWriter：<br>file_writer.close()</p>
+</blockquote>
+<p>启动Tensorboard服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tensorboard —logdir tf_logs/。</span><br></pre></td></tr></table></figure></p>
+<p>即可从浏览器浏览</p>
+<h3 id="命名作用域"><a href="#命名作用域" class="headerlink" title="命名作用域"></a>命名作用域</h3><p>为了避免处理复杂模型时图变得杂乱，创建命名作用域将节点分组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with tf.name_scope(“loss”) as scope:</span><br><span class="line">	error = y_pred - y</span><br><span class="line">Print(error.op.name)</span><br></pre></td></tr></table></figure></p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>用函数构建，减少重复，结合命名作用域使用，使图更清晰<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def relu(X):</span><br><span class="line">	with tf.name_scope(“relu”):</span><br><span class="line">		......</span><br></pre></td></tr></table></figure></p>
+<h3 id="共享变量"><a href="#共享变量" class="headerlink" title="共享变量"></a>共享变量</h3><p>在图的不同组件中贡献变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Def relu(X):</span><br><span class="line">	if not hasattr(relu, “threshold”):</span><br><span class="line">		relu.threshold = tf.Variable(0.0, name=“threshold”)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Threshold = getVariable(“threshold”, shape=(), initializer=tf.constant_initializer(0.0))</span><br><span class="line">#创建共享变量，如果已经存在就复用。</span><br><span class="line">#shape=()表示标量</span><br></pre></td></tr></table></figure>
+<p>通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">with tf.variable_scope(“relu”, reuse=True):</span><br></pre></td></tr></table></figure></p>
+<p>或<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">with.tf.variable_scope(“relu”) as scope:</span><br><span class="line">	scope.reuse_variables()</span><br></pre></td></tr></table></figure></p>
+<p>get_variable()复用变量需要通过设置变量作用域实现，只有通过get_variable()创建的变量才可以复用。<br>get_variable()创建的变量以变量作用域名作为前缀命名。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/06/ACAD1A0B-BE7E-4CD7-B605-D327A304F95F/" rel="next" title="TensorFlow正则化">
+                <i class="fa fa-chevron-left"></i> TensorFlow正则化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/06/A8E255A0-8354-4CBC-A3C9-37F780898882/" rel="prev" title="ANN简介基于TensorFlow">
+                ANN简介基于TensorFlow <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Syiao</p>
+              <p class="site-description motion-element" itemprop="description">“多新鲜啊~~”</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#运行TensorFlow"><span class="nav-number">1.</span> <span class="nav-text">运行TensorFlow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#START"><span class="nav-number">1.0.1.</span> <span class="nav-text">START</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性回归"><span class="nav-number">1.0.2.</span> <span class="nav-text">线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用优化器"><span class="nav-number">1.0.3.</span> <span class="nav-text">使用优化器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为算法提供数据"><span class="nav-number">1.0.4.</span> <span class="nav-text">为算法提供数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存和恢复模型"><span class="nav-number">1.0.5.</span> <span class="nav-text">保存和恢复模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TensorBoard可视化"><span class="nav-number">1.0.6.</span> <span class="nav-text">TensorBoard可视化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命名作用域"><span class="nav-number">1.0.7.</span> <span class="nav-text">命名作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块化"><span class="nav-number">1.0.8.</span> <span class="nav-text">模块化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共享变量"><span class="nav-number">1.0.9.</span> <span class="nav-text">共享变量</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+<!--��վ��������-->
+
+<div class="powered-by">
+
+<i class="fa fa-user"></i>
+<span id="busuanzi_container_site_uv">
+  
+<span id="busuanzi_value_site_uv"></span>
+
+</span>
+
+<!--��վ���ʴ���-->
+
+<span class="post-meta-divider">|</span>
+
+<span id="busuanzi_container_site_pv">
+<i class="fa fa-eye"></i>
+    
+<span id="busuanzi_value_site_pv">
+</span>
+</span>
+
+</div>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Syiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yaokankan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.poetryisland.cn/2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/';
+          this.page.identifier = '2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/';
+          this.page.title = '运行TensorFlow';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yaokankan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '2pFuMW7pKAlzws74ACKKcAgT-gzGzoHsz',
+        appKey: 'yYrRJimHiq17HTEglErakNj7',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
