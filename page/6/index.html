@@ -62,7 +62,7 @@
   var _hmt = _hmt || [];
   (function() {
     var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?b5ba43170c";
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
   })();
@@ -96,7 +96,7 @@
       <p><a id="more"></a>
 </p><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">from numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">operator</span></span><br><span class="line">from knn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function">def <span class="title">img2vector</span><span class="params">(filename)</span>:</span></span><br><span class="line"><span class="function">    returnVect </span>= zeros((<span class="number">1</span>,<span class="number">1024</span>))</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    <span class="keyword">for</span> i in range(<span class="number">32</span>):</span><br><span class="line">        lineStr = fr.readline()</span><br><span class="line">        <span class="keyword">for</span> j in range(<span class="number">32</span>):</span><br><span class="line">            returnVect[<span class="number">0</span>,<span class="number">32</span>*i+j] = <span class="keyword">int</span>(lineStr[j])</span><br><span class="line">    <span class="keyword">return</span> returnVect</span><br><span class="line"></span><br><span class="line">print (img2vector('testDigits/0_13.txt'))</span><br><span class="line"></span><br><span class="line"><span class="function">def <span class="title">handwritingClassTest</span><span class="params">()</span>:</span></span><br><span class="line"><span class="function">    hwLabels </span>= []</span><br><span class="line">    trainingFileList = os.listdir('trainingDigits')</span><br><span class="line">    m = len(trainingFileList)</span><br><span class="line">    trainingMat = zeros((m,<span class="number">1024</span>))</span><br><span class="line">    <span class="keyword">for</span> i in range(m):</span><br><span class="line">        fileNameStr = trainingFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">        classNumStr = <span class="keyword">int</span>(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        hwLabels.append(classNumStr)</span><br><span class="line">        trainingMat[i,:] = img2vector('trainingDigits/%s'%fileNameStr)</span><br><span class="line">    testFileList = os.listdir('testDigits')</span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line">    mTest = len(testFileList)</span><br><span class="line">    <span class="keyword">for</span> i in range(mTest):</span><br><span class="line">        fileNameStr = testFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">        classNumStr = <span class="keyword">int</span>(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        vectorUnderTest = img2vector('testDigits/%s'%fileNameStr)</span><br><span class="line">        classifierResult = classify0(vectorUnderTest,trainingMat,hwLabels,<span class="number">3</span>)</span><br><span class="line">        print(<span class="string">"the classifier came back with %d , the real answer is : %d"</span>%(classifierResult,classNumStr))</span><br><span class="line">        <span class="keyword">if</span> classifierResult != classNumStr:</span><br><span class="line">            errorCount += <span class="number">1</span></span><br><span class="line">    print(<span class="string">"\nthe total number of errors is %d"</span>%errorCount)</span><br><span class="line">    print (<span class="string">"\nthe total error rate is %f"</span>%(errorCount/<span class="keyword">float</span>(mTest)))</span><br><span class="line">handwritingClassTest()</span><br></pre></td></tr></table></figure>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/02/12/knn2/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/02/12/knn2/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -104,7 +104,7 @@
       <h2 class="title"><a href="/mengxiao2000.github.io/2018/10/10/index/">测试</a></h2>
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2018-10-10 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/mengxiao2000.github.io/categories/搭建博客/">搭建博客</a></span>
       <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2018/10/10/index/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2018/10/10/index/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -127,7 +127,7 @@
 <p>反斜杠\</p>
 <p>|代码库                              |链接                                |<br>|MarkDown                              |<a href="https://github.com/younghz/Markdown" title="Markdown" target="_blank" rel="noopener">https://github.com/younghz/Markdown</a>|<br>|MarkDownCopy                              |<a href="https://github.com/younghz/Markdown" title="Markdown" target="_blank" rel="noopener">https://github.com/younghz/Markdown</a>|</p>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2018/07/10/hello-world/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2018/07/10/hello-world/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
 
@@ -169,18 +169,18 @@
   </div>
   <nav class="menu-container">
   <ul class="menu-items">
-    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
-    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
     
     <li class="has-sub"><span class="dropdown-heading">
-      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
         <ul>
           <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
         <li><a href="/mengxiao2000.github.io/about/">About</a></li>
         </ul>
     </li>
     <li class="has-sub"><span class="dropdown-heading">
-      <i class="fa fa-link fa-fw"></i>Friends</span>
+      <i class="fa fa-link fa-fw"></i>友链</span>
         <ul>
           <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
         </ul>
