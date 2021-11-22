@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>D3js地图+力学图 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-02-23</span>
+    <h2>D3js地图+力学图</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/D3/">D3</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/可视化/">可视化</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/地图/">地图</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <a id="more"></a>
+<p><a href="http://www.poetryisland.cn/mydemo/d3-7.html" target="_blank" rel="noopener">展示案例</a></p>
+<h1 id="饼图"><a href="#饼图" class="headerlink" title="饼图"></a>饼图</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        .link &#123;</span><br><span class="line">            stroke: #ccc;</span><br><span class="line">            stroke-width: <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src='http://d3js.org/d3.v3.min.js' charset="utf-8"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line"></span><br><span class="line">        var width = <span class="number">1000</span>;</span><br><span class="line">        var height = <span class="number">1000</span>;</span><br><span class="line">        var svg = d3.select('body').append('svg').attr('width',width).attr('height',height).append('g')</span><br><span class="line">        <span class="comment">//投影函数 转换经纬度 三维变二维</span></span><br><span class="line">        var projection = d3.geo.mercator()</span><br><span class="line">            .center([<span class="number">107</span>,<span class="number">31</span>]) <span class="comment">//地图中心位置 经纬度</span></span><br><span class="line">            .scale(<span class="number">850</span>) <span class="comment">//设定放大的比例</span></span><br><span class="line">            .translate([width/<span class="number">2</span>,height/<span class="number">2</span>]) ; <span class="comment">//设定平移;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//地理路径生成器</span></span><br><span class="line">        var path = d3.geo.path()</span><br><span class="line">            .projection(projection);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//定义力学图</span></span><br><span class="line">        var force = d3.layout.force().size([width,height]);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//请求geojson文件并绘制地图</span></span><br><span class="line">        d3.json('china.geojson',function (error,root) &#123; //可以使用简化版地图  简化网站 http://mapshaper.org/</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(error)</span><br><span class="line">                <span class="keyword">return</span> console.error(error);</span><br><span class="line">            console.<span class="built_in">log</span>(root.features);</span><br><span class="line"></span><br><span class="line">            var nodes =[];</span><br><span class="line">            var links = [];</span><br><span class="line"></span><br><span class="line">            root.features.forEach(function (d,i) &#123;</span><br><span class="line">                var centroid = path.centroid(d);<span class="comment">//取各省中点</span></span><br><span class="line">                centroid.x = centroid[<span class="number">0</span>];</span><br><span class="line">                centroid.y = centroid[<span class="number">1</span>];</span><br><span class="line">                centroid.feature = d;</span><br><span class="line">                nodes.push(centroid);</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="comment">//对 nodes 中的顶点进行三角剖分，即用三角形来连接各顶点，结果保存在 triangles 中</span></span><br><span class="line">            var triangles = d3.geom.voronoi().triangles(nodes);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//将三角形的各边存到 links 变量中</span></span><br><span class="line">            triangles.forEach(function (d,i) &#123;</span><br><span class="line">                links.push(edge( d[<span class="number">0</span>] , d[<span class="number">1</span>] ));</span><br><span class="line">                links.push(edge( d[<span class="number">1</span>] , d[<span class="number">2</span>] ));</span><br><span class="line">                links.push(edge( d[<span class="number">2</span>] , d[<span class="number">0</span>]));</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            console.<span class="built_in">log</span>(nodes);</span><br><span class="line">            console.<span class="built_in">log</span>(links);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//颜色</span></span><br><span class="line">            var color = d3.scale.category20();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//地图绘制</span></span><br><span class="line">            <span class="comment">// svg.selectAll('path')</span></span><br><span class="line">            <span class="comment">//     .data(root.features)</span></span><br><span class="line">            <span class="comment">//     .enter()</span></span><br><span class="line">            <span class="comment">//     .append('path')</span></span><br><span class="line">            <span class="comment">//     .attr('stroke','#000')</span></span><br><span class="line">            <span class="comment">//     .attr('stroke-width',1)</span></span><br><span class="line">            <span class="comment">//     .attr('fill',function (d,i) &#123;</span></span><br><span class="line">            <span class="comment">//         return color(i);</span></span><br><span class="line">            <span class="comment">//     &#125;)</span></span><br><span class="line">            <span class="comment">//     .attr('d',path) //使用地理路径生成器</span></span><br><span class="line">            <span class="comment">//     .on('mouseover',function (d,i) &#123;</span></span><br><span class="line">            <span class="comment">//         d3.select(this)</span></span><br><span class="line">            <span class="comment">//             .attr('fill','yellow');</span></span><br><span class="line">            <span class="comment">//     &#125;)</span></span><br><span class="line">            <span class="comment">//     .on('mouseout',function (d,i) &#123;</span></span><br><span class="line">            <span class="comment">//         d3.select(this)</span></span><br><span class="line">            <span class="comment">//             .attr('fill',color(i))</span></span><br><span class="line">            <span class="comment">//     &#125;);</span></span><br><span class="line"></span><br><span class="line">            force.gravity(<span class="number">0</span>)<span class="comment">//取得或者设置重力强度。</span></span><br><span class="line">                .charge(<span class="number">0</span>)</span><br><span class="line">                .nodes(nodes)</span><br><span class="line">                .links(links)</span><br><span class="line">                .linkDistance(function (d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> d.distance;</span><br><span class="line">                &#125;)</span><br><span class="line">                .start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            var node = svg.selectAll(<span class="string">"g"</span>) <span class="comment">//&lt;g&gt;标记就是‘group’的简写，是用来分组用的，它能把多个元素放在一组里，对&lt;g&gt;标记实施的样式和渲染会作用到这个分组内的所有元素上。组内的所有元素都会继承&lt;g&gt;标记上的所有属性。用&lt;g&gt;定义的分组还可以使用&lt;use&gt;进行复制使用。</span></span><br><span class="line">            <span class="comment">// g不支持定位属性x和y，需要定位的时候可以用变换属性代替: transform="translate(x,y)</span></span><br><span class="line">                            .data(nodes)</span><br><span class="line">                            .enter().append(<span class="string">"g"</span>)</span><br><span class="line">                            .attr(<span class="string">"transform"</span>, function(d) &#123; <span class="keyword">return</span> <span class="string">"translate("</span> + -d.x + <span class="string">","</span> + -d.y + <span class="string">")"</span>; &#125;)</span><br><span class="line">                            .call(force.drag)</span><br><span class="line">                            .append(<span class="string">"path"</span>)</span><br><span class="line">                            .attr(<span class="string">"transform"</span>, function(d) &#123; <span class="keyword">return</span> <span class="string">"translate("</span> + d.x + <span class="string">","</span> + d.y + <span class="string">")"</span>; &#125;)</span><br><span class="line">                            .attr(<span class="string">"stroke"</span>,<span class="string">"#000"</span>)</span><br><span class="line">                            .attr(<span class="string">"stroke-width"</span>,<span class="number">1</span>)</span><br><span class="line">                            .attr(<span class="string">"fill"</span>, function(d,i)&#123;</span><br><span class="line">                                <span class="keyword">return</span> color(i);</span><br><span class="line">                            &#125;)</span><br><span class="line">                            .attr(<span class="string">"d"</span>, function(d)&#123;</span><br><span class="line">                                <span class="keyword">return</span> path(d.feature);</span><br><span class="line">                            &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            var svg_texts = svg.selectAll('text')</span><br><span class="line">                                .data(nodes)</span><br><span class="line">                                .enter()</span><br><span class="line">                                .append('text')</span><br><span class="line">                                .style('fill','black')</span><br><span class="line">                                .attr('dx',0)</span><br><span class="line">                                .attr('dy',0)</span><br><span class="line">                                .text(function (d) &#123;</span><br><span class="line">                                    <span class="keyword">return</span> d.feature.properties.name;</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            var link = svg.selectAll(<span class="string">"line"</span>)</span><br><span class="line">                            .data(links)</span><br><span class="line">                            .enter()</span><br><span class="line">                            .append(<span class="string">"line"</span>)</span><br><span class="line">                            .attr(<span class="string">"class"</span>,<span class="string">"link"</span>)</span><br><span class="line">                            .attr(<span class="string">"x1"</span>,function(d) &#123; <span class="keyword">return</span> d.source.x; &#125; )</span><br><span class="line">                            .attr(<span class="string">"y1"</span>,function(d) &#123; <span class="keyword">return</span> d.source.y; &#125; )</span><br><span class="line">                            .attr(<span class="string">"x2"</span>,function(d) &#123; <span class="keyword">return</span> d.target.x; &#125; )</span><br><span class="line">                            .attr(<span class="string">"y2"</span>,function(d) &#123; <span class="keyword">return</span> d.target.y; &#125; );</span><br><span class="line"></span><br><span class="line">            force.on(<span class="string">"tick"</span>, function() &#123;</span><br><span class="line"></span><br><span class="line">                link.attr(<span class="string">"x1"</span>, function(d) &#123; <span class="keyword">return</span> d.source.x; &#125;)</span><br><span class="line">			        .attr(<span class="string">"y1"</span>, function(d) &#123; <span class="keyword">return</span> d.source.y; &#125;)</span><br><span class="line">			        .attr(<span class="string">"x2"</span>, function(d) &#123; <span class="keyword">return</span> d.target.x; &#125;)</span><br><span class="line">			        .attr(<span class="string">"y2"</span>, function(d) &#123; <span class="keyword">return</span> d.target.y; &#125;);</span><br><span class="line"></span><br><span class="line">                node.attr(<span class="string">"transform"</span>, function(d) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="string">"translate("</span> + d.x + <span class="string">","</span> + d.y + <span class="string">")"</span>;</span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="comment">//更新文字坐标</span></span><br><span class="line">                svg_texts.attr(<span class="string">'x'</span>,function(d)&#123;</span><br><span class="line">                        <span class="keyword">return</span> d.x;</span><br><span class="line">                    &#125;).attr(<span class="string">'y'</span>,function (d) &#123;</span><br><span class="line">                        <span class="keyword">return</span> d.y;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//对三角形的顶点进行处理，返回连线</span></span><br><span class="line">        <span class="function">function <span class="title">edge</span><span class="params">(a, b)</span> </span>&#123;</span><br><span class="line">            var dx = a[<span class="number">0</span>] - b[<span class="number">0</span>], dy = a[<span class="number">1</span>] - b[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                source: a,</span><br><span class="line">                target: b,</span><br><span class="line">                distance: Math.<span class="built_in">sqrt</span>(dx * dx + dy * dy)</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/02/26/force_guanxi/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>动物关系图</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/02/23/d3js入门/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>D3js入门</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>《网络、群体与市场——揭示高度互联世界的行为原理与效应机制》第二部分—博弈论 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2020-11-08</span>
+    <h2>《网络、群体与市场——揭...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/gametheory/">gametheory</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/博弈/">博弈</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/网络/">网络</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p><img src="gametheory.png" alt="gametheory"></p>
+<p>对《网络、群体与市场——揭示高度互联世界的行为原理与效应机制》中的第二部分内容的简要整理。</p>
+<h2 id="博弈"><a href="#博弈" class="headerlink" title="博弈"></a>博弈</h2><h3 id="人们的决策结果不仅取决于他们在不同的备择项之间进行选择，而且取决于与他们互动的其他人所做的选择"><a href="#人们的决策结果不仅取决于他们在不同的备择项之间进行选择，而且取决于与他们互动的其他人所做的选择" class="headerlink" title="人们的决策结果不仅取决于他们在不同的备择项之间进行选择，而且取决于与他们互动的其他人所做的选择"></a>人们的决策结果不仅取决于他们在不同的备择项之间进行选择，而且取决于与他们互动的其他人所做的选择</h3><h3 id="博弈的基本要素"><a href="#博弈的基本要素" class="headerlink" title="博弈的基本要素"></a>博弈的基本要素</h3><ul>
+<li>博弈参与人</li>
+<li>每个参与人都有一组关于如何行动的备选项</li>
+<li>每个策略行为的选择，都会是参与人得到一个受益（回报），收益结果互动中他人策略选择的影响</li>
+</ul>
+<h3 id="博弈中的行为推理"><a href="#博弈中的行为推理" class="headerlink" title="博弈中的行为推理"></a>博弈中的行为推理</h3><ul>
+<li><p>基本假设</p>
+<ul>
+<li>参与人关心的所有事都表达在自己的回报中</li>
+<li>参与人对博弈的结构充分了解</li>
+<li>每个人个体策略都为了达到自身收益最大化，并知道其他参与人也会选择收益最大化的策略</li>
+</ul>
+</li>
+<li><p>案例</p>
+<ul>
+<li>囚徒困境</li>
+<li>报告-考试博弈</li>
+<li>军备竞赛</li>
+</ul>
+</li>
+</ul>
+<h3 id="最佳应对与严格占优策略"><a href="#最佳应对与严格占优策略" class="headerlink" title="最佳应对与严格占优策略"></a>最佳应对与严格占优策略</h3><ul>
+<li><p>最佳应对：参与人的最好选择，参与人1用策略S产生的收益大于或等于任何其他决策，则称参与人1的策略S是参与人2的策略T的最佳应对。</p>
+<ul>
+<li>严格最佳应对：收益严格大于其他选择</li>
+</ul>
+</li>
+<li><p>占优策略：该策略对于参与人2的每一策略都是最佳应对</p>
+<ul>
+<li>严格最优策略：替换应对为严格最佳应对</li>
+</ul>
+</li>
+<li><p>案例</p>
+<ul>
+<li>两公司对不同市场的营销策略</li>
+</ul>
+</li>
+</ul>
+<h3 id="纳什均衡"><a href="#纳什均衡" class="headerlink" title="纳什均衡"></a>纳什均衡</h3><ul>
+<li>即使不存在占优策略，也可以通过参与人彼此策略的最佳应对，来预测参与人的策略选择行为</li>
+<li><p>纳什均衡：若S是T的最佳应对，同时T是S的最佳应对，责成策略组（S,T）是一个纳什均衡</p>
+<ul>
+<li>均衡的观点：假设参与人选择的策略彼此间都是最佳应对，且具有一致性。</li>
+</ul>
+</li>
+<li><p>发现纳什均衡的途径</p>
+<ul>
+<li>核查所有个体策略集，寻找他们中的每一项是否是彼此间策略的最佳应对策略</li>
+<li>计算每个参与人对于对方策略的最佳应对，发现互为最佳应对的策略组。</li>
+</ul>
+</li>
+</ul>
+<h3 id="多重均衡：协调博弈"><a href="#多重均衡：协调博弈" class="headerlink" title="多重均衡：协调博弈"></a>多重均衡：协调博弈</h3><ul>
+<li>协调博弈：两个参与人的共同目标是在相同策略上的协调。</li>
+<li><p>案例</p>
+<ul>
+<li>PPT还是Keynote</li>
+</ul>
+</li>
+<li><p>基本协调博弈的变形</p>
+<ul>
+<li>案例：性别战、约定和惯例</li>
+<li>不平衡协调博弈</li>
+</ul>
+</li>
+</ul>
+<h3 id="多重均衡：鹰鸽博弈"><a href="#多重均衡：鹰鸽博弈" class="headerlink" title="多重均衡：鹰鸽博弈"></a>多重均衡：鹰鸽博弈</h3><ul>
+<li>争夺性（鹰）与分享性（鸽）行为：都分享，则收益中等，一方争夺一方分享则收益一高一低，都是争夺则收益很低</li>
+<li>案例：懦夫博弈</li>
+</ul>
+<h3 id="混合策略"><a href="#混合策略" class="headerlink" title="混合策略"></a>混合策略</h3><ul>
+<li>不存在纳什均衡的博弈，通过引入随机性来扩大人们选择的策略集，进而对参与人的行为进行预测</li>
+<li>一旦考虑了参与人策略选择的随机性，“博弈总会存在均衡”</li>
+<li><p>案例</p>
+<ul>
+<li><p>硬币配对</p>
+<ul>
+<li>零和博弈</li>
+<li>攻防博弈</li>
+<li>不存在彼此是最佳配对</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>混合策略</p>
+<ul>
+<li>每个参与者的策略表现在概率区间[0,1]间的树，设计选项组H和T的混合。</li>
+<li>每一个选项为“纯策略”，即非混合</li>
+</ul>
+</li>
+<li><p>混合策略收益</p>
+<ul>
+<li>若参与人1选择纯策略H，参与人2选择为q的策略，则参与人1的收益期望是（-1）q+1(1-q)=1-2q.</li>
+<li>若参与人1选择纯策略T，参与人2选择为q的策略，则参与人1的收益期望是（1）q-1(1-q)=2q-1.</li>
+</ul>
+</li>
+<li><p>混合策略的纳什均衡</p>
+<ul>
+<li>互为最佳应对的策略：“每个人参与人都应该随机化自己的行为，让对方在两个策略中的取舍无差异。”“无便宜可占”</li>
+<li>如果我选择了均衡以外的概率，那对方就就会有所倾向性的选择，会占到我的便宜。</li>
+</ul>
+</li>
+</ul>
+<h3 id="混合策略：案例与经验分析"><a href="#混合策略：案例与经验分析" class="headerlink" title="混合策略：案例与经验分析"></a>混合策略：案例与经验分析</h3><ul>
+<li><p>案例</p>
+<ul>
+<li>持球-抛球博弈</li>
+<li>罚点球博弈</li>
+</ul>
+</li>
+<li><p>发现所有的纳什均衡</p>
+<ul>
+<li>博弈中可能同时存在纯策略和混合策略均衡</li>
+<li>检查四种纯结果是否存在形成纳什均衡的情形</li>
+<li>找到互为最佳应对的混合策略p和q；只有当参与人的两个纯策略收益期望相等时才会随机化。</li>
+</ul>
+</li>
+</ul>
+<h3 id="帕累托最优和社会最优"><a href="#帕累托最优和社会最优" class="headerlink" title="帕累托最优和社会最优"></a>帕累托最优和社会最优</h3><ul>
+<li><p>帕累托最优</p>
+<ul>
+<li><p>每个参与者从一个策略集中选择了一个策略，一组策略选择被称为帕累托最优，若不存在其他策略选择使所有参与者得到至少和目前一样高的汇报，且至少有一个参与者会得到严格较高的回报。</p>
+<ul>
+<li>就是没有另外一组策略选择使得参与者都能增加收益，使得他们能一起“高兴”地转到另外一个策略选择上</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>社会最优</p>
+<ul>
+<li><p>使参与者的回报之和最大化</p>
+<ul>
+<li>社会最优一定是帕累托最优，帕累托最优不一定是社会最优</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="非优策略与动态博弈"><a href="#非优策略与动态博弈" class="headerlink" title="非优策略与动态博弈"></a>非优策略与动态博弈</h2><h3 id="多人博弈"><a href="#多人博弈" class="headerlink" title="多人博弈"></a>多人博弈</h3><ul>
+<li>一组参与人；每个参与人一组策略；每种可能结果与收益</li>
+<li>博弈的一个结果包括所有参与人一次策略选择的集合，每个参与人i都得到收益Pi</li>
+<li>参与人i的最佳应对</li>
+<li>若一个结果中的每个策略都是其他参与人策略的最佳应对，则称该结果是纳什均衡</li>
+</ul>
+<h3 id="非优策略及其在策略推理中的应用"><a href="#非优策略及其在策略推理中的应用" class="headerlink" title="非优策略及其在策略推理中的应用"></a>非优策略及其在策略推理中的应用</h3><ul>
+<li>一个策略Si被称为严格非优：存在另一个策略Si’，对于其他参与人的任意策略选择都要优于Si</li>
+<li><p>严格非优策略的迭代删除法——简化博弈</p>
+<ul>
+<li>初始博弈中的纳什均衡和经过迭代删除剩下的最终简化博弈的纳什均衡是一致的</li>
+</ul>
+</li>
+<li><p>弱非优策略</p>
+<ul>
+<li>对一个策略，若存在另外一个策略，其带来的收益在所有情况下都至少一样高，并且存在一种情况会严格的更高，则该策略是弱非优</li>
+</ul>
+</li>
+</ul>
+<h3 id="动态博弈"><a href="#动态博弈" class="headerlink" title="动态博弈"></a>动态博弈</h3><ul>
+<li>一些参与人先行动，其他参与人观察先行者的行为，然后再决定自己的策略，其中的顺序也是事先规定的。</li>
+<li>常规形式与扩展形式（博弈树）</li>
+<li><p>动态博弈行为的推理</p>
+<ul>
+<li>博弈树转为常规形式，在进行博弈前，每个参与人都制定关于博弈的方案，涵盖所有可能的结果</li>
+</ul>
+</li>
+<li><p>案例：市场进入博弈</p>
+</li>
+<li><p>扩展形式和常规形表示的微妙区别</p>
+<ul>
+<li>隐藏在扩展形式中的“博弈前的行动”</li>
+</ul>
+</li>
+<li><p>与弱非优策略间的联系</p>
+<ul>
+<li>弱非优策略进行博弈简化时排除的顺序会影响最后的那组纳什均衡</li>
+</ul>
+</li>
+</ul>
+<h2 id="进化博弈论"><a href="#进化博弈论" class="headerlink" title="进化博弈论"></a>进化博弈论</h2><h3 id="许多行为涉及总体中多种生物体的互动，因而任何生物体的成功取决于它和其他生物体间是如何互动的。"><a href="#许多行为涉及总体中多种生物体的互动，因而任何生物体的成功取决于它和其他生物体间是如何互动的。" class="headerlink" title="许多行为涉及总体中多种生物体的互动，因而任何生物体的成功取决于它和其他生物体间是如何互动的。"></a>许多行为涉及总体中多种生物体的互动，因而任何生物体的成功取决于它和其他生物体间是如何互动的。</h3><h3 id="生物体间的互动作用"><a href="#生物体间的互动作用" class="headerlink" title="生物体间的互动作用"></a>生物体间的互动作用</h3><ul>
+<li>案例：大甲虫与小甲虫</li>
+</ul>
+<h3 id="进化稳定策略"><a href="#进化稳定策略" class="headerlink" title="进化稳定策略"></a>进化稳定策略</h3><ul>
+<li>种群里一个生物体的适应性是指它和种群中一个随机相遇的生物体互动而得到的预期收益</li>
+<li>策略T以x占比侵入策略S，值得是总体中有x占比的生物体采用了策略T</li>
+<li>假设一个整数y，当任何其他策略T以x&lt;y程度入侵策略S时，采用测量S的个体的适应性严格高于采用测量T的个体，则称策略S是进化稳定的。</li>
+<li><p>进化稳定策略的一般描述</p>
+<ul>
+<li>（1）a&gt;c或（2）a=c,且b&gt;d则S是进化稳定的</li>
+</ul>
+</li>
+</ul>
+<h3 id="进化稳定和纳什均衡间的关系"><a href="#进化稳定和纳什均衡间的关系" class="headerlink" title="进化稳定和纳什均衡间的关系"></a>进化稳定和纳什均衡间的关系</h3><ul>
+<li>策略S是进化稳定的，则（S,S）是一个纳什均衡</li>
+<li><p>纳什均衡中参与人彼此应对对方的策略都是互动中最佳应对策略</p>
+<ul>
+<li>个体行为</li>
+</ul>
+</li>
+<li><p>进化稳定概念择假设参与人之间无智力和合作的影响，策略潜藏在基因中</p>
+<ul>
+<li>基因决定的种群行为</li>
+</ul>
+</li>
+</ul>
+<h3 id="进化稳定混合策略"><a href="#进化稳定混合策略" class="headerlink" title="进化稳定混合策略"></a>进化稳定混合策略</h3><ul>
+<li>总体一部分采取一种策略，剩余一部分采取另一种策略，如果同一部分中的个体具有相同的适应性，并且入侵则最终会消亡，则存在进化稳定性</li>
+<li>个体具有混合策略，如果使用任何其他混合策略的入侵者最终会消亡，则这也就能被认为是一种进化稳定性</li>
+<li>解释的问题：两种混合种群模式的博弈，那种混合模式能产生更大的预期收益？</li>
+<li>观察统一总体下，不同形式的行为互动，并理解这种互动怎样重塑总体种群的构成。</li>
+</ul>
+<h2 id="网络流量的博弈论模型"><a href="#网络流量的博弈论模型" class="headerlink" title="网络流量的博弈论模型"></a>网络流量的博弈论模型</h2><h3 id="布雷斯悖论"><a href="#布雷斯悖论" class="headerlink" title="布雷斯悖论"></a>布雷斯悖论</h3><ul>
+<li>一个运输网络增加新的资源有时反而会使均衡状态中的性能受损</li>
+</ul>
+<h3 id="均衡交通的社会成本"><a href="#均衡交通的社会成本" class="headerlink" title="均衡交通的社会成本"></a>均衡交通的社会成本</h3><ul>
+<li>一种流量模式的社会成本是所有司机使用这个流量模式时产生的行程时间总和</li>
+<li><p>寻找均衡的交通模式</p>
+<ul>
+<li>利用潜能分析最佳应对过程</li>
+</ul>
+</li>
+<li><p>均衡交通与社会最优的对比</p>
+</li>
+</ul>
+<h2 id="拍卖"><a href="#拍卖" class="headerlink" title="拍卖"></a>拍卖</h2><h3 id="四种拍卖类型"><a href="#四种拍卖类型" class="headerlink" title="四种拍卖类型"></a>四种拍卖类型</h3><ul>
+<li>增价拍卖</li>
+<li>降价拍卖</li>
+<li>首价密封报价拍卖</li>
+<li>次价密封报价拍卖</li>
+</ul>
+<h3 id="不同拍卖形式间的关系"><a href="#不同拍卖形式间的关系" class="headerlink" title="不同拍卖形式间的关系"></a>不同拍卖形式间的关系</h3><ul>
+<li><p>降价拍卖和首价拍卖</p>
+<ul>
+<li>等同</li>
+</ul>
+</li>
+<li><p>增价拍卖和次价拍卖</p>
+<ul>
+<li>区别在于增价有实时互动</li>
+</ul>
+</li>
+</ul>
+<h3 id="次价拍卖"><a href="#次价拍卖" class="headerlink" title="次价拍卖"></a>次价拍卖</h3><ul>
+<li>占优策略是选择竞拍价等于估值</li>
+</ul>
+<h3 id="首价拍卖和其他形式拍卖"><a href="#首价拍卖和其他形式拍卖" class="headerlink" title="首价拍卖和其他形式拍卖"></a>首价拍卖和其他形式拍卖</h3><ul>
+<li>稍微降低出价（比估值）能得到正值回报</li>
+<li>全支付拍卖</li>
+</ul>
+<h3 id="公共价值和赢家诅咒"><a href="#公共价值和赢家诅咒" class="headerlink" title="公共价值和赢家诅咒"></a>公共价值和赢家诅咒</h3><ul>
+<li>赢家的估值可能过高导致亏本</li>
+</ul>
+<h3 id="首价和全支付拍卖中的出价策略"><a href="#首价和全支付拍卖中的出价策略" class="headerlink" title="首价和全支付拍卖中的出价策略"></a>首价和全支付拍卖中的出价策略</h3><ul>
+<li><p>首价拍卖中的均衡出价</p>
+<ul>
+<li>一个均衡策略意味着对每一个竞拍者i而言，假如其他竞争者也用策略s(~)，则i就没有偏离s(~)的动机</li>
+</ul>
+</li>
+<li><p>推导策略函数</p>
+<ul>
+<li>微分方程</li>
+</ul>
+</li>
+<li><p>有很多竞拍者的均衡</p>
+</li>
+<li>一般分布</li>
+<li><p>卖方收入</p>
+<ul>
+<li><p>均衡状态下首价次价拍卖收入等同</p>
+<ul>
+<li>竞拍者采用均衡策略时“收入等价”</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>底价</p>
+<ul>
+<li>最优底价是商品估值和竞拍者的最大可能的中间值</li>
+</ul>
+</li>
+<li><p>全支付拍卖中的均衡出价</p>
+<ul>
+<li>竞拍人数增加，竞拍者应大大减少出价</li>
+<li>证明类似上面</li>
+</ul>
+</li>
+</ul>
+<p><em>XMind: ZEN - Trial Version</em></p>
+<p>博弈这个视角很有意思，看完感觉各种东西都能套一套，但是总有一种潜在的理性人假定，有点太“直”了吧。可能在经济或者一些宏观层面上很适用，但是在意见市场或者信息沟通中，情况似乎复杂很多，比如收益判断的尺度就比较难衡量，是不是需要考虑不懂博弈规则的人如何入场参与，收益如何判定，多种博弈同时存在的情况等。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2021/01/12/market-strategy/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>网络中的市场与...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2020/10/03/socialconstruction/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>《现实社会的建...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

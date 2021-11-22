@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>TensorFlow正则化 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-06</span>
+    <h2>TensorFlow正则化</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/TensorFlow/">TensorFlow</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="通过正则化避免过拟合-Exercise"><a href="#通过正则化避免过拟合-Exercise" class="headerlink" title="通过正则化避免过拟合/Exercise"></a>通过正则化避免过拟合/Exercise</h1><h2 id="提前停止"><a href="#提前停止" class="headerlink" title="提前停止"></a>提前停止</h2><p>当验证集的性能开始下降时停止训练</p>
+<h2 id="L1和L2正则化"><a href="#L1和L2正则化" class="headerlink" title="L1和L2正则化"></a>L1和L2正则化</h2><ul>
+<li>实现<br>把正则项加在成本函数中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#只有两层的情况</span><br><span class="line">W1 = tf.get_default_graph().get_tensor_by_name(“hidden1/kernel:0”)</span><br><span class="line">W2 = tf.get_default_graph().get_tensor_by_name(“outputs/kernel:0”)</span><br><span class="line"></span><br><span class="line">#成本函数</span><br><span class="line">with tf.name_scope(“loss”):</span><br><span class="line">	xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=logits)</span><br><span class="line">	base_loss = tf.reduce_mean(xentropy, name=“avg_xentropy”)</span><br><span class="line">	reg_losses = tf.reduce_sum(tf.abs(W1) +tf.reduce_sum(tf.abs(W2)))</span><br><span class="line">	loss = tf.add(base_loss, scale*reglosses, name=“loss”)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>参数实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">scale = 0.001</span><br><span class="line">my_dense_layer = partial(</span><br><span class="line">	tf.layers.dense, activation = tf.nn.relu,</span><br><span class="line">	kernel_regularizer = tf.contrib.layers.l1_regularizer(scale)</span><br><span class="line">	#l2_regularizer l1_l2_regularizer</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">hidden1 = my_dense_layer(X, n_hidden1, name=“hidden1”)</span><br><span class="line">#......</span><br><span class="line"></span><br><span class="line">#把正则化损失加到成本函数中</span><br><span class="line">with tf.name_scope(“loss”):</span><br><span class="line">	xentropy = tf.nn.sparse_sftmax_cross_entropy_with_logits(labels=y, logits=logits)</span><br><span class="line">	base_loss = tf.reduce_mean(xetropy,name=“avg_xentropy”)</span><br><span class="line">	reg_losses = tf.get_collection(tf.GraphKeys.REGULARZATION_LOSSES)</span><br><span class="line">	loss = tf.add_n([base_loss] + reg_losses, name=“loss”)</span><br></pre></td></tr></table></figure></p>
+<h1 id="Dropout正则化"><a href="#Dropout正则化" class="headerlink" title="Dropout正则化"></a>Dropout正则化</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dropot_rate = 0.3</span><br><span class="line">X_drop = tf.layers.dropout(X, dropout_rate, training=training)</span><br><span class="line">with tf.name_scope(“dnn”):</span><br><span class="line">	hidden1 = tf.layers.dense(X_drop, n_hidden1, activation=tf.nn.relu, name=“hidden1”)</span><br><span class="line">	hidden_drop = tf.layers.dropout(hidden1, dropout_rate, training=training)</span><br><span class="line">	#训练时training设为正，测试时设为False</span><br><span class="line">	#......</span><br></pre></td></tr></table></figure>
+<h1 id="最大范数正则化"><a href="#最大范数正则化" class="headerlink" title="最大范数正则化"></a>最大范数正则化</h1><p>对每一个神经元，传入连接权重w满足其L2范数小于等于最大范数超参数r。<br>降低r会增加正则化树木，减少过拟合，可以帮助缓解梯度爆炸和消失问题。</p>
+<ul>
+<li>实现<br>每一个步骤计算w的L2范数，如果需要就进行裁剪，使w = w*r/||w||_2.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">def max_norm_regularizer(threshold, axes=1, name=“max_norm”, collection=“max_norm”):</span><br><span class="line">	def max_name(weights):</span><br><span class="line">		clipped = tf.clip_by_norm(weights, clip_norm=threshold, axes=axes)</span><br><span class="line">		clip_weights = tf.assign(weights, clliped, name=name)</span><br><span class="line">		tf.add_to_collection(collection, clip_wights)</span><br><span class="line">		return None</span><br><span class="line">	return max_norm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">max_norm_reg = max_norm_regularizr(threshold=1.0)</span><br><span class="line"></span><br><span class="line">with tf.name_scope(“dnn”):</span><br><span class="line">	hidden1 = tf.layers.dense(X, n_hidden1, activation=tf.nn.relu, kernel_regularizer=max_norm_reg, name=“hidden1”) #像正则化器一样调用</span><br><span class="line">	hidden2 = </span><br><span class="line">	logits = tf.layers.dense(hidden2, n_outputs, name=“outputs”)</span><br><span class="line"></span><br><span class="line">#......</span><br><span class="line"></span><br><span class="line">clip_all_weights = tf.get_collection(“max_norm”)</span><br><span class="line">#执行期</span><br><span class="line">with tf.Session() as sess:</span><br><span class="line">	init.run()</span><br><span class="line">	for epoch in rane(n_epochs):</span><br><span class="line">		for X_batch, y_batch in shuffle_batch(X_train, y_train, batch_size):</span><br><span class="line">			sess.run(training_op, feed_dict=&#123;X:X_batch, y:y_batch&#125;)</span><br><span class="line">			sess.run(clip_all_weights)</span><br><span class="line">		accuracy = </span><br><span class="line">		print()</span><br><span class="line">	save_path =</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="数据扩充"><a href="#数据扩充" class="headerlink" title="数据扩充"></a>数据扩充</h2><h2 id="实用指南"><a href="#实用指南" class="headerlink" title="实用指南"></a>实用指南</h2><p>默认DNN配置<br>Initialization： He initialization<br>Activation function： ELU<br>Normalization： Batch Normalization<br>Regularization： dropout<br>Optimizer： Adam<br>Learning rate scheldule： None</p>
+<h1 id="Excercise"><a href="#Excercise" class="headerlink" title="Excercise"></a>Excercise</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>运行Tenso...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/C75D058B-B31B-422C-8DC1-06BA5689E88C/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>卷积神经网络结...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

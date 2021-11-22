@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>使用Apriori进行关联分析 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-03-13</span>
+    <h2>使用Apriori进行关...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/Apriori/">Apriori</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/无监督学习/">无监督学习</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/机器学习/">机器学习</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/算法/">算法</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line"></span><br><span class="line">def loadDataSet():</span><br><span class="line">    return [[1,3,4],[2,3,5],[1,2,3,5],[2,5]]</span><br><span class="line"></span><br><span class="line">def creatC1(dataSet):</span><br><span class="line">    C1 =[]</span><br><span class="line">    for transaction in dataSet:</span><br><span class="line">        for item in transaction:</span><br><span class="line">            if not [item] in C1:</span><br><span class="line">                C1.append([item])</span><br><span class="line">    C1.sort()</span><br><span class="line">    return map(frozenset,C1)</span><br><span class="line"></span><br><span class="line">def scanD(D,Ck,minSupport): #包含候选集合的列表 数据集  最小支持度</span><br><span class="line">    ssCnt = &#123;&#125;</span><br><span class="line">    for can in Ck:# 遍历数据集 一个集合</span><br><span class="line">        for tid in D:  # 遍历候选项 一个包含集合的列表</span><br><span class="line">            #此处将两个循环位置交换后可以遍历每一个选项</span><br><span class="line"></span><br><span class="line">            if can.issubset(tid):  # 判断候选项中是否含数据集的各项</span><br><span class="line">                # if not ssCnt.has_key(can): # python3 can not support</span><br><span class="line">                if can &lt;= tid:</span><br><span class="line">                    if can in ssCnt.keys():</span><br><span class="line">                        ssCnt[can] += 1  # 不含设为1</span><br><span class="line">                    else:</span><br><span class="line">                        ssCnt[can] = 1  # 有则计数加1</span><br><span class="line"></span><br><span class="line">    numItems = float(len(D))  # 数据集大小</span><br><span class="line">    retList = []  # L1初始化</span><br><span class="line">    supportData = &#123;&#125;  # 记录候选项中各个数据的支持度</span><br><span class="line">    for key in ssCnt:</span><br><span class="line">        support = ssCnt[key] / numItems  # 计算支持度</span><br><span class="line">        if support &gt;= minSupport:</span><br><span class="line">            retList.insert(0, key)  # 满足条件加入L1中</span><br><span class="line">        supportData[key] = support</span><br><span class="line">    return retList, supportData</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dataSet = loadDataSet()</span><br><span class="line">C1 = creatC1(dataSet)</span><br><span class="line">D = list(map(set,dataSet))</span><br><span class="line">L1,supportData = scanD(D,C1,0.5)</span><br><span class="line"></span><br><span class="line">#生成LK元素的无重复组合,每项长度为k</span><br><span class="line">def aprioriGen(Lk,k):</span><br><span class="line">    retList = []</span><br><span class="line">    lenLk = len(Lk)</span><br><span class="line">    for i in range(lenLk):</span><br><span class="line">        for j in range(i+1,lenLk):</span><br><span class="line">            L1 = list(Lk[i])[:k-2]</span><br><span class="line">            L2 = list(Lk[j])[:k-2]</span><br><span class="line">            L1.sort()</span><br><span class="line">            L2.sort()</span><br><span class="line">            if L1 == L2 :</span><br><span class="line">                retList.append(Lk[i]|Lk[j]) #取并集</span><br><span class="line">    return retList</span><br><span class="line"></span><br><span class="line">#返回-支持度下的项集</span><br><span class="line">def apriori(dataSet,minSupport = 0.5):</span><br><span class="line">    C1 = creatC1(dataSet)</span><br><span class="line">    D = list(map(set,dataSet))</span><br><span class="line">    L1, supportData = scanD(D,C1,0.5)</span><br><span class="line">    L = [L1]</span><br><span class="line">    print (L)</span><br><span class="line">    k = 2</span><br><span class="line">    while (len(L[k-2]) &gt; 0):</span><br><span class="line">        Ck = aprioriGen(L[k-2],k)</span><br><span class="line">        Lk , supK = scanD(D,Ck,minSupport)</span><br><span class="line">        supportData.update(supK)</span><br><span class="line">        L.append(Lk)</span><br><span class="line">        k +=1</span><br><span class="line">    return L,supportData</span><br><span class="line">    #L是符合支持度的项集 如[[frozenset(&#123;5&#125;), frozenset(&#123;3&#125;), frozenset(&#123;2&#125;), frozenset(&#123;1&#125;)], [frozenset(&#123;1, 3&#125;), frozenset(&#123;2, 3&#125;), frozenset(&#123;2, 5&#125;), frozenset(&#123;3, 5&#125;)], [frozenset(&#123;2, 3, 5&#125;)], []]</span><br><span class="line">    #supportData是全部项集的支持度</span><br><span class="line">L,supportData =  apriori(dataSet)</span><br><span class="line">print (L)</span><br><span class="line"></span><br><span class="line">def generateRules (L,supportData,minConf = 0.7):</span><br><span class="line">    bigRuleList = []</span><br><span class="line">    for i in range(1,len(L)): #对大于1每一个长度的L</span><br><span class="line">        for freqSet in L[i]: #对i长度下的L的每一项集</span><br><span class="line">            print(freqSet)</span><br><span class="line">            H1 = [frozenset([item]) for item in freqSet] #把项集转化为包含单个项的集合 如 [frozenset([item]) for item in freqSet] #把项集转化为包含单个项的集合 如</span><br><span class="line">            if (i &gt; 1):</span><br><span class="line">                rulesFromConseq(freqSet,H1,supportData,bigRuleList,minConf)</span><br><span class="line">            else:</span><br><span class="line">                calcConf(freqSet,H1,supportData,bigRuleList,minConf)</span><br><span class="line"></span><br><span class="line">    return bigRuleList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def calcConf(freqSet,H,supportData,br1,minConf = 0.7):</span><br><span class="line">    prunedH = []</span><br><span class="line">    for conseq in H : #对于每一个需要被推导出的项集</span><br><span class="line">        conf = supportData[freqSet]/supportData[freqSet- conseq]  #计算该关联的支持度</span><br><span class="line">        if conf &gt;= minConf: #如果支持度大于最小支持度</span><br><span class="line">            print (freqSet - conseq ,&apos;---&gt;&apos;, conseq,&apos;conf:&apos;,conf )</span><br><span class="line">            br1.append((freqSet - conseq , conseq , conf))  #把符合条件的关联加入到bigRuleList</span><br><span class="line">            prunedH.append(conseq)#添加规则列表</span><br><span class="line"></span><br><span class="line">    return prunedH #返回符合最小信度的规则列表</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line">def rulesFromConseq(freqSet , H , supportData , br1 , minConf = 0.7):</span><br><span class="line"></span><br><span class="line">    m = len(H[0]) #用于进行减去（推导）的项集的长度</span><br><span class="line">    if (len(freqSet) &gt; (m + 1) ): #如果该项集能减去该长度的项集</span><br><span class="line">        Hmp1 = aprioriGen(H, m+1)  #生成H元素的无重复组合,长度为m+1</span><br><span class="line">        Hmp1 = calcConf(freqSet,Hmp1,supportData,br1,minConf)  #符合最小信度的规则列表(项集）</span><br><span class="line">        if (len(Hmp1) &gt; 1 ): #如果有一个以上可减项集，就再次合并</span><br><span class="line">            rulesFromConseq(freqSet,Hmp1,supportData,br1,minConf)</span><br><span class="line"></span><br><span class="line">rules = generateRules(L,supportData,minConf=0.5)</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/03/23/Adaboost/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>利用Adabo...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/03/05/logistic/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>梯度上升算法</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

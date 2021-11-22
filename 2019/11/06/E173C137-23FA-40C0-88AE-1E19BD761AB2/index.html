@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>运行TensorFlow | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-06</span>
+    <h2>运行TensorFlow</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/TensorFlow/">TensorFlow</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="运行TensorFlow"><a href="#运行TensorFlow" class="headerlink" title="运行TensorFlow"></a>运行TensorFlow</h1><h3 id="START"><a href="#START" class="headerlink" title="START"></a>START</h3><ul>
+<li>安装：pip安装成功但是不能运行（可能是版本不匹配还有环境不行）<br>用conda安装成功运行。</li>
+<li>运行<br>变量初始化；x.initializer.run()等价于tf.get_default_session().run(x.initializer)<br>f.eval等价于tf.get_default_session().run(f)<br>Init=tf.global_variables_initializer()在图中创建一个节点，这个节点在会话执行时初始化所有变量。<br>sess=tf.InteractiveSession()在创建时会把自己设为默认会话。不用with块，但结束后要手动close。<blockquote>
+<p>一个TensorFlow程序通常可分为计算图（构建阶段）和执行图（执行阶段）。  </p>
+</blockquote>
+</li>
+<li>管理图<br>管理多个互不依赖的图时，可创建新图并设为默认图<br>Graph = tf.Graph()<br>with graphs.as_default():<br>实验中多次执行同一命令会导致重复节点的添加，可以重启Jupyter内核，或者重置默认图tf.reset_defauly_graph()</li>
+<li>节点生命周期<br>图每次执行期间，所有节点值都会被丢弃，但是变量不会，变量由会话维护，由初始化器开始，到关闭结束。</li>
+</ul>
+<h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><p>闭式解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X = tf.constant(housing_data_plus_bias, dtype=tf.float32, name=“X”)</span><br><span class="line">y = tf.constant(housing.target.reshape(-1,1), dtype=tf.float32, name=“y”)</span><br><span class="line">XT = tf.transpose(X)</span><br><span class="line">theta = tf.matmul(tf.matmul(tf.matrix_inverse(tf.matmul(XT,X)),XT),y)</span><br><span class="line"></span><br><span class="line">with tf.session() as sess:</span><br><span class="line">		theta = theta.eval()</span><br></pre></td></tr></table></figure></p>
+<p>梯度下降<br>    要先对数据归一化，否则过程会很慢。<br>    tf.random_uniform（[,]，,）创建一个节点，生成一个由传入形状和值域随机生成的数填充的张量。<br>    tf.assign(,)创建为变量赋值的节点。<br>自动微分<br>    gradients = tf.gradients(muse, [theta])[0]</p>
+<h3 id="使用优化器"><a href="#使用优化器" class="headerlink" title="使用优化器"></a>使用优化器</h3><p>optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning=learninig)<br>动量优化器<br>optimzer = tf.train.MomentumOptimizer(learning_rate=learninig_rate, momentum=0.9)</p>
+<h3 id="为算法提供数据"><a href="#为算法提供数据" class="headerlink" title="为算法提供数据"></a>为算法提供数据</h3><p>占位符节点<br>A = tf.placeholder（tf.float32, shape=(None,3), name=“A”）#None表示任意尺寸</p>
+<h3 id="保存和恢复模型"><a href="#保存和恢复模型" class="headerlink" title="保存和恢复模型"></a>保存和恢复模型</h3><p>在构造器末尾（所有变量节点都创建后）创建Saver节点。<br>saver = tf.train.Saver()<br>在执行器调用save方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with tf.Session() as sess:</span><br><span class="line">	......</span><br><span class="line">	save_path = saver.save(sess, “./mymodel_final.ckpt”)</span><br></pre></td></tr></table></figure></p>
+<p>恢复模型：<br>在构造器末尾创建Saver节点， 在执行期开始时，不是用init节点初始化变量，而是调用restore方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with ......:</span><br><span class="line">	saver.restore(sess, “./mymodel_fianl.ckpt”)</span><br><span class="line">	......</span><br></pre></td></tr></table></figure></p>
+<p>保存恢复制定名称：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Beta = tf.train.Saver(&#123;“weights”: theta&#125;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="TensorBoard可视化"><a href="#TensorBoard可视化" class="headerlink" title="TensorBoard可视化"></a>TensorBoard可视化</h3><p>为防止Tensorboard将每次状态信息合并，用时间戳的方式命名日志文件夹。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">From datetime import datetime</span><br><span class="line"></span><br><span class="line">Now = datetime.utcnow().strftime(“%Y%m%d%H%M%S”)</span><br><span class="line">Root_logdir = “tf_logs”</span><br><span class="line">Log_dir = “&#123;&#125;/run-&#123;&#125;/”.format(root_logdir, now)</span><br></pre></td></tr></table></figure></p>
+<p>在构造期最后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Mse_summary = tf.summary.scalar(‘MSE’, mse)</span><br><span class="line">#scalar是用于显示accuracy，cross entropy，dropout等标量变化趋势的函数。</span><br><span class="line">File_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())</span><br></pre></td></tr></table></figure></p>
+<p>在执行器，训练时定期求值mse_summary节点。<br>通过file_writer写入事件文件中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Summary_str = mse_summary.eval(feed_dict=&#123;X:X_batch, y:y_batch&#125;)</span><br><span class="line">Step = epoch* n_batches + batch_index</span><br><span class="line">File_writer.add_summary(summary_str, step)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>避免在每一步都记录状态信息，会严重拖慢训练速度。<br>程序结束时关闭FileWriter：<br>file_writer.close()</p>
+</blockquote>
+<p>启动Tensorboard服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tensorboard —logdir tf_logs/。</span><br></pre></td></tr></table></figure></p>
+<p>即可从浏览器浏览</p>
+<h3 id="命名作用域"><a href="#命名作用域" class="headerlink" title="命名作用域"></a>命名作用域</h3><p>为了避免处理复杂模型时图变得杂乱，创建命名作用域将节点分组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with tf.name_scope(“loss”) as scope:</span><br><span class="line">	error = y_pred - y</span><br><span class="line">Print(error.op.name)</span><br></pre></td></tr></table></figure></p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>用函数构建，减少重复，结合命名作用域使用，使图更清晰<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def relu(X):</span><br><span class="line">	with tf.name_scope(“relu”):</span><br><span class="line">		......</span><br></pre></td></tr></table></figure></p>
+<h3 id="共享变量"><a href="#共享变量" class="headerlink" title="共享变量"></a>共享变量</h3><p>在图的不同组件中贡献变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Def relu(X):</span><br><span class="line">	if not hasattr(relu, “threshold”):</span><br><span class="line">		relu.threshold = tf.Variable(0.0, name=“threshold”)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Threshold = getVariable(“threshold”, shape=(), initializer=tf.constant_initializer(0.0))</span><br><span class="line">#创建共享变量，如果已经存在就复用。</span><br><span class="line">#shape=()表示标量</span><br></pre></td></tr></table></figure>
+<p>通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">with tf.variable_scope(“relu”, reuse=True):</span><br></pre></td></tr></table></figure></p>
+<p>或<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">with.tf.variable_scope(“relu”) as scope:</span><br><span class="line">	scope.reuse_variables()</span><br></pre></td></tr></table></figure></p>
+<p>get_variable()复用变量需要通过设置变量作用域实现，只有通过get_variable()创建的变量才可以复用。<br>get_variable()创建的变量以变量作用域名作为前缀命名。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/A8E255A0-8354-4CBC-A3C9-37F780898882/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>ANN简介基于...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/ACAD1A0B-BE7E-4CD7-B605-D327A304F95F/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>TensorF...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

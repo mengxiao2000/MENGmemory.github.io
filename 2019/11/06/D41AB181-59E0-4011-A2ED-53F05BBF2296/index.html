@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>Matplotlib操作整理 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-06</span>
+    <h2>Matplotlib操作整理</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/python/">python</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/可视化/">可视化</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="Using-Matplotlib"><a href="#Using-Matplotlib" class="headerlink" title="Using Matplotlib"></a>Using Matplotlib</h1><h2 id="引入：绘制正弦和余弦函数"><a href="#引入：绘制正弦和余弦函数" class="headerlink" title="引入：绘制正弦和余弦函数"></a>引入：绘制正弦和余弦函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import numpy as np </span><br><span class="line"></span><br><span class="line">X = np.linspace(-np.pi, np.pi, 256, endpoint=True) </span><br><span class="line">C, S = np.cos(X), np.sin(X)</span><br><span class="line"></span><br><span class="line">plt.plot(X, C)</span><br><span class="line">plt.plot(X, S)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">numpy.linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None, axis=0)主要用于创建等差序列</span><br><span class="line">Return evenly spaced numbers over a specified interval.</span><br><span class="line">(在start和stop之间返回均匀间隔的数据)</span><br><span class="line">Returns num evenly spaced samples, calculated over the interval [start, stop].</span><br><span class="line">(返回的是 [start, stop]之间的均匀分布)</span><br><span class="line">The endpoint of the interval can optionally be excluded.</span><br><span class="line">Changed in version 1.16.0: Non-scalar start and stop are now supported.</span><br><span class="line">(可以选择是否排除间隔的终点)</span><br><span class="line"></span><br><span class="line">start:返回样本数据开始点</span><br><span class="line">stop:返回样本数据结束点</span><br><span class="line">num:生成的样本数据量，默认为50</span><br><span class="line">endpoint：True则包含stop；False则不包含stop</span><br><span class="line">retstep：If True, return (samples, step), where step is the spacing between samples.(即如果为True则结果会给出数据间隔)</span><br><span class="line">dtype：输出数组类型</span><br><span class="line">axis：0(默认)或-1</span><br><span class="line">&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>图像(figure):<br>num：默认为1，图像数量<br>figsize：图像的长和宽（英寸）<br>dpi：分辨率（点/英寸）<br>faceclolor：绘图区域的背景颜色<br>edgecolor：绘图区域边缘的颜色<br>frameon：是否绘制图像边缘</p>
+</li>
+<li><p>Subplot</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#均匀</span><br><span class="line">plt.figure() </span><br><span class="line">plt.subplot(2,2,1)#将整个图像分成2行2列，当前位置为1</span><br><span class="line">plt.subplot(2,2,2）</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">#不均匀</span><br><span class="line">plt.figure() </span><br><span class="line">plt.subplot(2,1,1)#将整个图像分成2行2列，当前位置为1</span><br><span class="line">plt.subplot(2,3,4）</span><br><span class="line">plt.subplot(2,3,5）</span><br><span class="line">plt.subplot(2,3,6）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>坐标轴</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plt.xlim(-1,2) #x轴范围</span><br><span class="line">plt.ylim(-2,3) #y轴范围</span><br><span class="line">plt.label(&apos;x axis&apos;) #x轴标签</span><br><span class="line">plt.label(&apos;y axis&apos;)</span><br><span class="line"></span><br><span class="line">new_ticks = np.linspace(-1, 2, 5) #-1到2分成5段，包含端点</span><br><span class="line">plt.xticks(new_ticks) #显示x横坐标</span><br><span class="line">Plt.yticks([-2, -1, -, 1, 2], [r&apos;$really\ bad$&apos;, &apos;$bad$&apos;, &apos;$0$&apos;, &apos;$well$&apos;, &apos;$really\ well$&apos;]) #替换y坐标</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>边框属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ax = plt.gca() #get current axis</span><br><span class="line">#上边框右边框不可见</span><br><span class="line">ax.spines[&apos;right&apos;].set_color(&apos;none&apos;) </span><br><span class="line">Ax.spines[&apos;top&apos;].set_color(&apos;none&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移动坐标轴</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ax.xaxis.set_ticks_position(&apos;bottom&apos;) #设置x坐标刻度数字或名称的位置，所有属性为：top， bottom， both， default， none</span><br><span class="line">ax.spines[&apos;bottom&apos;].set_position((&apos;data&apos;, 0)) #设置spine边框x轴，set_position设置边框位置y=0位置；位置所有属性有outward， axes， data</span><br><span class="line">ax.yaxis.set_ticks_position(&apos;left&apos;)</span><br><span class="line">ax.spines[&apos;left&apos;].set_position((&apos;data&apos;, 0)) #坐标中心点在（0，0）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>legend图例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">l1 = plt.plot(x, y1, color=&apos;red&apos;, linewidth=2, linestyle=&apos;--&apos;, label=&apos;linear line&apos;)</span><br><span class="line">l2 = ...</span><br><span class="line">plt.legend(loc=&apos;best&apos;)</span><br><span class="line"></span><br><span class="line">#单独修改label信息</span><br><span class="line">plt.legend(loc=&apos;best&apos;, handles=[l1,l2], labels=[&apos;up&apos;, &apos;down&apos;])</span><br><span class="line"> </span><br><span class="line">#除&apos;best&apos;，另外loc属性有：&apos;upper right&apos;, &apos;upper left&apos;, &apos;lower left&apos;, &apos;lower right&apos;, &apos;right&apos;, &apos;center left&apos;, &apos;center right&apos;, &apos;lower center&apos;, &apos;upper center&apos;, &apos;center&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Annotation标注</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">plt.annotate(s = r&apos;$2x+1=%s$&apos; % y0, xy=(x0, y0),xytext=(+30,-30), xycoords=&apos;data&apos;,textcoords=&apos;offset points&apos;, fontsize=16,arrowprops=dict(arrowstyle=&apos;&lt;-&apos;, connectionstyle=&quot;arc3,rad=.2&quot;))</span><br><span class="line"></span><br><span class="line"># 直接在图片上添加文字做标注，实际是添加文字</span><br><span class="line"># (-4,3)坐标处开始输入，输入的内容空格要用\转义，</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.text(-4, 3, r&apos;$This\ is\ the\ some\ text. \mu\ \sigma_i\ \alpha_t$&apos;,fontdict=&#123;&apos;size&apos;: 16, &apos;color&apos;: &apos;r&apos;&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>参数：</p>
+<pre><code>*     s 为注释文本内容
+*     xy 为被注释的坐标点
+*     xytext 为注释文字的坐标位置
+*     xycoords 参数如下:
+◦    figure points：图左下角的点
+◦    figure pixels：图左下角的像素
+◦    figure fraction：图的左下部分
+◦    axes points：坐标轴左下角的点
+◦    axes pixels：坐标轴左下角的像素
+◦    axes fraction：左下轴的分数
+◦    data：使用被注释对象的坐标系统(默认)
+◦    polar(theta,r)：if not native ‘data’ coordinates t
+*     weight 设置字体线型
+◦    {‘ultralight’, ‘light’, ‘normal’, ‘regular’, ‘book’, ‘medium’, ‘roman’, ‘semibold’, ‘demibold’, ‘demi’, ‘bold’, ‘heavy’, ‘extra bold’, ‘black’}
+*     color 设置字体颜色
+◦    {‘b’, ‘g’, ‘r’, ‘c’, ‘m’, ‘y’, ‘k’, ‘w’}
+◦    ‘black’,&apos;red’等
+◦    [0,1]之间的浮点型数据
+◦    RGB或者RGBA, 如: (0.1, 0.2, 0.5)、(0.1, 0.2, 0.5, 0.3)等
+*     arrowprops #箭头参数,参数类型为字典dict
+◦    width：箭头的宽度(以点为单位)
+◦    headwidth：箭头底部以点为单位的宽度
+◦    headlength：箭头的长度(以点为单位)
+◦    shrink：总长度的一部分，从两端“收缩”
+◦    facecolor：箭头颜色
+*     bbox给标题增加外框 ，常用参数如下：
+◦    boxstyle：方框外形
+◦    facecolor：(简写fc)背景颜色
+◦    edgecolor：(简写ec)边框线条颜色
+◦    edgewidth：边框线条大小
+</code></pre><h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><ul>
+<li><p>Scatter 散点图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X, Y, s=76, c=T, alpha=0.5) #s即size, c为color</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Bar 条形图 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.bar(X, Y, facecolor=&apos;#9999ff&apos;, edgecolor=&apos;white&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Contours等高线图 </p>
+</li>
+<li>Image图片<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#a是一个numpy数组</span><br><span class="line">plt.imshow(a, interpolation=&apos;nearest&apos;, camp=&apos;bone&apos;, origin=&apos;lower&apos;)</span><br><span class="line">plt.colorbar（shrink=.92）#shrink参数将图片长度变为原来的92%</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/6FDAF392-4A0B-41AC-A795-CD2FE44E7812/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>强化学习</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/A0AC213B-A11B-47B3-928B-B19CCEB04A20/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>《单向度的人》...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

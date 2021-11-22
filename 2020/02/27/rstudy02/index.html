@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>R语言入门02 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2020-02-27</span>
+    <h2>R语言入门02</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/R/">R</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="R语言入门2"><a href="#R语言入门2" class="headerlink" title="R语言入门2"></a>R语言入门2</h1><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">v &lt;- c(&apos;hello&apos;,&apos;loop&apos;)</span><br><span class="line">cnt &lt;- 2</span><br><span class="line"></span><br><span class="line">#repeat</span><br><span class="line">repeat&#123;</span><br><span class="line">  print(v)</span><br><span class="line">  cnt &lt;- cnt + 1</span><br><span class="line">  if(cnt&gt;5)&#123;</span><br><span class="line">    break</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#while</span><br><span class="line">while(cnt&lt;7)&#123;</span><br><span class="line">  print(v)</span><br><span class="line">  cnt = cnt + 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#for</span><br><span class="line">v = LETTERS[1:4]</span><br><span class="line">for(i in v)&#123;</span><br><span class="line">  print(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#next</span><br><span class="line">v = LETTERS[1:6]</span><br><span class="line">for (i in v)&#123;</span><br><span class="line">  </span><br><span class="line">  if(i==&apos;D&apos;)&#123;</span><br><span class="line">    next</span><br><span class="line">  &#125;</span><br><span class="line">  print(i)</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="数据重塑"><a href="#数据重塑" class="headerlink" title="数据重塑"></a>数据重塑</h2><h3 id="在dataframe中加入行和列"><a href="#在dataframe中加入行和列" class="headerlink" title="在dataframe中加入行和列"></a>在dataframe中加入行和列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#cbind()连接多个向量创建数据帧</span><br><span class="line">#rbind()合并两个数据帧</span><br><span class="line">city = c(&apos;Beijing&apos;,&apos;Shanghai&apos;,&apos;Guangzhou&apos;)</span><br><span class="line">province = c(&apos;Beijing&apos;, &apos;Shanghai&apos;, &apos;Guangdong&apos;)</span><br><span class="line">GDP = c(&apos;2000&apos;,&apos;3000&apos;,&apos;2500&apos;)</span><br><span class="line"></span><br><span class="line">cities = cbind(city, province, GDP)</span><br><span class="line"></span><br><span class="line">cat(&apos;# # # The First data Frame&apos;)</span><br><span class="line"></span><br><span class="line">print(cities)</span><br><span class="line"></span><br><span class="line">new.citi = data.frame(</span><br><span class="line">  city = c(&apos;Xian&apos;,&apos;Nanjing&apos;),</span><br><span class="line">  province = c(&apos;Shanxi&apos;, &apos;Jiangsu&apos;),</span><br><span class="line">  GDP = c(&apos;1500&apos;,&apos;1900&apos;),</span><br><span class="line">  stringsAsFactors =  FALSE</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">cat(&apos;# # # The Second data Frame&apos;)</span><br><span class="line"></span><br><span class="line">print(new.citi)</span><br><span class="line"></span><br><span class="line">all.cities = rbind(cities, new.citi)</span><br><span class="line"></span><br><span class="line">cat(&apos;# # # The combined data Frame&apos;)</span><br><span class="line"></span><br><span class="line">print(all.cities)</span><br></pre></td></tr></table></figure>
+<h3 id="合并数据帧"><a href="#合并数据帧" class="headerlink" title="合并数据帧"></a>合并数据帧</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#merge() 合并， 数据帧必须具有相同的列名称</span><br><span class="line">library(MASS)</span><br><span class="line">merged.Pima = merge(x = Pima.te, y = Pima.tr, </span><br><span class="line">                    by.x = c(&apos;bp&apos;, &apos;bmi&apos;),</span><br><span class="line">                    by.y = c(&apos;bp&apos;, &apos;bmi&apos;)</span><br><span class="line">                    )</span><br><span class="line">print(merged.Pima)</span><br></pre></td></tr></table></figure>
+<h3 id="melt-拆分数据和cast-数据重构"><a href="#melt-拆分数据和cast-数据重构" class="headerlink" title="melt()拆分数据和cast()数据重构"></a>melt()拆分数据和cast()数据重构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">print(ships)</span><br><span class="line"></span><br><span class="line">#melt  拆分，把除了选中列以外的列转化为多行展示</span><br><span class="line">library(reshape2)</span><br><span class="line">molten.ships = melt(ships, id=c(&apos;type&apos;, &apos;year&apos;))</span><br><span class="line"></span><br><span class="line">#install.packages(&quot;reshape2&quot;)</span><br><span class="line">print(molten.ships)</span><br><span class="line"></span><br><span class="line">#cast</span><br><span class="line">#每年每种类型的船的总和 选中变量之外的变量进行sum操作</span><br><span class="line">#acast,dcast的区别在于输出结果。acast 输出结果为vector/matrix/array，dcast 输出结果为data.frame。</span><br><span class="line"></span><br><span class="line">recasted.ships = dcast(molten.ships, type+year~variable,sum)</span><br><span class="line">print(recasted.ships)</span><br></pre></td></tr></table></figure>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">print(seq(32,44))</span><br><span class="line">print(mean(24:99))</span><br><span class="line">print(sum(1:10))</span><br><span class="line"></span><br><span class="line">#自定义函数</span><br><span class="line">new.function = function(a=1)&#123;</span><br><span class="line">  for(i in 1:a)&#123;</span><br><span class="line">    b = i^2</span><br><span class="line">    print(b)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">new.function(3)</span><br><span class="line">new.function()</span><br></pre></td></tr></table></figure>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#paste()连接字符串</span><br><span class="line"></span><br><span class="line">a = &apos;Hello&apos;</span><br><span class="line">b = &apos;How&apos;</span><br><span class="line">c = &apos;are you?&apos;</span><br><span class="line"></span><br><span class="line">print(paste(a,b,c))</span><br><span class="line">print(paste(a,b,c, sep = &apos;-&apos;))</span><br><span class="line">print(paste(a,b,c,sep = &apos;&apos;,collapse = &apos;&apos;))</span><br><span class="line"></span><br><span class="line">#format()</span><br><span class="line">print(format(2.71828, digits=3)) #显示的总位数</span><br><span class="line">print(format(c(3.1415926535,2.71828), scientific = TRUE)) #科学计数法</span><br><span class="line">print(format(c(3.1415926535,2.71828), nsmall=5)) #小数点右边最小位数</span><br><span class="line">result = format(6) #返回一个文本型</span><br><span class="line">print(result)</span><br><span class="line">result = format(13.8, width=6) #设置宽度</span><br><span class="line">print(result)</span><br><span class="line">result = format(&apos;Hello&apos;, width=8, justify = &apos;l&apos;) #居左</span><br><span class="line">print(result)</span><br><span class="line">result = format(&apos;Hello&apos;, width=8, justify = &apos;c&apos;)#justify位置居中</span><br><span class="line">print(result)</span><br><span class="line"></span><br><span class="line">#计算字符串中的字符数</span><br><span class="line">x = &apos;天堂电影院&apos;</span><br><span class="line">nchar(x)</span><br><span class="line"></span><br><span class="line">#大小写</span><br><span class="line">y = &apos;administrator&apos;</span><br><span class="line">toupper(y)</span><br><span class="line">tolower(y)</span><br><span class="line"></span><br><span class="line">#substring提取</span><br><span class="line">result = substring(y, 2,10) #输入，第一个字符位置，最后一个字符位置</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.w3cschool.cn/r/r_overview.html" title="W3Cschool-R语言 教程" target="_blank" rel="noopener">https://www.w3cschool.cn/r/r_overview.html</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2020/02/27/2020-03-04-rstudy03/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>R语言入门03</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2020/02/26/rstudy01/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>R语言入门01</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

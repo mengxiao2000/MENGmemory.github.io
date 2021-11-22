@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>朴素贝叶斯过滤垃圾邮件 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-02-16</span>
+    <h2>朴素贝叶斯过滤垃圾邮件</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/分类/">分类</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/朴素贝叶斯/">朴素贝叶斯</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/机器学习/">机器学习</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/算法/">算法</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <a id="more"></a>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> bayes</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">#邮件解析为词组</span><br><span class="line"><span class="function">def <span class="title">textParse</span><span class="params">(bigString)</span>:</span></span><br><span class="line">    listOfTokens = re.split(r'\W+',bigString)</span><br><span class="line">    <span class="keyword">return</span> [tok.lower() <span class="keyword">for</span> tok in listOfTokens <span class="keyword">if</span> len(tok) &gt; <span class="number">2</span>]</span><br><span class="line">    #对于中文邮件解析，调用jieba分词模块</span><br><span class="line">    # <span class="keyword">import</span> jieba</span><br><span class="line">    # listOfTokens = jieba.lcut(bigString)  # 使用jieba切分文本</span><br><span class="line">    # newList = [re.sub(r'\W*', '', s) for s in listOfTokens]  # 去掉标点符号</span><br><span class="line">    <span class="meta"># return [tok.lower() for tok in newList <span class="meta-keyword">if</span> len(tok) &gt; 0]  # 删除长度为0的空值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#垃圾邮件分类</span><br><span class="line"><span class="function">def <span class="title">spamTest</span><span class="params">()</span>:</span></span><br><span class="line"><span class="function">    docList </span>= []#邮件列表</span><br><span class="line">    classList = []#邮件分类</span><br><span class="line">    fullText = []#词袋</span><br><span class="line">    <span class="keyword">for</span> i in range(<span class="number">1</span>,<span class="number">26</span>):#读取<span class="number">50</span>封邮件 垃圾邮件和正常邮件各<span class="number">25</span>封</span><br><span class="line">        wordList = textParse(open('email/spam/%d.txt'%i).read())#读取垃圾邮件并解析为词组</span><br><span class="line">        docList.append(wordList)</span><br><span class="line">        fullText.extend(wordList)#拓展词库</span><br><span class="line">        classList.append(<span class="number">1</span>)#添加类别</span><br><span class="line">        wordList = textParse(open('email/pam/%d.txt'%i).read())#读取正常邮件</span><br><span class="line">        docList.append(wordList)</span><br><span class="line">        fullText.extend(wordList)</span><br><span class="line">        classList.append(<span class="number">0</span>)</span><br><span class="line">    vocabList = bayes.createVocabList(docList)#创建词集</span><br><span class="line">    trainingSet = range(<span class="number">50</span>)#作为训练集的文本序号</span><br><span class="line">    testSet = []#测试邮件的标签集</span><br><span class="line">    <span class="keyword">for</span> i in range(<span class="number">10</span>):#从训练集中随即选<span class="number">10</span>封作为测试集 留存价差验证</span><br><span class="line">        randIndex = <span class="keyword">int</span>(random.uniform(<span class="number">0</span>,len(trainingSet)))</span><br><span class="line">        testSet.append(trainingSet[randIndex])</span><br><span class="line">        del(trainingSet[randIndex])#从测试文本集删除</span><br><span class="line">    trainMat = []#训练文本的词向量集</span><br><span class="line">    trainClasses = []#训练集的分类</span><br><span class="line">    <span class="keyword">for</span> docIndex in trainingSet:</span><br><span class="line">        trainMat.append(bayes.setOfWords2Vec(vocabList,docList[docIndex]))</span><br><span class="line">        trainClasses.append(<span class="built_in">array</span>(classList[docIndex]))</span><br><span class="line">    p0V,p1V,pSpam = bayes.trainNB0(<span class="built_in">array</span>(trainMat),<span class="built_in">array</span>(trainClasses))#训练算法</span><br><span class="line">    errorCount = <span class="number">0</span>#测试错误数</span><br><span class="line">    <span class="keyword">for</span> docIndex in testSet:</span><br><span class="line">        wordVector = bayes.setOfWord2Vec(vocabList,docList[docIndex])#转化为词向量</span><br><span class="line">        <span class="keyword">if</span> bayes.classifyNB(<span class="built_in">array</span>(wordVector),p0V,p1V,pSpam) != classList[docIndex]:</span><br><span class="line">            errorCount += <span class="number">1</span></span><br><span class="line">    print('the error rate is',float(errorCount/len(testSet)))#错误率</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/02/17/bayes3/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>朴素贝叶斯获取...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/02/16/bayes1/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>朴素贝叶斯算法实现</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

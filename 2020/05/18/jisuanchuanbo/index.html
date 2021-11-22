@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>《计算传播学导论》阅读 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2020-05-18</span>
+    <h2>《计算传播学导论》阅读</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/读书/">读书</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="《计算传播学导论》阅读"><a href="#《计算传播学导论》阅读" class="headerlink" title="《计算传播学导论》阅读"></a>《计算传播学导论》阅读</h1><blockquote>
+<p>2019年10月读</p>
+</blockquote>
+<p>此书分为八章，分别为<em>导论、文本分析、情感分析、语义建模、网络传播与传播网络、网络传播模型与机器学习框架、数据新闻、计算广告。</em>除了网络传播与传播网络、计算广告等部分，其它部分在阅读前我已有些许涉猎或实践。它把数据科学、网络科学等技术和思维同传播学研究相结合，一定程度上解决了我的“机器学习/深度学习更倾向于应用领域，可解释性差，不能用于科研“等类似的困惑。相较于此前见到的一些描述数据与传播关系的书籍，这本书结构清晰明了，内容充实，总结了理论的缘由，而且目前国内这种著作也并不是很多，因而对于我这种入门者和初学者意义非常，较为遗憾的地方是对深度学习提及较少。</p>
+<p>因为封面和纸张的手感很好，图片也解释很清楚，所以读得很快，大概用了八九天，整理此篇笔记又用了好多天，后面又对书中案例进行了尝试。</p>
+<p>下面是我对书中部分内容的摘录：</p>
+<h3 id="第一章-导论"><a href="#第一章-导论" class="headerlink" title="第一章 导论"></a>第一章 导论</h3><ul>
+<li>计算传播的定义：计算传播学致力于寻找传播学可视化的基因，以传播网络分析、传播文本挖掘、数据科学等为主要分析工具，大规模地收集并分析人类传播行为数据，挖掘人类传播行为背后的模式和法则，分析模式背后的生成机制与基本原理。</li>
+</ul>
+<h3 id="第二章-文本分析简介"><a href="#第二章-文本分析简介" class="headerlink" title="第二章 文本分析简介"></a>第二章 文本分析简介</h3><ul>
+<li>常用的文本挖掘技术：文本分类、文本聚类、关联分析、趋势预测。</li>
+<li>文本分析与传播学研究：情感的传染、个体情感变化规律、文本特征提取、文本与社会文化变迁、利用文本进行个体行为预测、表示学习等</li>
+<li>基本步骤：语词切割、去停用词、标准化（词干提取/词形还原）、词性标注、构建语词-文档矩阵（TF-IDF）</li>
+<li>python库：NLTK、Textmining、Gensim和Lda、JiebaR、补充中文文本内容处理库SnowNLP</li>
+</ul>
+<h3 id="第三章-情感分析"><a href="#第三章-情感分析" class="headerlink" title="第三章 情感分析"></a>第三章 情感分析</h3><ul>
+<li>情感分析内容五元组：第一、意见对象，第二、具体层面、特点，第三、情感倾向，第四、意见主题，第五、时间</li>
+<li>情感分析是用来探究人们对于事件、话题、产品、服务等对象的态度</li>
+<li>情感分析实现途径：1、人工标注，2、利用情感词典匹配，3、利用语词共生网络关系对情感倾向进行推断</li>
+<li>与传播学联系：用户评价与口碑营销、社会化媒体虚假信息判定、社会化媒体情绪刻画与情绪传播</li>
+<li>python实现：Textblob、Snownlp</li>
+<li>基本算法：</li>
+</ul>
+<ol>
+<li>语词的情感倾向判定：点式互信息方法PMI（比较两个词语共同出现的概率与其独自出现的概率，从而判定两个的出现是否是独立事件。）<br>词汇的PMI指数计算：PMI（x=olympic，y=happy）-PMI（x=olympic，y=disgust）=0.46</li>
+<li>句子的情感分析-基于词典匹配：预处理，载入情感词典判定情感极性，判定否定词与程度副词，计算得分，加总</li>
+<li>句子的情感分析-有监督学习：特征提取（互信息算法（词语与类别的互信息）、卡方算法（词语与词语出现期望，与类别独立的假设检验））、朴素贝叶斯算法</li>
+</ol>
+<h3 id="第四章-语义建模"><a href="#第四章-语义建模" class="headerlink" title="第四章 语义建模"></a>第四章 语义建模</h3><ul>
+<li>语义建模与传播学研究：“框架理论”与语义建模的结合：公共事件的话语框架是指关于社会事件有组织的中心观点和诠释架构。框架建构是个人组织、阐释事件的主观过程，即参与个体通过对信息的选择与解读，突出强调事件的某些特征，从而1.定义事件；2.判定事件因果关系；3.提出事件解决方案。归纳为三种研究路径：1.强调个体认知效果，人们如何运用信息形成对事件的印象；2.强调框架构建参与者行为；3.对话语框架内容的研究，社会文化共振、关涉群体活动以及媒介实践是公共事件话语框架内容的主要决定因素。</li>
+<li>LDA（Latent Dirichlet Allocation）是一种文档主题生成模型，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多项式分布。LDA优势在于能够在没有基本话题预设的基础上，从文本抽取出主题。缺陷在于无法有效验证准确性。<br>理解参考（<a href="https://blog.csdn.net/tozhangning/article/details/80642519）" target="_blank" rel="noopener">https://blog.csdn.net/tozhangning/article/details/80642519）</a><br>实现：Gensim</li>
+<li>有监督机器学习分类算法：sickit-learn实现；六个模块：分类、回归、聚类、降维、模型选择、预处理。</li>
+</ul>
+<h3 id="网络传播与传播网络"><a href="#网络传播与传播网络" class="headerlink" title="网络传播与传播网络"></a>网络传播与传播网络</h3><ul>
+<li>热点研究问题：用户传播能力度量与意见领袖发现、传播最大化、信息流行度预测、用户传播行为预测、传播路径预测与重构。</li>
+<li>社会网络的拓扑结构特征：<ol>
+<li>节点的度特征：节点的度、网络平均度（2n/m）、网络密度（2n/m（m-1））、节点的度分布（幂率分布）</li>
+<li>匹配特性：复杂网络中不同度的节点间的连边存在情况；匹配系数（r大于0，同配，r小于0异配）；网络中邻居节点的平均度与节点度的相关性。</li>
+<li>聚类系数：衡量网络中节点集团化的一个系数。全局聚类系数（聚类系数、三角形、三点组、所有节点聚类系数平均值0～1，=1表示全部连接）；局部聚类系数（该节点与邻居节点的集团性质）</li>
+<li>平均最短距离长度：所有节点间最短距离的平均值，衡量是否是“小世界网络”</li>
+<li>小世界网络特性：网络既具有较大的聚类系数又具有较短的平均距离。（复杂传播、信息扩散阈值模型）</li>
+<li>富人俱乐部特性：节点度很大、数量很少的富节点倾向于彼此之间相互连接。（富人俱乐部系数）</li>
+<li>弱链接与强链接：强链接消费更多同质性信息，弱链接消费差异化信息，有利于信息扩散。</li>
+</ol>
+</li>
+<li>传播网络的拓扑结构统计量：<ol>
+<li>传播的高度和宽度：根节点到子节点的最大跳数；各深度阶上节点数量的最大值。多数信息高度很小。</li>
+<li>传播的规模与扩散率：少数信息的扩散规模特别大，多数信息的扩散规模有限；扩散率可化了用户传播某一条信息的程度（转发数量/扩散规模）</li>
+<li>级连率：刻画了一个用户在多大程度上影响他的好友（跟随用户u转发/总转发）</li>
+<li>结构性病毒式传播特征：主要考察某些无法观测到的生成机制引起的可观察到的模型结构上独有的特征。</li>
+</ol>
+</li>
+<li>社会网络和传播网络之间的结构相关性：<ol>
+<li>多层耦合网络</li>
+<li>双层网络链接整体相关性的统计量：网络对应长向量的皮尔逊相关系数；网络对长向量的互信息；整体堆叠程度；局部堆叠程度</li>
+</ol>
+</li>
+<li>传播加权网络的多维度测量：<ol>
+<li>节点强度</li>
+<li>边权重与网络拓扑结构的相关性</li>
+<li>加权网络中的权匹配特性：加权匹配系数、邻居节点的加权平均度</li>
+<li>加权平均最短距离长度（Dijkstra）</li>
+<li>加权聚类系数：全局、局部</li>
+<li>加权富人俱乐部特性：考虑权重、加权富人俱乐部系数：连接权重最大的边是否存在于强度最大的节点之间</li>
+</ol>
+</li>
+<li>传播时效网络：增加时间维度<ol>
+<li>接触序列、区间图</li>
+<li>爆发性：峰值时间、峰值比率（峰值/扩散规模）、变异系数（标准差/均值， 扩散曲线稳定程度）</li>
+<li>衰减时间（峰值时间～扩散规模75%的时间）</li>
+<li>持续性：利用早期扩散数据预测在线内容流行度</li>
+<li>传播速度</li>
+<li>时效中心性： 时效度中心性（节点的重要性）、时效度接近中心性、时效介数中心性（介数偏好性）</li>
+</ol>
+</li>
+</ul>
+<h3 id="第六章-网络传播模型与机器学习框架"><a href="#第六章-网络传播模型与机器学习框架" class="headerlink" title="第六章 网络传播模型与机器学习框架"></a>第六章 网络传播模型与机器学习框架</h3><ul>
+<li>在计算传播学的研究背景下，基于机器学习的信息传播分析将是主流的研究范式。</li>
+<li>信息传播模型：<ol>
+<li>创新扩散模型： 罗杰斯，一个新技术在社会系统中扩散需要四个必要条件：创新、传播渠道、时间以及社会系统。五类采纳者：创新者、早期采纳者、早期大多采纳者、晚期大多采纳者以及拖后腿者。意见领袖的特点：1.参与更多外界沟通；2.更国际化；3.更高的社会地位；4.更具创新性；5.具有结构化优势，处于人际网络中的中心位置。</li>
+<li>传染病模型：种群内的个体状态：易染状态S、感染状态I、移除状态R。基本传染病模型：SI、SIS、SIR</li>
+<li>阈值模型：假设每个人在决定参与某一活动时，都要跨过一个门槛，这个门槛的存在是由行为成本和收益的大小决定。</li>
+<li>级联模型：当一个个体扁的活跃后，会以一定的概率激活它邻居中的每一个不活跃的个体。</li>
+<li>分支过程模型：一个信息源将信息发给好友，这些好友又发给他们的好友。基本再生数R0=pk，信息扩散与传播意愿p和网络结构k有关。</li>
+</ol>
+</li>
+<li>信息传播的机器学习分析框架：<ol>
+<li>四个步骤：数据获取、预处理、特征工程、特征选择与评价标准。</li>
+<li>分析某个话题扩散主要有两种方式：1.描述某个主题下所有信息的扩散情况；2.分析一条信息完整的扩散过程、分析影响信息传播的各种因素。</li>
+</ol>
+</li>
+<li>影响信息传播的其他因素：<ol>
+<li>用户地理位置</li>
+<li>信息自身属性</li>
+<li>用户属性</li>
+<li>用户间的趋同性</li>
+<li>用户活跃时间</li>
+</ol>
+</li>
+<li>特征选择方法：从原始特征集中选择能使某种评价指标最优的特征子集<ol>
+<li>特征选择方法大致可分为过滤法（依靠数据内在属性评估特征的相关性，如皮尔逊相关系数、互信息等）和封装法（将模型假设搜索加入到特征选择过程，以分类器的预测效果为引导）。</li>
+<li>基于XGBoost模型的特征排序：梯度提升机，不需要做特征的归一化，可以自动进行特征选择，可解释性好。特征评分可以看成被用来分离决策树的次数，评分越高，特征越重要。</li>
+<li>基于最大信息系数的特征相关性分析：Pearson相关系数、最大信息系数MIC<em>（？）</em>相关系数（可判断函数关系或非函数关系、普适性、公平性、对称性）</li>
+</ol>
+</li>
+<li>信息传播的机器学习评价指标：<ol>
+<li>分类问题：混淆矩阵、准确率、召回率、F1值、精度</li>
+<li>回归问题的评价指标：MSE、RMSE、MAE平均绝对百分比误差MAPE（微博转发量差异大可用</li>
+</ol>
+</li>
+<li>基于实证数据的信息流行度预测：<ol>
+<li>结构特征 XGBoost、MIC     </li>
+<li>文本特征对信息流行度的影响： XGBoost、MIC</li>
+<li>预测：XGBoost</li>
+</ol>
+</li>
+</ul>
+<h3 id="第七章-数据新闻"><a href="#第七章-数据新闻" class="headerlink" title="第七章 数据新闻"></a>第七章 数据新闻</h3><h4 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h4><blockquote>
+<p>阅读此章节后，引发许多思考，有些后悔没有早点接触此书，导致第一个数据新闻作品沦为“四不像”的境地。在此对之前数据新闻作业再次进行复盘：<br>1、选题上：没有做到<em>数据驱动</em>、没有获得一手数据；因而没有提炼出一个数据特征为导向的主题，反而是先定性已经发生的事件，然后从数据中找依据，数据的作用旁落。<br>2、内容设计上：今天才发觉一个致命点，数据的前提是提供“新闻”，提供知识，而知识是客观的一种经验，数据新闻的突出特点是客观真实，我们却在设计中<em>通过拟人化编制了一个故事，损坏了新闻的客观性忽略了数据新闻的新闻本质。</em>如果从一个信息接收者角度讲，这种有点像虚构写作的内容，提供的信息可信度能有多少？反而更像是无良小编的恶意炒作。因此文字应该以数据为中心进行解释。<br>3、界面制作上：<em>整洁简约、突出关键数据</em>应该是第一要务，交互虽然能提升用户体验但是不能滥用，应是作为点睛之笔进行突出，这也和最近的新媒体营销课的内容有共通之处，形式与新技术的运用固然是有趣的，但是并不能给人留下深刻印象，甚至给人花里胡哨之感，关键仍是从数据中提炼出足够具有区分度和现实意义的内容主题，并在界面中对主题进行突出。<br>4、可视化设计上：设计美感很重要，要提前进行整体的宏观美工设计、颜色搭配、元素样式等等，再进行微观设计，二者要协调，要求要有良好的沟通。<br>5、代码：在有整体设计图的情况下进行网页等代码制作，借助框架减少代码量，提升易读性。a、、我的前端代码真是trashy。<br>6、多种人力和工作的整合：需要一条规范完整的生产线，不要崇拜技术，设计、审美、技术、批判、想象都很重要。</p>
+<ul>
+<li>数据新闻强调批判思维、计算思维、可视化思维三种能力的结合。（“知识”和“艺术”）</li>
+<li>理论源流：以计算驱动的新闻报道；以可视化驱动的新闻报道。“不应该忘记数据叙事的根本目的在于提供新的知识，增进公众对于社会现实的理解，促进机体的智慧。如果仅停留在讲故事层面，数据新闻与其他新闻形式就没有本质的区别。”</li>
+<li>南丁格尔玫瑰图、安斯库姆数据，可视化对统计分析的重要性</li>
+<li>图像的曲解：撒谎因子=图像中呈现的效果值/数据中的效果值</li>
+<li>探索可视化（数据分析）和解释可视化（视觉呈现）</li>
+<li>塔夫特提出好的可视化应展现九个方面的事情：1、展现数据；2、引导读者思考数据；3、避免歪曲数据所表达的内容；4、使用有限的空间尽可能展现尽量多的数字；5、保持大数据集的一致性；6、鼓励验证比较数据中的不同部分；7、从整体到精细结构；8、服务于一个明确的目的；9、数据可视化要解惑对于数据的统计描述和文字描述。</li>
+<li><em>制作流程：1、确定数据新闻选题；2、数据的收集和掌握；3、数据的分析和解读；4、数据新闻的写作与可视化呈现。</em>核心是数据驱动，原因：重大新闻选题需要具有高质量的数据支撑才能更好的实现；有一部分数据新闻的选题是在探索数据的过程中产生的。</li>
+<li>对于可视化为主的数据新闻生产而言，更加强调可视化的设计过程，由设计师、编辑、数据分析师三方协同完成。</li>
+</ul>
+</blockquote>
+<h3 id="第八章-计算广告"><a href="#第八章-计算广告" class="headerlink" title="第八章 计算广告"></a>第八章 计算广告</h3><ul>
+<li>计算广告的核心调整在于找到一个特定的媒体情景下一个特定的用户和一个适合的广告之间的最佳匹配。</li>
+<li>企业营销战略的四个部分（4P）：产品、价格、渠道、促销。</li>
+<li>互联网广告的投放过程包括四步：一是建立离线模型。二是实时监控。三是精准投放。四是等待用户点击然后获利。</li>
+<li>广告分为四种类型：合约广告、竞价广告（竞价拍卖、搜索广告）、程序化交易广告（实时竞价）、原生广告。</li>
+<li>优化目标：收入成本差，依据不同自变量而调整。</li>
+<li>计算广告市场的博弈、拍卖与分配：<ol>
+<li>博弈的三个基本要素：参与人、策略和收益</li>
+<li>收益矩阵、纳什均衡/收益均衡 、占优策略、帕累托最优（找不到一组博弈策略使得不减少任何人收益的情况下增加至少一个人的收益，社会最优一定是帕累托最优，帕累托最优未必是社会最优）</li>
+<li>拍卖：公开拍卖：增价拍卖（英式拍卖）、降价拍卖（荷兰式拍卖）；密封拍卖：首家密封拍卖、次价密封拍卖（维克瑞拍卖）</li>
+<li>匹配：二部图；完美匹配：每个广告位都可以对应一个广告主；受限组；清仓价格；匈牙利算法（逐步提高受限组的广告位价格来实现最优分配）</li>
+</ol>
+</li>
+<li>计算广告市场中的拍卖机制设计：鼓励真是报价；维克瑞-克拉夫-格罗夫VCG（出价为一个人的行为给别人造成的损失价格）拍卖和广义次价拍卖GSP（次价收费）</li>
+<li>广告位估价=点击率CTR*广告主网站点击价值CV</li>
+<li>广义首价拍卖：估价排序</li>
+</ul>
+<ul>
+<li>完成=昏厥</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2020/10/03/socialconstruction/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>《现实社会的建...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2020/04/23/weibo-topic/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>新浪微博话题下...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

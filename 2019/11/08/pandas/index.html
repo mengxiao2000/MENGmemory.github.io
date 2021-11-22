@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>pandas引入、选择数据、赋值与操作 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-08</span>
+    <h2>pandas引入、选择数...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/pandas/">pandas</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/python/">python</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="基础引入"><a href="#基础引入" class="headerlink" title="基础引入"></a>基础引入</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">irisdata = pd.read_csv(<span class="string">'iris.txt'</span>, header=<span class="literal">None</span>,  encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">irisdata[:<span class="number">30</span>]</span><br><span class="line"><span class="comment"># help(irisdata)</span></span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>0</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>Sepal.Length “Sepal.Width” “Petal.Length” “Pet…</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>1 5.1 3.5 1.4 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>2 4.9 3 1.4 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>3 4.7 3.2 1.3 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>4 4.6 3.1 1.5 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>5</th><br>      <td>5 5 3.6 1.4 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>6</th><br>      <td>6 5.4 3.9 1.7 0.4 “setosa”</td><br>    </tr><br>    <tr><br>      <th>7</th><br>      <td>7 4.6 3.4 1.4 0.3 “setosa”</td><br>    </tr><br>    <tr><br>      <th>8</th><br>      <td>8 5 3.4 1.5 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>9</th><br>      <td>9 4.4 2.9 1.4 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>10</th><br>      <td>10 4.9 3.1 1.5 0.1 “setosa”</td><br>    </tr><br>    <tr><br>      <th>11</th><br>      <td>11 5.4 3.7 1.5 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>12</th><br>      <td>12 4.8 3.4 1.6 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>13</th><br>      <td>13 4.8 3 1.4 0.1 “setosa”</td><br>    </tr><br>    <tr><br>      <th>14</th><br>      <td>14 4.3 3 1.1 0.1 “setosa”</td><br>    </tr><br>    <tr><br>      <th>15</th><br>      <td>15 5.8 4 1.2 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>16</th><br>      <td>16 5.7 4.4 1.5 0.4 “setosa”</td><br>    </tr><br>    <tr><br>      <th>17</th><br>      <td>17 5.4 3.9 1.3 0.4 “setosa”</td><br>    </tr><br>    <tr><br>      <th>18</th><br>      <td>18 5.1 3.5 1.4 0.3 “setosa”</td><br>    </tr><br>    <tr><br>      <th>19</th><br>      <td>19 5.7 3.8 1.7 0.3 “setosa”</td><br>    </tr><br>    <tr><br>      <th>20</th><br>      <td>20 5.1 3.8 1.5 0.3 “setosa”</td><br>    </tr><br>    <tr><br>      <th>21</th><br>      <td>21 5.4 3.4 1.7 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>22</th><br>      <td>22 5.1 3.7 1.5 0.4 “setosa”</td><br>    </tr><br>    <tr><br>      <th>23</th><br>      <td>23 4.6 3.6 1 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>24</th><br>      <td>24 5.1 3.3 1.7 0.5 “setosa”</td><br>    </tr><br>    <tr><br>      <th>25</th><br>      <td>25 4.8 3.4 1.9 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>26</th><br>      <td>26 5 3 1.6 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>27</th><br>      <td>27 5 3.4 1.6 0.4 “setosa”</td><br>    </tr><br>    <tr><br>      <th>28</th><br>      <td>28 5.2 3.5 1.5 0.2 “setosa”</td><br>    </tr><br>    <tr><br>      <th>29</th><br>      <td>29 5.2 3.4 1.4 0.2 “setosa”</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sl = pd.Series([<span class="number">4</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">-2</span>]) <span class="comment">#pandas基于numpy，索引为默认值</span></span><br><span class="line">print(sl)</span><br></pre></td></tr></table></figure>
+<pre><code>0    4
+1    7
+2    9
+3   -2
+dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sl.values</span><br></pre></td></tr></table></figure>
+<pre><code>array([ 4,  7,  9, -2])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sl.index</span><br></pre></td></tr></table></figure>
+<pre><code>RangeIndex(start=0, stop=4, step=1)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s2 = pd.Series([<span class="number">2.0</span>, <span class="number">2.1</span>, <span class="number">3.3</span>, <span class="number">3.1</span>], index=[<span class="string">'a'</span>, <span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>]) <span class="comment"># 自定义索引</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s2</span><br></pre></td></tr></table></figure>
+<pre><code>a    2.0
+b    2.1
+c    3.3
+d    3.1
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s2[<span class="string">'a'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>2.0
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s2[[<span class="string">'a'</span>, <span class="string">'b'</span>,<span class="string">'d'</span>]]</span><br></pre></td></tr></table></figure>
+<pre><code>a    2.0
+b    2.1
+d    3.1
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'b'</span> <span class="keyword">in</span> s2</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'e'</span> <span class="keyword">in</span> s2</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Series可以看做一个定长的字典</span></span><br><span class="line">dic1 = &#123;<span class="string">'apple'</span>:<span class="number">1</span>, <span class="string">'peer'</span>:<span class="number">2</span>, <span class="string">'pen'</span>:<span class="number">5</span>&#125;</span><br><span class="line">s3 = pd.Series(dic1)</span><br><span class="line">s3</span><br></pre></td></tr></table></figure>
+<pre><code>apple    1
+peer     2
+pen      5
+dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data = &#123;<span class="string">'year'</span>:[<span class="number">2014</span>,<span class="number">2015</span>,<span class="number">2016</span>],</span><br><span class="line">       <span class="string">'income'</span>:[<span class="number">1000</span>, <span class="number">2000</span>, <span class="number">2400</span>],</span><br><span class="line">       <span class="string">'output'</span>:[<span class="number">200</span>, <span class="number">400</span>, <span class="number">900</span>]&#125;</span><br><span class="line"></span><br><span class="line">df1 = pd.DataFrame(data)</span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>year</th><br>      <th>income</th><br>      <th>output</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>2014</td><br>      <td>1000</td><br>      <td>200</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>2015</td><br>      <td>2000</td><br>      <td>400</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>2016</td><br>      <td>2400</td><br>      <td>900</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df2 = pd.DataFrame(np.arange(<span class="number">12</span>).reshape((<span class="number">3</span>,<span class="number">4</span>)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df2</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>0</th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3 = pd.DataFrame(np.arange(<span class="number">12</span>).reshape((<span class="number">3</span>,<span class="number">4</span>)), index=[<span class="string">'a'</span>, <span class="string">'c'</span>, <span class="string">'b'</span>], columns=[<span class="number">2</span>, <span class="number">33</span>, <span class="number">44</span>, <span class="number">55</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>2</th><br>      <th>33</th><br>      <th>44</th><br>      <th>55</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>a</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>c</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>b</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.columns <span class="comment">#列属性</span></span><br></pre></td></tr></table></figure>
+<pre><code>Index([&apos;year&apos;, &apos;income&apos;, &apos;output&apos;], dtype=&apos;object&apos;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.index</span><br></pre></td></tr></table></figure>
+<pre><code>RangeIndex(start=0, stop=3, step=1)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3.index</span><br></pre></td></tr></table></figure>
+<pre><code>Index([&apos;a&apos;, &apos;c&apos;, &apos;b&apos;], dtype=&apos;object&apos;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.values</span><br></pre></td></tr></table></figure>
+<pre><code>array([[2014, 1000,  200],
+       [2015, 2000,  400],
+       [2016, 2400,  900]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.describe()</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>year</th><br>      <th>income</th><br>      <th>output</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>count</th><br>      <td>3.0</td><br>      <td>3.000000</td><br>      <td>3.000000</td><br>    </tr><br>    <tr><br>      <th>mean</th><br>      <td>2015.0</td><br>      <td>1800.000000</td><br>      <td>500.000000</td><br>    </tr><br>    <tr><br>      <th>std</th><br>      <td>1.0</td><br>      <td>721.110255</td><br>      <td>360.555128</td><br>    </tr><br>    <tr><br>      <th>min</th><br>      <td>2014.0</td><br>      <td>1000.000000</td><br>      <td>200.000000</td><br>    </tr><br>    <tr><br>      <th>25%</th><br>      <td>2014.5</td><br>      <td>1500.000000</td><br>      <td>300.000000</td><br>    </tr><br>    <tr><br>      <th>50%</th><br>      <td>2015.0</td><br>      <td>2000.000000</td><br>      <td>400.000000</td><br>    </tr><br>    <tr><br>      <th>75%</th><br>      <td>2015.5</td><br>      <td>2200.000000</td><br>      <td>650.000000</td><br>    </tr><br>    <tr><br>      <th>max</th><br>      <td>2016.0</td><br>      <td>2400.000000</td><br>      <td>900.000000</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.T</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>0</th><br>      <th>1</th><br>      <th>2</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>year</th><br>      <td>2014</td><br>      <td>2015</td><br>      <td>2016</td><br>    </tr><br>    <tr><br>      <th>income</th><br>      <td>1000</td><br>      <td>2000</td><br>      <td>2400</td><br>    </tr><br>    <tr><br>      <th>output</th><br>      <td>200</td><br>      <td>400</td><br>      <td>900</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3.sort_index(axis=<span class="number">1</span>) <span class="comment">#列排序</span></span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>2</th><br>      <th>33</th><br>      <th>44</th><br>      <th>55</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>a</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>c</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>b</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3.sort_index(axis=<span class="number">0</span>)<span class="comment">#行排序</span></span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>2</th><br>      <th>33</th><br>      <th>44</th><br>      <th>55</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>a</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>b</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>c</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3.sort_values(by=<span class="number">44</span>) <span class="comment">#按照某一列的值进行排序</span></span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>2</th><br>      <th>33</th><br>      <th>44</th><br>      <th>55</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>a</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>c</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>b</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+<h1 id="选择数据"><a href="#选择数据" class="headerlink" title="选择数据"></a>选择数据</h1><h1 id="方法如下："><a href="#方法如下：" class="headerlink" title="方法如下："></a>方法如下：</h1><p>df.loc() 按标签名称定位 先行后列</p>
+<p>df.iloc() 按位置定位  行、列</p>
+<p>df.ix() 混合定位</p>
+<p>df[df.A&gt;9] 条件定位</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dates = pd.date_range(<span class="string">'20170101'</span>, periods=<span class="number">6</span>) <span class="comment">#日期序列</span></span><br><span class="line">df1 = pd.DataFrame(np.arange(<span class="number">24</span>).reshape((<span class="number">6</span>,<span class="number">4</span>)), index=dates, columns=[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>])</span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>a</th><br>      <th>b</th><br>      <th>c</th><br>      <th>d</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-01</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>2017-01-02</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>2017-01-03</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>2017-01-04</th><br>      <td>12</td><br>      <td>13</td><br>      <td>14</td><br>      <td>15</td><br>    </tr><br>    <tr><br>      <th>2017-01-05</th><br>      <td>16</td><br>      <td>17</td><br>      <td>18</td><br>      <td>19</td><br>    </tr><br>    <tr><br>      <th>2017-01-06</th><br>      <td>20</td><br>      <td>21</td><br>      <td>22</td><br>      <td>23</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1[<span class="string">'a'</span>] <span class="comment">#将dataframe的列获取为一个series</span></span><br></pre></td></tr></table></figure>
+<pre><code>2017-01-01     0
+2017-01-02     4
+2017-01-03     8
+2017-01-04    12
+2017-01-05    16
+2017-01-06    20
+Freq: D, Name: a, dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.a</span><br></pre></td></tr></table></figure>
+<pre><code>2017-01-01     0
+2017-01-02     4
+2017-01-03     8
+2017-01-04    12
+2017-01-05    16
+2017-01-06    20
+Freq: D, Name: a, dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1[<span class="number">0</span>:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>a</th><br>      <th>b</th><br>      <th>c</th><br>      <th>d</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-01</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>2017-01-02</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1[<span class="string">'20170102'</span>:<span class="string">'20170104'</span>]</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>a</th><br>      <th>b</th><br>      <th>c</th><br>      <th>d</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-02</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>2017-01-03</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>2017-01-04</th><br>      <td>12</td><br>      <td>13</td><br>      <td>14</td><br>      <td>15</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#通过标签选择数据</span></span><br><span class="line">df1.loc[<span class="string">'20170102'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>a    4
+b    5
+c    6
+d    7
+Name: 2017-01-02 00:00:00, dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.loc[<span class="string">'20170102'</span>, [<span class="string">'a'</span>,<span class="string">'c'</span>]] <span class="comment">#前面行索引名字 后面是列标签</span></span><br></pre></td></tr></table></figure>
+<pre><code>a    4
+c    6
+Name: 2017-01-02 00:00:00, dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.loc[:,[<span class="string">'a'</span>,<span class="string">'b'</span>]]</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>a</th><br>      <th>b</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-01</th><br>      <td>0</td><br>      <td>1</td><br>    </tr><br>    <tr><br>      <th>2017-01-02</th><br>      <td>4</td><br>      <td>5</td><br>    </tr><br>    <tr><br>      <th>2017-01-03</th><br>      <td>8</td><br>      <td>9</td><br>    </tr><br>    <tr><br>      <th>2017-01-04</th><br>      <td>12</td><br>      <td>13</td><br>    </tr><br>    <tr><br>      <th>2017-01-05</th><br>      <td>16</td><br>      <td>17</td><br>    </tr><br>    <tr><br>      <th>2017-01-06</th><br>      <td>20</td><br>      <td>21</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#通过位置选择数据</span></span><br><span class="line">df1.iloc[<span class="number">2</span>] <span class="comment">#第三行</span></span><br></pre></td></tr></table></figure>
+<pre><code>a     8
+b     9
+c    10
+d    11
+Name: 2017-01-03 00:00:00, dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.iloc[<span class="number">1</span>:<span class="number">3</span>, <span class="number">2</span>:<span class="number">4</span>] <span class="comment">#前面是行 后面是列</span></span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>c</th><br>      <th>d</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-02</th><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>2017-01-03</th><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>a</th><br>      <th>b</th><br>      <th>c</th><br>      <th>d</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-01</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>2017-01-02</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>2017-01-03</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>2017-01-04</th><br>      <td>12</td><br>      <td>13</td><br>      <td>14</td><br>      <td>15</td><br>    </tr><br>    <tr><br>      <th>2017-01-05</th><br>      <td>16</td><br>      <td>17</td><br>      <td>18</td><br>      <td>19</td><br>    </tr><br>    <tr><br>      <th>2017-01-06</th><br>      <td>20</td><br>      <td>21</td><br>      <td>22</td><br>      <td>23</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.iloc[[<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>], [<span class="number">1</span>,<span class="number">3</span>]] <span class="comment">#都是位置索引</span></span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>b</th><br>      <th>d</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-02</th><br>      <td>5</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>2017-01-03</th><br>      <td>9</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>2017-01-05</th><br>      <td>17</td><br>      <td>19</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#混合标签位置选择</span></span><br><span class="line">df1.ix[<span class="number">2</span>:<span class="number">4</span>, [<span class="string">'a'</span>,<span class="string">'c'</span>]]</span><br></pre></td></tr></table></figure>
+<pre><code>/root/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:2: DeprecationWarning: 
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/indexing.html#ix-indexer-is-deprecated
+</code></pre><div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>a</th><br>      <th>c</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-03</th><br>      <td>8</td><br>      <td>10</td><br>    </tr><br>    <tr><br>      <th>2017-01-04</th><br>      <td>12</td><br>      <td>14</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.ix[<span class="string">'20170101'</span>:<span class="string">'20170104'</span>, <span class="number">2</span>:<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>/root/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:1: DeprecationWarning: 
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/indexing.html#ix-indexer-is-deprecated
+  &quot;&quot;&quot;Entry point for launching an IPython kernel.
+</code></pre><div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>c</th><br>      <th>d</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-01</th><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>2017-01-02</th><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>2017-01-03</th><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>2017-01-04</th><br>      <td>14</td><br>      <td>15</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.a</span><br></pre></td></tr></table></figure>
+<pre><code>2017-01-01     0
+2017-01-02     4
+2017-01-03     8
+2017-01-04    12
+2017-01-05    16
+2017-01-06    20
+Freq: D, Name: a, dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.a &gt; <span class="number">6</span></span><br></pre></td></tr></table></figure>
+<pre><code>2017-01-01    False
+2017-01-02    False
+2017-01-03     True
+2017-01-04     True
+2017-01-05     True
+2017-01-06     True
+Freq: D, Name: a, dtype: bool
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1[df1.a&gt;<span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>a</th><br>      <th>b</th><br>      <th>c</th><br>      <th>d</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>2017-01-03</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>2017-01-04</th><br>      <td>12</td><br>      <td>13</td><br>      <td>14</td><br>      <td>15</td><br>    </tr><br>    <tr><br>      <th>2017-01-05</th><br>      <td>16</td><br>      <td>17</td><br>      <td>18</td><br>      <td>19</td><br>    </tr><br>    <tr><br>      <th>2017-01-06</th><br>      <td>20</td><br>      <td>21</td><br>      <td>22</td><br>      <td>23</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+<h1 id="赋值与操作"><a href="#赋值与操作" class="headerlink" title="赋值与操作"></a>赋值与操作</h1><h1 id="方法如下：-1"><a href="#方法如下：-1" class="headerlink" title="方法如下："></a>方法如下：</h1><p>通过定位赋值</p>
+<p>df.append()添加行</p>
+<p>df.insert()在指定位置插入指定名称的列</p>
+<p>df.pop()弹出指定列</p>
+<p>df.drop()删除多列或多行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dates = np.arange(<span class="number">20170101</span>, <span class="number">20170107</span>)</span><br><span class="line">df1 = pd.DataFrame(np.arange(<span class="number">24</span>).reshape((<span class="number">6</span>,<span class="number">4</span>)), index=dates, columns=[<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">'D'</span>])</span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8</td><br>      <td>9</td><br>      <td>10</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>12</td><br>      <td>13</td><br>      <td>14</td><br>      <td>15</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>16</td><br>      <td>17</td><br>      <td>18</td><br>      <td>19</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>20</td><br>      <td>21</td><br>      <td>22</td><br>      <td>23</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.iloc[<span class="number">2</span>,<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>10
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1.iloc[<span class="number">2</span>,<span class="number">2</span>] = <span class="number">100</span> </span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8</td><br>      <td>9</td><br>      <td>100</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>12</td><br>      <td>13</td><br>      <td>14</td><br>      <td>15</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>16</td><br>      <td>17</td><br>      <td>18</td><br>      <td>19</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>20</td><br>      <td>21</td><br>      <td>22</td><br>      <td>23</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1.loc[<span class="number">20170103</span>, <span class="string">'B'</span>] = <span class="number">200</span></span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8</td><br>      <td>200</td><br>      <td>100</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>12</td><br>      <td>13</td><br>      <td>14</td><br>      <td>15</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>16</td><br>      <td>17</td><br>      <td>18</td><br>      <td>19</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>20</td><br>      <td>21</td><br>      <td>22</td><br>      <td>23</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1[df1.A &gt; <span class="number">10</span>] = <span class="number">0</span> </span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>0</td><br>      <td>1</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8</td><br>      <td>200</td><br>      <td>100</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>0</td><br>      <td>0</td><br>      <td>0</td><br>      <td>0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>0</td><br>      <td>0</td><br>      <td>0</td><br>      <td>0</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>0</td><br>      <td>0</td><br>      <td>0</td><br>      <td>0</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1[df1.A == <span class="number">0</span>] = <span class="number">1</span>  </span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8</td><br>      <td>200</td><br>      <td>100</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1[<span class="string">'E'</span>] = <span class="number">10</span>  <span class="comment">#添加一列</span></span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>10</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>      <td>10</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8</td><br>      <td>200</td><br>      <td>100</td><br>      <td>11</td><br>      <td>10</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>10</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>10</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>10</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1[<span class="string">'F'</span>] = pd.Series([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], index=df1.index <span class="comment">#添加一列</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>10</td><br>      <td>1</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4</td><br>      <td>5</td><br>      <td>6</td><br>      <td>7</td><br>      <td>10</td><br>      <td>2</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8</td><br>      <td>200</td><br>      <td>100</td><br>      <td>11</td><br>      <td>10</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>10</td><br>      <td>4</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>10</td><br>      <td>5</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>1</td><br>      <td>10</td><br>      <td>6</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1.loc[<span class="string">'20170107'</span>, [<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">"D"</span>]] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>] </span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4.0</td><br>      <td>5.0</td><br>      <td>6.0</td><br>      <td>7.0</td><br>      <td>10.0</td><br>      <td>2.0</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8.0</td><br>      <td>200.0</td><br>      <td>100.0</td><br>      <td>11.0</td><br>      <td>10.0</td><br>      <td>3.0</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>4.0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>6.0</td><br>    </tr><br>    <tr><br>      <th>20170107</th><br>      <td>1.0</td><br>      <td>2.0</td><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>NaN</td><br>      <td>NaN</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s1 = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], index=[<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>])</span><br><span class="line">s1.name = <span class="string">'S1'</span></span><br><span class="line">df2 = df1.append(s1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df2</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4.0</td><br>      <td>5.0</td><br>      <td>6.0</td><br>      <td>7.0</td><br>      <td>10.0</td><br>      <td>2.0</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8.0</td><br>      <td>200.0</td><br>      <td>100.0</td><br>      <td>11.0</td><br>      <td>10.0</td><br>      <td>3.0</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>4.0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>6.0</td><br>    </tr><br>    <tr><br>      <th>20170107</th><br>      <td>1.0</td><br>      <td>2.0</td><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>NaN</td><br>      <td>NaN</td><br>    </tr><br>    <tr><br>      <th>S1</th><br>      <td>1.0</td><br>      <td>2.0</td><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>5.0</td><br>      <td>6.0</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#插入列</span></span><br><span class="line">df1.insert(<span class="number">1</span>, <span class="string">'G'</span>, df2[<span class="string">'E'</span>]) <span class="comment">#在列1的位置插入 索引为G的列</span></span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>G</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>      <td>6.0</td><br>      <td>7.0</td><br>      <td>10.0</td><br>      <td>2.0</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8.0</td><br>      <td>10.0</td><br>      <td>200.0</td><br>      <td>100.0</td><br>      <td>11.0</td><br>      <td>10.0</td><br>      <td>3.0</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>4.0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>6.0</td><br>    </tr><br>    <tr><br>      <th>20170107</th><br>      <td>1.0</td><br>      <td>NaN</td><br>      <td>2.0</td><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>NaN</td><br>      <td>NaN</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">g = df1.pop(<span class="string">'G'</span>) <span class="comment">#弹出G列 </span></span><br><span class="line">df1.insert(<span class="number">6</span>, <span class="string">'G'</span>, g) <span class="comment">#插入到最后</span></span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>      <th>G</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4.0</td><br>      <td>5.0</td><br>      <td>6.0</td><br>      <td>7.0</td><br>      <td>10.0</td><br>      <td>2.0</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8.0</td><br>      <td>200.0</td><br>      <td>100.0</td><br>      <td>11.0</td><br>      <td>10.0</td><br>      <td>3.0</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>4.0</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>6.0</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>20170107</th><br>      <td>1.0</td><br>      <td>2.0</td><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>NaN</td><br>      <td>NaN</td><br>      <td>NaN</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> df1[<span class="string">'G'</span>] <span class="comment">#删除G列</span></span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4.0</td><br>      <td>5.0</td><br>      <td>6.0</td><br>      <td>7.0</td><br>      <td>10.0</td><br>      <td>2.0</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8.0</td><br>      <td>200.0</td><br>      <td>100.0</td><br>      <td>11.0</td><br>      <td>10.0</td><br>      <td>3.0</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>4.0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>6.0</td><br>    </tr><br>    <tr><br>      <th>20170107</th><br>      <td>1.0</td><br>      <td>2.0</td><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>NaN</td><br>      <td>NaN</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df2 = df1.drop([<span class="string">'A'</span>, <span class="string">'B'</span>], axis=<span class="number">1</span>) <span class="comment">#删除多列</span></span><br><span class="line">df2</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>6.0</td><br>      <td>7.0</td><br>      <td>10.0</td><br>      <td>2.0</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>100.0</td><br>      <td>11.0</td><br>      <td>10.0</td><br>      <td>3.0</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>4.0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>6.0</td><br>    </tr><br>    <tr><br>      <th>20170107</th><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>NaN</td><br>      <td>NaN</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4.0</td><br>      <td>5.0</td><br>      <td>6.0</td><br>      <td>7.0</td><br>      <td>10.0</td><br>      <td>2.0</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8.0</td><br>      <td>200.0</td><br>      <td>100.0</td><br>      <td>11.0</td><br>      <td>10.0</td><br>      <td>3.0</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>4.0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>    </tr><br>    <tr><br>      <th>20170106</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>6.0</td><br>    </tr><br>    <tr><br>      <th>20170107</th><br>      <td>1.0</td><br>      <td>2.0</td><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>NaN</td><br>      <td>NaN</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3 = df1.drop([<span class="number">20170106</span>], axis=<span class="number">0</span>)<span class="comment">#删除行</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df3</span><br></pre></td></tr></table></figure>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br><br>    .dataframe tbody tr th {<br>        vertical-align: top;<br>    }<br><br>    .dataframe thead th {<br>        text-align: right;<br>    }<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>D</th><br>      <th>E</th><br>      <th>F</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>20170101</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>20170102</th><br>      <td>4.0</td><br>      <td>5.0</td><br>      <td>6.0</td><br>      <td>7.0</td><br>      <td>10.0</td><br>      <td>2.0</td><br>    </tr><br>    <tr><br>      <th>20170103</th><br>      <td>8.0</td><br>      <td>200.0</td><br>      <td>100.0</td><br>      <td>11.0</td><br>      <td>10.0</td><br>      <td>3.0</td><br>    </tr><br>    <tr><br>      <th>20170104</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>4.0</td><br>    </tr><br>    <tr><br>      <th>20170105</th><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>1.0</td><br>      <td>10.0</td><br>      <td>5.0</td><br>    </tr><br>    <tr><br>      <th>20170107</th><br>      <td>1.0</td><br>      <td>2.0</td><br>      <td>3.0</td><br>      <td>4.0</td><br>      <td>NaN</td><br>      <td>NaN</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df1.index</span><br></pre></td></tr></table></figure>
+<pre><code>Index([20170101, 20170102, 20170103, 20170104, 20170105, 20170106, &apos;20170107&apos;], dtype=&apos;object&apos;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2020/01/10/preprocessing/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>sklearn...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/08/Pandas数据分析/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Pandas处...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

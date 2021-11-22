@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>Paddle Fluid编程入门 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-06</span>
+    <h2>Paddle Fluid...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/PaddlePaddle/">PaddlePaddle</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="Paddle-Fluid编程入门"><a href="#Paddle-Fluid编程入门" class="headerlink" title="Paddle Fluid编程入门"></a>Paddle Fluid编程入门</h1><h2 id="Paddle-Fluid的整体架构"><a href="#Paddle-Fluid的整体架构" class="headerlink" title="Paddle Fluid的整体架构"></a>Paddle Fluid的整体架构</h2><ul>
+<li>组网模块</li>
+<li>模型表达与优化</li>
+<li>训练模块</li>
+<li>服务器预测</li>
+<li>移动端预测<h2 id="Paddle-Fluid的使用基本概念"><a href="#Paddle-Fluid的使用基本概念" class="headerlink" title="Paddle Fluid的使用基本概念"></a>Paddle Fluid的使用基本概念</h2></li>
+<li>layer：表示一个独立计算的逻辑，通常包含一个或多个operator，layers.relu表示relu计算，layers.pool2d表示pool操作。<br>  Layer有Variable输入和输出。示例：output=fluid.layers.relu(x)</li>
+<li>Variable：表示一个变量，可以是一个张量Tensor。也可以是其他类型。Variable进入Layer计算，然后Layer返回Variable。<br>示例：var = fluid.layers.fill_constant(shape=[1], dtype=’float32’, value=5)</li>
+<li>Program：包含Variable定义的多个变量和Layer定义的多个计算。<br>Program从用户角度顺序执行。</li>
+<li>Executor：用来执行Program，会一次性执行Program中定义的所有计算，可以通过feed来提供Program输入数据，通过fetch_list来获取输出数据。</li>
+<li>Control Flow：paddle支持if-else和while等语法来描述灵活的模型逻辑。<br>示例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#create a if-else block</span><br><span class="line">ifcond = fluid.layers.less_than(x=a, y=b)</span><br><span class="line">ie = fluid.layers.IfElse(ifcond)</span><br><span class="line">with ie.true_block():</span><br><span class="line">    c = ie.input(a)</span><br><span class="line">    c += 1</span><br><span class="line">    ie.output(c)</span><br><span class="line"></span><br><span class="line">#output c</span><br><span class="line">exe.run(fluid.default_main_program(), fetch_list=[c])</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#while</span><br><span class="line">a = fluid.layers.fill_constant([2,2], dtype=&apos;float32&apos;, value=1.0)</span><br><span class="line">i = fluid.layers.zeros([1], dtype=&apos;int64&apos;)</span><br><span class="line">until = fluid.layers.fill_constant([1], dtype=&apos;int64&apos;, value=10)</span><br><span class="line">data_arr = fluid.layers.array_write(a, i)#把a写入新的array的位置i中</span><br><span class="line">cond = fluid.layers.less_than(x=i, y=until)</span><br><span class="line"></span><br><span class="line">#当i小于10时进行循环</span><br><span class="line">while_op = fluid.layers.While(cond=cond)</span><br><span class="line">with while_op.block():</span><br><span class="line">    a = fluid.layers.array_read(data_arr, i)</span><br><span class="line">    a = a + 1</span><br><span class="line">    i = fluid.layers.increment(x=i, value=1, in_place=True)#为函数中传入参数x增加valve大小，x元素个数必须为1，in_place默认在原变量进行计算。</span><br><span class="line">    fluid.layers.less_than(x=i, y=until, cond=cond)#参数cond是用于存储结果的变量</span><br><span class="line">    fluid.layers.array_write(a, i, data_arr)</span><br><span class="line"></span><br><span class="line">#读出data_arr最后位置的结果</span><br><span class="line">ret = fluid.layers.array_read(data_arr, i-1)</span><br><span class="line"></span><br><span class="line">exe = </span><br><span class="line">exe.run</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Place：指定运行设备</li>
+<li>CompileProgram： 对Program进行优化，生成一个执行的图<br>示例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">place = fluid.CUDAPlace(0) if use_gpu else fluid.CPUPlace()</span><br><span class="line"></span><br><span class="line">exe = fluid.Executor()</span><br><span class="line"></span><br><span class="line">#Run some initialization, for example, parameter</span><br><span class="line">exe.run(fluid.default_startup_program())</span><br><span class="line"></span><br><span class="line">#Compile the program for multi-device execution and various optimizations</span><br><span class="line">binary = CompileProgram(fluid.default_main_program()).with_data_parallel(loss_name=cost.name)</span><br><span class="line">Loss = exe.run(binary, feed=&#123;&#125;, fetch=[cost])</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Paddle-Fluid编写手写数字识别模型"><a href="#Paddle-Fluid编写手写数字识别模型" class="headerlink" title="Paddle Fluid编写手写数字识别模型"></a>Paddle Fluid编写手写数字识别模型</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/E9763895-C4CC-42DE-A71D-A84551E055ED/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>PaddleP...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/14B6E235-0D5B-4208-955E-CB536F9EB002/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用Fluid...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>ANN简介基于TensorFlow | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-06</span>
+    <h2>ANN简介基于Tenso...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/Tensorflow/">Tensorflow</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="ANN简介基于TensorFlow"><a href="#ANN简介基于TensorFlow" class="headerlink" title="ANN简介基于TensorFlow"></a>ANN简介基于TensorFlow</h1><h2 id="感知器"><a href="#感知器" class="headerlink" title="感知器"></a>感知器</h2><p>基于被称为基于线性阈值单元（LTU）的人工神经元：输入输出都是数字，每个输入连接对应一个权重，LTU加权求和所有输入，然后对求值结果应用于哥阶跃函数并产生最后的输出。</p>
+<ul>
+<li>Heavisider阶跃函数</li>
+<li>Hebbian学习：当两个神经元有相同输出时，他们间的连接权重就会被增强。</li>
+<li><p>Scikit-learn的Perceptron类实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.linear_model import Perception</span><br><span class="line">Per_clf = Perception(random_state=42)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多层感知器（MLP）和反向传播<br>对每个训练实例，反向传播算法先正向进行一次预测，度量误差，然后反向遍历每个层次来度量每个连接的误差贡献度，最后微调每个连接的权重来降低误差（梯度下降）。</p>
+</li>
+<li>激活函数：双曲正切函数和RELU函数<h2 id="TensorFlow训练MLP"><a href="#TensorFlow训练MLP" class="headerlink" title="TensorFlow训练MLP"></a>TensorFlow训练MLP</h2><h3 id="最简单方式：使用TF-Learn"><a href="#最简单方式：使用TF-Learn" class="headerlink" title="最简单方式：使用TF.Learn"></a>最简单方式：使用TF.Learn</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Feature_columns = tf.contrib.learn.infer_real_valued_columns_from(X_train)</span><br><span class="line">Dnn_clf = tf.contrib.learn.DNNClassifier(hidden_units=[300,100], n_classes=10, features_columns=feature_columns)</span><br><span class="line">#activation_fn调整激活函数</span><br><span class="line">Dnn_clf.fit(X=X_train, y=y_train, batch_size=50, steps=40000)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>DNNClassifier背后默认基于relu激活函数创建所有神经元层次，输出层softmax，成本函数是交叉熵。</p>
+<h3 id="纯TensorFlow训练DNN"><a href="#纯TensorFlow训练DNN" class="headerlink" title="纯TensorFlow训练DNN"></a>纯TensorFlow训练DNN</h3><p>构建阶段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">Import tensorflow as tf</span><br><span class="line"></span><br><span class="line">#模型参数设置</span><br><span class="line">N_inputs = </span><br><span class="line">N_hidden1 =</span><br><span class="line">N_hidden2 =</span><br><span class="line">N_outputs =</span><br><span class="line"></span><br><span class="line">#占位符节点表示输入与目标</span><br><span class="line">X = tf.placeholder(tf.float32, shape=(None, n_inputs), name=“X”)</span><br><span class="line">y = tf.placeholder(tf.int32, shape=(None), name=“y”)</span><br><span class="line"></span><br><span class="line">#神经网络层</span><br><span class="line">Def neuron_layer（X， n_neurons, name, activation=None）:</span><br><span class="line">	with tf.name_scope(“name”):</span><br><span class="line">		n_inputs = int(X.get_shape()[1])</span><br><span class="line">	</span><br><span class="line">		studdev = 2/np.sqrt(n_inputs)</span><br><span class="line">		init = tf.truncated_normal((n_inputs, n_neurons), studded=stddev)</span><br><span class="line">		#tf.truncated_normal(shape，mean=0.0，stddev=1.0, dtype,seed=None, name=None)用于从截断的正态分布中输出随机值</span><br><span class="line">		#shape输出张量的形状</span><br><span class="line">		#mean是正态分布均值</span><br><span class="line">		#sddev是正太分布的标准差</span><br><span class="line">		#dtpye指输出的类型</span><br><span class="line">		#产生的数据-均值&lt;=2*标准差</span><br><span class="line">		#使用一个指定的标准偏差会让算法熟练的更快</span><br><span class="line">	</span><br><span class="line">		W = tf.Variable(init, name=“Weights”)</span><br><span class="line">		b = tf.Variavle(tf.zeros([n_neurons]),name=“bias” )	</span><br><span class="line">		z = tf.matmul(X,W)+b</span><br><span class="line">		if activation == “relu”:</span><br><span class="line">			return tf.nn.relu(z)</span><br><span class="line">		else:</span><br><span class="line">			return z</span><br><span class="line"></span><br><span class="line">#创建神经网络</span><br><span class="line">with tf.name_scope(“dnn”):</span><br><span class="line">		hidden1 = neuron_layer(X, n_hidden1, “hidden1”, activation=“relu”)</span><br><span class="line">		hidden2 = neuron_layer(X, n_hidden2, “hidden2”, activation=“relu”)</span><br><span class="line">		logits = neuron_layer(hidden2,  n_outputs, “outputs”)</span><br><span class="line"></span><br><span class="line">#使用full_conntected创建全连接层</span><br><span class="line">From tensorflow.contrib.layers import fully_connected</span><br><span class="line"></span><br><span class="line">With tf.name_scope(“dnn”):</span><br><span class="line">		hidden1 = fully_connected(X, n_hidden1, scope=“hidden1”)</span><br><span class="line">		hidden2 = fully_connected(hidden1, n_hidden2, scope=“hidden2”)</span><br><span class="line">		logits = fully_connected(hidden2, n_outputs, scope=“outputs”, activation_fn=None)</span><br><span class="line">		</span><br><span class="line">#损失函数</span><br><span class="line">with tf.name_scope(“loss”):</span><br><span class="line">		x_centropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=logits)</span><br><span class="line">		#根据logits计算交叉熵，计算出每个实例的交叉熵的一维张量</span><br><span class="line">		loss = tf.reduce_mean(xentropy, name=“loss”)</span><br><span class="line">		#计算所有实例的平均交叉熵</span><br><span class="line"></span><br><span class="line">Learning_rate = 0.01</span><br><span class="line">#梯度下降优化器</span><br><span class="line">with tf.name_scope(“train”):</span><br><span class="line">		optimizer = tf.train.GradientDescentOptimizer(learning_rate)</span><br><span class="line">		training_op = optimizer.minimizer(loss)</span><br><span class="line"></span><br><span class="line">#对模型求值</span><br><span class="line">with tf.name_scope(“eval”):</span><br><span class="line">		correct = tf.nn.in_top_k(logits, y, 1)</span><br><span class="line">		#判断target/y是否在前top k/1的预测logits之中，输出batch_size大小的预测数组</span><br><span class="line">		#此处即看y是否等于logits的最大数的索引值</span><br><span class="line">		accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))</span><br><span class="line">		#tf.cast（x，dtype）将输入x转换为目标类型，返回一个张量，此处把bool型转化为float32来进行求平均计算</span><br><span class="line">		#tf.reduce_mean()计算张量沿指定轴的平均值，axis=None则求全局</span><br><span class="line">		#axis=n求平均，可以看作把张量第n维变为1 ？</span><br><span class="line">#保存</span><br><span class="line">init = tf.global_variables_initializer()</span><br><span class="line">Saver = tf.train.Saver()</span><br></pre></td></tr></table></figure></p>
+<p>执行阶段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">From tensorflow.examples.tutorials.mnist import input_data</span><br><span class="line">Mnist = input_data.read_data_sets(“/temp/data”)</span><br><span class="line"></span><br><span class="line">N_epochs = 400</span><br><span class="line">Batch_size = 50</span><br><span class="line"></span><br><span class="line">With tf.Session() as sess:</span><br><span class="line">		init.run()</span><br><span class="line">		for epoch in range(n_epochs):</span><br><span class="line">			for iteration in range(mnist.train.num_examples// batch_size):</span><br><span class="line">				X_batch, y_batch = mnist.train.next_batch(batch_size)</span><br><span class="line">				sess.run(training_op, feed_dict=&#123;X:X_batch, y:y_batch&#125;)</span><br><span class="line">			acc_train = accuracy.eval(feed_dict=&#123;X:X_batch, y:y_batch&#125;)</span><br><span class="line">			acc_test = accuracy.eval(feed_dict=&#123;X:mnist.test.images, y:mnist.test.labels&#125;)</span><br><span class="line">			print(“”)</span><br><span class="line">		save_path = saver.save(sess, “./model_final.ckpt”)</span><br></pre></td></tr></table></figure></p>
+<p>使用神经网络<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">With tf.Session() as sess:</span><br><span class="line">		saver.restore(sess, “./model_final.ckpt”)</span><br><span class="line">		X_new_scaled = [...]</span><br><span class="line">		Z = logits.eval(feed_dict=&#123;X: X_new_scaled&#125;)</span><br><span class="line">		y_pred = np.argmax(Z, axis=1)</span><br></pre></td></tr></table></figure></p>
+<h2 id="微调超参数"><a href="#微调超参数" class="headerlink" title="微调超参数"></a>微调超参数</h2><ul>
+<li>随机搜素法</li>
+<li>隐藏层的个数调整<br>深层网络比浅层网络有更高的参数效率，可以用更少的神经元建模复杂函数，加快训练，提高对新数据集的泛化能力。</li>
+<li>每层神经元数<br>增加每层的神经元数量会比增加层数产生更多消耗。</li>
+<li>更多的层次和神经元，提前结束训练，被称为“弹力裤”方法。</li>
+<li>激活函数<br>大多情况可以在隐藏层中用ReLU<br>对于输出层：softmax对于互斥的分类任务是个不错的选择，回归任务可以不用激活函数</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>sklearn...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/E173C137-23FA-40C0-88AE-1E19BD761AB2/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>运行Tenso...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

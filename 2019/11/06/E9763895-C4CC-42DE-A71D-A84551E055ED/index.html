@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>PaddlePaddle数据准备 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-06</span>
+    <h2>PaddlePaddle...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/PaddlePaddle/">PaddlePaddle</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="PaddlePaddle数据准备"><a href="#PaddlePaddle数据准备" class="headerlink" title="PaddlePaddle数据准备"></a>PaddlePaddle数据准备</h1><h2 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h2><p>Batch：多个样本数据组成的一份训练（预测）数据称为batch。每个batch包含的样本数量称为batch_size<br>Epoch：每次便利全体数据集进行训练（预测）的过程称为一轮epoch<br>数据增强训练神经网络的有效手段，增强方式：<br>Shuffle、随机裁剪、图像反转、光照色彩变换、随机加噪……</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>自定义数据读取reader<br>读取原始训练数据-数据增强-组成batch</li>
+<li>使用Paddle fluid API将数据送入网络：<ol>
+<li>feed方式</li>
+<li>Py_reader接口</li>
+</ol>
+</li>
+<li>执行器训练</li>
+</ol>
+<h2 id="自定义数据读取reader"><a href="#自定义数据读取reader" class="headerlink" title="自定义数据读取reader"></a>自定义数据读取reader</h2><p>reader是一个python生成器（generator），每次通过yield返回一个样本数据，全体数据集便利完毕reader后退出。<br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">def mnist_reader(image_file, label_file):</span><br><span class="line">    def __reader__():</span><br><span class="line">        with open(image_file) as f:</span><br><span class="line">            f.seek(16)</span><br><span class="line">				images = np.reshape(np.fromfile(f, dtype=&apos;unit8&apos;),[-1, 28, 28])</span><br><span class="line">				images = images / 255.0 * 2.0 - 1.0</span><br><span class="line">        with open(label_file) as f:</span><br><span class="line">				f.seek(8)</span><br><span class="line">				labels = np.fromfile(f, dtype=&apos;unit8&apos;)</span><br><span class="line">        with idx in range(len(labels)):</span><br><span class="line">				yield images[idx, :], labels[idx]</span><br><span class="line">    return __reader__</span><br><span class="line"></span><br><span class="line">#训练调用reader</span><br><span class="line">train_reader = mnist_reader(&apos;train-images.idx3-ubyte&apos;,&apos;train-labels.idx1-ubyte&apos;)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#官方api调用</span><br><span class="line">import paddle</span><br><span class="line">train_reader = paddle.dataset.mnist.train()</span><br></pre></td></tr></table></figure>
+<h2 id="定义数据增强逻辑"><a href="#定义数据增强逻辑" class="headerlink" title="定义数据增强逻辑"></a>定义数据增强逻辑</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import paddle</span><br><span class="line">import paddle.fluid as fluid</span><br><span class="line">Import numpy as np</span><br><span class="line"></span><br><span class="line">#左右翻转</span><br><span class="line">def random_flipped_reader(reader):</span><br><span class="line">	def __reader__():</span><br><span class="line">		for image, label in reader():</span><br><span class="line">			#生成闭区间[1,2]上离散均匀分布的整数值</span><br><span class="line">			if np.random.random_integers(2) == 1:</span><br><span class="line">				image = np.fliplr(image)#矩阵左右翻转</span><br><span class="line">			yield image, label</span><br><span class="line">	return __reader__</span><br><span class="line"></span><br><span class="line">#随机加噪</span><br><span class="line">def random_noised_reader(reader):</span><br><span class="line">	def __reader__():</span><br><span class="line">		for image, label in reader():</span><br><span class="line">			image += np.random.normal(0, 0.01, size=image.shape)</span><br><span class="line">		yield image</span><br><span class="line">	return __reader__</span><br><span class="line"></span><br><span class="line">train_reader = paddle.dataset.mnist.train()</span><br><span class="line">train_reader = random_noised_reader(random_flipped_reader(train_reader))</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>随机shuffle<br>shuffle_reader = paddle.reader.shuffle(train_reader, buf_size=64)</p>
+</li>
+<li><p>调用paddle.batch组成一个batch的训练数据<br>batch_reader = paddle_batch(shuffle_reader, batch_size=32) </p>
+</li>
+</ul>
+<h2 id="把数据送入网络训练"><a href="#把数据送入网络训练" class="headerlink" title="把数据送入网络训练"></a>把数据送入网络训练</h2><h3 id="Feed方式"><a href="#Feed方式" class="headerlink" title="Feed方式"></a>Feed方式</h3><p>用户先将reader数据通过data feeder转换为Paddle可识别的Tensor格式数据，传入执行器进行训练。</p>
+<ul>
+<li><p>步骤</p>
+<ol>
+<li>准备<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">images = fluid.layers.data(name=&apos;image&apos;,shape=[28,28], dtype=&apos;float32&apos;)</span><br><span class="line">labels = fluid.layers.data(name=&apos;labels&apos;, shape=[1],dtype=&apos;int64&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<pre><code>2. 定义feeder对象
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_feeder = fluid.DataFeeder(feed_list= [images, labels], place=place)</span><br></pre></td></tr></table></figure>
+<pre><code>3. 训练网络
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">exe.run(fluid.default_startup_program())</span><br><span class="line">for epoch_id in range(epoch_num):</span><br><span class="line">	for batch_id, batch_data in enumerate(batch_reader()):</span><br><span class="line">		exe.run(feed=data_feeder.feed(data),...)</span><br><span class="line">		#DataFeeder.feed()将用户定义的batch_reader数据转化为paddle可识别的Tensor格式数据</span><br></pre></td></tr></table></figure>
+<h3 id="py-reader接口送入训练数据"><a href="#py-reader接口送入训练数据" class="headerlink" title="py_reader接口送入训练数据"></a>py_reader接口送入训练数据</h3><p>Python端开启线程往Paddle backend持续送入训练数据，模型训练线程与Python数据送入线程并行执行。</p>
+<ul>
+<li>与feed方法不同<br>使用py_reader接口数据读取和模型训练过程是异步进行的，效率更高，适合于高速工业训练场景，而feed方式API更简单，适于入门和调试使用。</li>
+<li><p>步骤：</p>
+<ol>
+<li><p>定义准备py_reader对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">py_reader = fluid.layers.py_reader(capacity=8, shapes=[28,28], [1]), dtypes=[&apos;float32&apos; &apos;int64&apos;])</span><br><span class="line">#capacity为数据队列容量，shapes和dtypes对应feed方式下data layer shape和dtype设置</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用read_file读取数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#调用read_file接口从py_reader中读取数据</span><br><span class="line">#read_file返回值对应feed方式下的data_layer</span><br><span class="line">images, labels = fluid.layers.read_file(py_reader)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将用户自定义的reader传入py_reader<br>py_reader.decorate_paddle_reader(batch_reader)</p>
+</li>
+<li><p>训练网络 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">exe.run(fluid.default_startup_program())</span><br><span class="line">for epoch_id in range(n_epochs):</span><br><span class="line">	py_reader.start()#线程启动</span><br><span class="line">	while True:</span><br><span class="line">		try:</span><br><span class="line">			exe.run(...)</span><br><span class="line">		except fluid.core.EOFException:</span><br><span class="line">			pt_reader.reset() </span><br><span class="line">			#每轮epoch结束后，C++Backend抛出EOF异常</span><br><span class="line">			#用户需捕获该异常并通过py_reader.reset()重置py_reader</span><br><span class="line">			#以启动下一轮训练</span><br><span class="line">			break</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/C75D058B-B31B-422C-8DC1-06BA5689E88C/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>卷积神经网络结...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/BB1DACC2-E923-488A-A854-3C978234714D/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Paddle ...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

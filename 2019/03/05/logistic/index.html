@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>梯度上升算法 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-03-05</span>
+    <h2>梯度上升算法</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/Logistic回归/">Logistic回归</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/机器学习/">机器学习</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/梯度上升/">梯度上升</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/算法/">算法</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <a id="more"></a>
+<p>sigma函数的特性 以0.5为分界<br>寻找合适参数θ<br>条件概率 二分类<br>最大似然估计<br>梯度上升算法 迭代逼近极值</p>
+<h1 id="梯度上升算法分类实现"><a href="#梯度上升算法分类实现" class="headerlink" title="梯度上升算法分类实现"></a>梯度上升算法分类实现</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">from numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> pandas</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">#载入数据集</span><br><span class="line"><span class="function">def <span class="title">loadDataSet</span><span class="params">()</span>:</span></span><br><span class="line"><span class="function">    dataMat </span>= []</span><br><span class="line">    labelMat = []</span><br><span class="line">    fr = open('testSet.txt')</span><br><span class="line">    <span class="keyword">for</span> line in fr.readlines():</span><br><span class="line">        lineArr  = line.strip().split()</span><br><span class="line">        dataMat.append([<span class="number">1.0</span>,<span class="keyword">float</span>(lineArr[<span class="number">0</span>]),<span class="keyword">float</span>(lineArr[<span class="number">1</span>])])</span><br><span class="line">        labelMat.append(<span class="keyword">int</span>(lineArr[<span class="number">2</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dataMat,labelMat #特征和标签</span><br><span class="line"></span><br><span class="line">def sigmod(inX):</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1.0</span>/(<span class="number">1</span>+<span class="built_in">exp</span>(-inX))</span><br><span class="line"></span><br><span class="line">#简单的梯度上升算法</span><br><span class="line">def gradAscent(dataMatIn , classLabels):</span><br><span class="line">    dataMatrix = mat(dataMatIn)</span><br><span class="line">    labelMat = mat(classLabels).transpose()</span><br><span class="line">    m,n = shape(dataMatrix)</span><br><span class="line">    alpha = <span class="number">0.001</span></span><br><span class="line">    maxCycles = <span class="number">500</span></span><br><span class="line">    weights = ones((n,<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">for</span> k in range(maxCycles):</span><br><span class="line">        h = sigmod(dataMatrix * weights)</span><br><span class="line"></span><br><span class="line">        error = (labelMat - h)</span><br><span class="line">        weights = weights + alpha * dataMatrix.transpose() * error  #梯度上升求速度</span><br><span class="line">    <span class="keyword">return</span>  weights</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#绘图</span><br><span class="line">def plotBestFit(wei):</span><br><span class="line">    <span class="keyword">import</span> matplotlib.pyplot as plt</span><br><span class="line">    #weights = wei.getA()  #numpy.matrix.getA 把矩阵转化为一个ndarray   weights（全局变量） 是一个数组 当weight已经是数组时注释掉此行</span><br><span class="line">    dataMat,labelMat = loadDataSet()</span><br><span class="line">    dataArr = <span class="built_in">array</span>(dataMat)</span><br><span class="line">    n = shape(dataArr)[<span class="number">0</span>]</span><br><span class="line">    xcord1 = []</span><br><span class="line">    ycord1 = []</span><br><span class="line">    xcord2 = []</span><br><span class="line">    ycord2 = []</span><br><span class="line">    <span class="keyword">for</span> i in range(n):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">int</span>(labelMat[i]) == <span class="number">1</span>:</span><br><span class="line">            xcord1.append(dataArr[i,<span class="number">1</span>])</span><br><span class="line">            ycord1.append(dataArr[i,<span class="number">2</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            xcord2.append(dataArr[i,<span class="number">1</span>])</span><br><span class="line">            ycord2.append(dataArr[i,<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">    ax.scatter(xcord1,ycord1,s=30,c='red',marker='s')</span><br><span class="line">    ax.scatter(xcord2,ycord2,s=30,c='green')</span><br><span class="line"></span><br><span class="line">    x= arange(<span class="number">-3.0</span>,<span class="number">3.0</span>,<span class="number">0.1</span>)</span><br><span class="line">    y= (-weights[<span class="number">0</span>]-weights[<span class="number">1</span>]*x)/weights[<span class="number">2</span>] # w0 + w1x1 + w2y = <span class="number">0</span></span><br><span class="line">    ax.plot(x,y)</span><br><span class="line">    plt.xlabel('X1')</span><br><span class="line">    plt.ylabel('X2')</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#改进的随机梯度上升算法</span><br><span class="line"><span class="function">def <span class="title">stocGradAscent0</span><span class="params">(dataMatrix,classLabels,numIter =<span class="number">150</span>)</span>:</span></span><br><span class="line">    m,n = shape(dataMatrix)</span><br><span class="line">    dataMatrix = <span class="built_in">array</span>(dataMatrix) #需要将特征集转化成一个数组</span><br><span class="line">    alpha = <span class="number">0.01</span></span><br><span class="line">    weights = ones(n)</span><br><span class="line">    <span class="keyword">for</span> j in range(numIter): #对整个训练集迭代，默认一百五十次</span><br><span class="line">        dataIndex = <span class="built_in">list</span>(range(m))</span><br><span class="line">        <span class="keyword">for</span> i in range(m): #从训练集中随机抽取单个样本的次数</span><br><span class="line">            alpha = <span class="number">4</span>/(<span class="number">1.0</span> + j + i) + <span class="number">0.01</span> #随迭代次数增加减小，减少系数的波动</span><br><span class="line">            randIndex = <span class="keyword">int</span>(random.uniform(<span class="number">0</span>,len(dataIndex))) #每次选取一个随机样本</span><br><span class="line">            h =sigmod(sum(dataMatrix[randIndex]*weights)) #对数组进行运算</span><br><span class="line">            error = classLabels[randIndex] - h</span><br><span class="line">            weights = weights + <span class="keyword">float</span>( alpha * error) * dataMatrix[randIndex]</span><br><span class="line">            del(dataIndex[randIndex])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> weights</span><br><span class="line"></span><br><span class="line"># dataArr,labelMat = loadDataSet()</span><br><span class="line"># #weights = gradAscent(dataArr,labelMat)</span><br><span class="line"># weights = stocGradAscent0(dataArr , labelMat)</span><br><span class="line"># plotBestFit(weights)</span><br><span class="line"></span><br><span class="line">#从疝气病预测病马的死亡率</span><br><span class="line"></span><br><span class="line">#用Logistic进行分类</span><br><span class="line">def classifVector(inX,weights): #特征值 系数</span><br><span class="line">    prob = sigmod(sum(inX * weights))</span><br><span class="line">    <span class="keyword">if</span> prob &gt; <span class="number">0.5</span> : <span class="keyword">return</span> <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">else</span> : <span class="keyword">return</span>  <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">#读取数据训练算法</span><br><span class="line">def colicTest():</span><br><span class="line">    frTrain = open('horseColicTraining.txt')</span><br><span class="line">    frTest = open('horseColicTest.txt')</span><br><span class="line">    trainingSet = []</span><br><span class="line">    trainingLabels = []</span><br><span class="line">    <span class="keyword">for</span> line in frTrain.readlines():</span><br><span class="line">        currLine = line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        lineArr = []</span><br><span class="line">        <span class="keyword">for</span> i in range(<span class="number">21</span>):</span><br><span class="line">            lineArr.append(<span class="keyword">float</span>(currLine[i]))</span><br><span class="line">        trainingSet.append(lineArr)</span><br><span class="line">        trainingLabels.append(<span class="keyword">float</span>(currLine[<span class="number">21</span>]))</span><br><span class="line"></span><br><span class="line">    trainWeights = stocGradAscent0(<span class="built_in">array</span>(trainingSet),trainingLabels,<span class="number">500</span>)</span><br><span class="line">    errorCount = <span class="number">0</span></span><br><span class="line">    numTestVec = <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> line in frTest.readlines():</span><br><span class="line">        numTestVec += <span class="number">1.0</span></span><br><span class="line">        currLine = line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        lineArr = []</span><br><span class="line">        <span class="keyword">for</span> i in range(<span class="number">21</span>):</span><br><span class="line">            lineArr.append(<span class="keyword">float</span>(currLine[i]))</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">int</span>(classifVector(lineArr,trainWeights)) != <span class="keyword">int</span>(currLine[<span class="number">21</span>]):</span><br><span class="line">            errorCount += <span class="number">1</span></span><br><span class="line">    errorRate = <span class="keyword">float</span>(errorCount)/numTestVec</span><br><span class="line">    print('error rate: %f' %errorRate)</span><br><span class="line">    <span class="keyword">return</span> errorRate</span><br><span class="line"></span><br><span class="line">#计算十次预测结果平均值</span><br><span class="line">def multiTest():</span><br><span class="line">    numTests = <span class="number">10</span></span><br><span class="line">    errorSum = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span> k in range(numTests):</span><br><span class="line">        errorSum += colicTest()</span><br><span class="line">    print('after %d iterations the test is %f' %(errorSum , errorSum / float(numTests)))</span><br><span class="line"></span><br><span class="line">multiTest()</span><br></pre></td></tr></table></figure>
+<p>testing_</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/03/13/Apriori/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用Aprio...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/03/01/d3js进阶/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>D3js进阶</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

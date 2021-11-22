@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>Django之制作todolist | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2020-03-14</span>
+    <h2>Django之制作tod...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/Django/">Django</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>本案例使用Django框架创建了一个todolist应用。</p>
+<p><img src="todo01.png" alt="效果0"><br><img src="todo02.png" alt="效果1"></p>
+<p>[TOC]</p>
+<h1 id="虚拟环境使用"><a href="#虚拟环境使用" class="headerlink" title="虚拟环境使用"></a>虚拟环境使用</h1><ol>
+<li><p>使用virtualenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#创建虚拟环境</span><br><span class="line">virtualenv venv</span><br><span class="line"></span><br><span class="line">#cd到虚拟环境目录</span><br><span class="line">#激活虚拟环境</span><br><span class="line">source ./bin/activate</span><br><span class="line"></span><br><span class="line">#退出虚拟环境</span><br><span class="line">deactivate</span><br><span class="line"></span><br><span class="line">#删除虚拟环境</span><br><span class="line">rmvirtualenv venv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用virtualenvwrapper</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#创建虚拟环境</span><br><span class="line">mkvirtualenv venv</span><br><span class="line"></span><br><span class="line">#列出所有虚拟环境</span><br><span class="line">lsvirtualenv</span><br><span class="line"></span><br><span class="line">#激活虚拟环境</span><br><span class="line">workon venv</span><br><span class="line"></span><br><span class="line">#退出虚拟环境</span><br><span class="line">deactivate</span><br><span class="line"></span><br><span class="line">#停止虚拟环境所有软件包</span><br><span class="line">rmvirtualenv venv</span><br><span class="line"></span><br><span class="line">#可以使用pip list 查看已安装的包</span><br><span class="line"></span><br><span class="line">#进入虚拟环境目录</span><br><span class="line">cdvirtualenv</span><br><span class="line"></span><br><span class="line">#进入虚拟环境site-packages</span><br><span class="line">cdsitepackages</span><br><span class="line"></span><br><span class="line">#列出目录下所有软件包</span><br><span class="line">lssitepackages</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="创建project和app的相关步骤"><a href="#创建project和app的相关步骤" class="headerlink" title="创建project和app的相关步骤"></a>创建project和app的相关步骤</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#创建project</span><br><span class="line">django-admin startproject HelloWorld</span><br><span class="line"></span><br><span class="line">#创建app</span><br><span class="line">python manage.py startapp SimpleTodo</span><br></pre></td></tr></table></figure>
+<h2 id="修改HelloWorld-settings-py"><a href="#修改HelloWorld-settings-py" class="headerlink" title="修改HelloWorld/settings.py"></a>修改HelloWorld/settings.py</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># Application definition</span><br><span class="line"></span><br><span class="line">INSTALLED_APPS = [</span><br><span class="line">    &apos;django.contrib.admin&apos;,</span><br><span class="line">    &apos;django.contrib.auth&apos;,</span><br><span class="line">    &apos;django.contrib.contenttypes&apos;,</span><br><span class="line">    &apos;django.contrib.sessions&apos;,</span><br><span class="line">    &apos;django.contrib.messages&apos;,</span><br><span class="line">    &apos;django.contrib.staticfiles&apos;,</span><br><span class="line">    &apos;SimpleTodo&apos;, </span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">#配置mysql数据库</span><br><span class="line">DATABASES = &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="修改HelloWorld-urls-py"><a href="#修改HelloWorld-urls-py" class="headerlink" title="修改HelloWorld/urls.py"></a>修改HelloWorld/urls.py</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django.contrib import admin</span><br><span class="line">from django.urls import path, include</span><br><span class="line">from django.conf.urls import *</span><br><span class="line">from . import view</span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(&apos;admin/&apos;, admin.site.urls),</span><br><span class="line">    path(r&apos;todolist&apos;,include(&apos;SimpleTodo.urls&apos;)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h1 id="todolist搭建"><a href="#todolist搭建" class="headerlink" title="todolist搭建"></a>todolist搭建</h1><h2 id="Model层"><a href="#Model层" class="headerlink" title="Model层"></a>Model层</h2><ol>
+<li><p>修改SimpleTodo/models.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from django.db import models</span><br><span class="line">from django.contrib.auth.models import User</span><br><span class="line"># Create your models here.</span><br><span class="line"></span><br><span class="line">class Todo(models.Model):</span><br><span class="line">    user = models.ForeignKey(User, on_delete=models.CASCADE,)</span><br><span class="line">    todo = models.CharField(max_length=50)</span><br><span class="line">    flag = models.CharField(max_length=2, default=&apos;1&apos;)</span><br><span class="line">    priority = models.CharField(max_length=2, default=&apos;0&apos;)</span><br><span class="line">    pubtime = models.DateTimeField(auto_now_add=True)</span><br><span class="line"></span><br><span class="line">    def __unicode__(self):</span><br><span class="line">        return u&apos;%d %s %s&apos;%(self.id, self.todo, self.flag)</span><br><span class="line"></span><br><span class="line">    class Meta: </span><br><span class="line">        ordering = [&apos;priority&apos;, &apos;pubtime&apos;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据库迁移，命令行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#生成迁移文件</span><br><span class="line">python manage.py makemigrations</span><br><span class="line"></span><br><span class="line">#迁移数据库</span><br><span class="line">python manage.py migrate</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="View层"><a href="#View层" class="headerlink" title="View层"></a>View层</h2><ol>
+<li>修改SimpleTodo/views.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponseRedirect</span><br><span class="line">from django.template import RequestContext</span><br><span class="line">from django.contrib.auth.models import User</span><br><span class="line">from django.http import Http404</span><br><span class="line">from SimpleTodo.models import Todo</span><br><span class="line"># Create your views here.</span><br><span class="line"></span><br><span class="line"># 获取todo列表</span><br><span class="line">def todolist(request):</span><br><span class="line">    todolist = Todo.objects.filter(flag=1)</span><br><span class="line">    finishtodos = Todo.objects.filter(flag=0)</span><br><span class="line">    return render(request, &apos;simpleTodo.html&apos;,</span><br><span class="line">                  &#123;&apos;todolist&apos;: todolist, &apos;finishtodos&apos;: finishtodos&#125;,)</span><br><span class="line"></span><br><span class="line"># 完成todo</span><br><span class="line">def todofinish(request):</span><br><span class="line">    id = request.GET.get(&apos;id&apos;,&apos;&apos;)</span><br><span class="line">    if id == &apos;&apos;:</span><br><span class="line">        return HttpResponseRedirect(&apos;/todolist&apos;)</span><br><span class="line"></span><br><span class="line">    todo = Todo.objects.get(id=id)</span><br><span class="line">    if todo.flag == &apos;1&apos;:</span><br><span class="line">        todo.flag = &apos;0&apos;</span><br><span class="line">        todo.save()</span><br><span class="line">    return HttpResponseRedirect(&apos;/todolist&apos;)</span><br><span class="line">    # todolist = Todo.objects.filter(flag=1)</span><br><span class="line">    # return render(request, &apos;simpleTodo.html&apos;, &#123;&apos;todolist&apos;: todolist&#125;)</span><br><span class="line"></span><br><span class="line"># 更改todo状态</span><br><span class="line">def todoback(request):</span><br><span class="line">    </span><br><span class="line">    id = request.GET.get(&apos;id&apos;,&apos;&apos;)</span><br><span class="line">    if id == &apos;&apos;:</span><br><span class="line">        return HttpResponseRedirect(&apos;/todolist&apos;)</span><br><span class="line"></span><br><span class="line">    todo = Todo.objects.get(id=id)</span><br><span class="line">    if todo.flag == &apos;0&apos;:</span><br><span class="line">        todo.flag = &apos;1&apos;</span><br><span class="line">        todo.save()</span><br><span class="line">    return HttpResponseRedirect(&apos;/todolist&apos;)</span><br><span class="line"></span><br><span class="line"># 添加todo</span><br><span class="line">def todoadd(request):</span><br><span class="line">    if request.method == &apos;POST&apos;:</span><br><span class="line">        todoc = request.POST[&apos;todo&apos;]</span><br><span class="line">        priority = request.POST[&apos;priority&apos;]</span><br><span class="line">        user = User.objects.get(id=&apos;1&apos;)</span><br><span class="line">        todo = Todo(user=user, todo=todoc, priority=priority, flag=&apos;1&apos;)</span><br><span class="line">        todo.save()</span><br><span class="line">        todolist = Todo.objects.filter(flag=1)</span><br><span class="line">        finishtodos = Todo.objects.filter(flag=0)</span><br><span class="line">        return render(request, &apos;simpleTodo.html&apos;,</span><br><span class="line">                      &#123;&apos;todolist&apos;: todolist, &apos;finishtodos&apos;: finishtodos&#125;,)</span><br><span class="line">    else:</span><br><span class="line">        todolist = Todo.objects.filter(flag=1)</span><br><span class="line">        finishtodos = Todo.objects.filter(flag=0)</span><br><span class="line">        return render(request, &apos;simpleTodo.html&apos;,</span><br><span class="line">                      &#123;&apos;todolist&apos;: todolist, &apos;finishtodos&apos;: finishtodos&#125;,)</span><br><span class="line"></span><br><span class="line"># 删除todo</span><br><span class="line">def tododelete(request):</span><br><span class="line">    id = request.GET.get(&apos;id&apos;,&apos;&apos;)</span><br><span class="line">    if id == &apos;&apos;:</span><br><span class="line">        return HttpResponseRedirect(&apos;/todolist&apos;)</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        todo = Todo.objects.get(id=id)</span><br><span class="line">    except Exception:</span><br><span class="line">        raise Http404</span><br><span class="line">    if todo:</span><br><span class="line">        todo.delete()</span><br><span class="line">        return HttpResponseRedirect(&apos;/todolist&apos;)</span><br><span class="line">    todolist = Todo.objects.filter(flag=1)</span><br><span class="line">    return render(request, &apos;simpleTodo.html&apos;, &#123;&apos;todolist&apos;: todolist&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="路由设置"><a href="#路由设置" class="headerlink" title="路由设置"></a>路由设置</h1><ol>
+<li>修改SimpleTodo/urls.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from django.urls import path,  include</span><br><span class="line">from . import views</span><br><span class="line">from django.conf.urls import url</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(r&apos;&apos;, views.todolist, name=&apos;todolist&apos;),</span><br><span class="line">    url(r&apos;/add&apos;, views.todoadd, name=&apos;todoadd&apos;),</span><br><span class="line">    url(r&apos;/todofinish/&apos;, views.todofinish, name=&apos;finish&apos;),</span><br><span class="line">    url(r&apos;/tododelete/&apos;, views.tododelete, name=&apos;delete&apos;),</span><br><span class="line">    url(r&apos;/todoback/&apos;, views.todoback, name=&apos;back&apos;),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="前端页面"><a href="#前端页面" class="headerlink" title="前端页面"></a>前端页面</h1><p>使用Bootstrap，具体参考官方文档</p>
+<ol>
+<li><p>创建模板，设置templates/base.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">&#123;% block mainbody %&#125;</span><br><span class="line">&lt;p&gt;original&lt;/p&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置templates/simpleTodo.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends &apos;base.html&apos; %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block mainbody %&#125;</span><br><span class="line"></span><br><span class="line">&lt;div class=&apos;container&apos;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;h3&gt;To do &lt;span class=&quot;badge badge-dark&quot; style=&quot;cursor: pointer;&quot; data-toggle=&quot;modal&quot;</span><br><span class="line">            data-target=&quot;#exampleModal&quot;&gt;Add&lt;/span&gt;&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Modal --&gt;</span><br><span class="line">    &lt;div class=&quot;modal fade&quot; id=&quot;exampleModal&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot; aria-labelledby=&quot;exampleModalLabel&quot;</span><br><span class="line">        aria-hidden=&quot;true&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;modal-dialog&quot; role=&quot;document&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;modal-content&quot;&gt;</span><br><span class="line">                &lt;div class=&quot;modal-header&quot;&gt;</span><br><span class="line">                    &lt;h5 class=&quot;modal-title&quot; id=&quot;exampleModalLabel&quot;&gt;Add a Card&lt;/h5&gt;</span><br><span class="line">                    &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-label=&quot;Close&quot;&gt;</span><br><span class="line">                        &lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;</span><br><span class="line">                    &lt;/button&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">                &lt;div class=&quot;modal-body&quot;&gt;</span><br><span class="line">                    &lt;form action=&quot;/todolist/add&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">                        &#123;% csrf_token %&#125;</span><br><span class="line">                        &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">                            &lt;label for=&quot;exampleFormControlTextarea1&quot; name=&apos;todo&apos;&gt;To do&lt;/label&gt;</span><br><span class="line">                            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;exampleFormControlTextarea1&quot; name=&apos;todo&apos;&gt;</span><br><span class="line">                        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                        &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">                            &lt;label for=&quot;exampleInputPriority&quot;&gt;Priority&lt;/label&gt;</span><br><span class="line">                            &lt;input type=&quot;number&quot; class=&quot;form-control&quot; id=&quot;exampleInputPriority&quot; name=&apos;priority&apos;&gt;</span><br><span class="line">                        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">                        &lt;div class=&quot;modal-footer&quot;&gt;</span><br><span class="line">                            &lt;button type=&quot;button&quot; class=&quot;btn btn-secondary&quot; data-dismiss=&quot;modal&quot;&gt;Close&lt;/button&gt;</span><br><span class="line">                            &lt;input type=&quot;submit&quot; value=&apos;add&apos; class=&quot;btn btn-primary&quot;&gt;</span><br><span class="line">                            </span><br><span class="line">                        &lt;/div&gt;</span><br><span class="line">                    &lt;/form&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;div class=&apos;row row-cols-4&apos;&gt;</span><br><span class="line">        &#123;% for todo in todolist %&#125;</span><br><span class="line">        &lt;div class=&apos;col&apos;&gt;</span><br><span class="line">            &lt;div class=&quot;card&quot; style=&quot;width: 15rem; height:14rem;&quot;&gt;</span><br><span class="line">                &lt;div class=&quot;card-body&quot;&gt;</span><br><span class="line">                    &lt;h5 class=&quot;card-title&quot;&gt;&#123;&#123;todo.pubtime&#125;&#125;&lt;/h5&gt;</span><br><span class="line">                    &lt;p class=&quot;card-text&quot;&gt;&#123;&#123;todo.todo&#125;&#125;&lt;/p&gt;</span><br><span class="line">                    &lt;a href=&quot;todolist/todofinish/?id=&#123;&#123;todo.id&#125;&#125;&quot; class=&quot;btn btn-outline-success&quot;&gt;Finish&lt;/a&gt;</span><br><span class="line">                    &lt;a href=&quot;todolist/tododelete/?id=&#123;&#123;todo.id&#125;&#125;&quot; class=&quot;btn btn-outline-danger&quot;&gt;Delete&lt;/a&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;br&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;br&gt;</span><br><span class="line">    &lt;h3&gt;Finished&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class=&apos;row row-cols-4&apos;&gt;</span><br><span class="line">        &#123;% for todo in finishtodos %&#125;</span><br><span class="line">        &lt;div class=&apos;col&apos;&gt;</span><br><span class="line">            &lt;div class=&quot;card&quot; style=&quot;width: 15rem; height:14rem;&quot;&gt;</span><br><span class="line">                &lt;div class=&quot;card-body&quot;&gt;</span><br><span class="line">                    &lt;h5 class=&quot;card-title&quot;&gt;&#123;&#123;todo.pubtime&#125;&#125;&lt;/h5&gt;</span><br><span class="line">                    &lt;p class=&quot;card-text&quot;&gt;&#123;&#123;todo.todo&#125;&#125;&lt;/p&gt;</span><br><span class="line">                    &lt;a href=&quot;todolist/todoback/?id=&#123;&#123;todo.id&#125;&#125;&quot; class=&quot;btn btn-outline-success&quot;&gt;Recover&lt;/a&gt;</span><br><span class="line">                    &lt;a href=&quot;todolist/tododelete/?id=&#123;&#123;todo.id&#125;&#125;&quot; class=&quot;btn btn-outline-danger&quot;&gt;Delete&lt;/a&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;br&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><p><a href="https://blog.csdn.net/hcx25909/article/details/24251427?utm_source=app" target="_blank" rel="noopener">https://blog.csdn.net/hcx25909/article/details/24251427?utm_source=app</a></p>
+</li>
+<li><p>菜鸟教程</p>
+</li>
+</ol>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2020/04/08/ggplot2/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>ggplot2...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2020/02/27/2020-03-04-rstudy03/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>R语言入门03</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

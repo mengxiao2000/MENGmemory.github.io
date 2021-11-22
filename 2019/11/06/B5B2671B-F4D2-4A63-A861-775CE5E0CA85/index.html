@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>sklearn实现降维 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-06</span>
+    <h2>sklearn实现降维</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/sklearn/">sklearn</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/降维/">降维</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h1><blockquote>
+<p>能够加速训练，但会轻微降低系统性能，使流水线更加复杂，维护难度上升。<br>高维空间数据集很大可能是非常稀疏的。 训练集维度越高，过拟合风险就越大。</p>
+<ol>
+<li>数据降维的主要方法</li>
+</ol>
+<ul>
+<li>投影</li>
+</ul>
+</blockquote>
+<ul>
+<li>流形学习<br>对训练实例进行流形建模。<br>2D流形就是一个能够在更高维空间里弯曲和扭转的2D形状。<br>d维流形就是n（d&lt;n）维空间的一部分，局部类似于一个d维超平面。<blockquote>
+<p>在训练模型前降低训练集的维度，肯定可以加快训练速度，但这并不总会导致更好或更简单的解决方案，它取决于数据集。  </p>
+</blockquote>
+</li>
+</ul>
+<ol start="2">
+<li>PCA<br>识别出最接近数据的超平面，然后将数据投影其上。</li>
+</ol>
+<ul>
+<li><p>保留差异性<br>识别哪条轴对差异性贡献最高，与第一条轴垂直的轴对剩余差异性贡献最高。<br>奇异值分解（svd）可用于寻找主成分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X_centered = X - X.mean(axis=0)</span><br><span class="line">U, s, V = np.linalg.svd(X_centered)</span><br><span class="line">C1 = V.T[:,0]</span><br><span class="line">C2 = V.T[:,1]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>低维度投影<br>X_d-prom =X点乘W_d</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">W2 = V.T[:,:2]</span><br><span class="line">X2D = X_centered.dot(W2)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用Scikit-Learn</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#pca类借助SVD分解实现主成分分析</span><br><span class="line">From sklearn.decoposition import PCA</span><br><span class="line">PCA = PCA(n_components = 2)</span><br><span class="line">X2D = PCA.fit_transform(X)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方差解释率<br>表示每个主成分轴对整个数据集的方差的贡献度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Print(PCA.explained_variance_ratio_)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>选择正确数量的维数<br>法1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pca = PCA()</span><br><span class="line">Pca.fit(X)</span><br><span class="line">Cumsum = np.cumsum(pca.explained_variance_ratio_)</span><br><span class="line">d = np.argmax(cumsum &gt;= 0.95) + 1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>法2：直接设置保留的方差比<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pca = PCA(n_components=0.95)</span><br><span class="line">X_reduced = pca.fit_transform(X)</span><br></pre></td></tr></table></figure></p>
+<p>法3：绘制cumsum，找到曲线拐点</p>
+<ul>
+<li>PCA压缩<br>原始数据和重建数据（压缩之后解压缩）之间的均方距离，被称为<strong>重建误差</strong>。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Pca = PCA(n_components = 154)</span><br><span class="line">X_mnist_reduced = pca.fit_transform(X_mnist)</span><br><span class="line">X_mnist_recovered = pca.inverse_transform(X_mnist_reduced)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>X_recovered = X_d-project 点乘 W_d.T</p>
+<ul>
+<li>增量PCA<br>将训练集分成一个个小批量，一次给IPCA算法喂一个。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.decomposition import incrementalPCA</span><br><span class="line">N_batches = 100</span><br><span class="line">Inc_pca = IncrementalPCA(n_component=154)</span><br><span class="line">For x_batch in np.array_split(X_mnist, n_batches):</span><br><span class="line">		inc_pca.partial_fit(X_batch)</span><br><span class="line">X_mnist_reduced = inc_pca.transform(X_mnist)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>使用numpy的memmap类，仅在需要时加载内存中需要的数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">X_mm = np.memmap(filename, dtype=“float32”, mode=“readonly”, shape=(m,n))</span><br><span class="line"></span><br><span class="line">Batch_size = m // n_batches</span><br><span class="line">Inc_pca = IncrementalPCA(n_components=154, 				</span><br><span class="line">batch_size=batch_size)</span><br><span class="line">Inc_pca.fit(X_mm)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>随机PCA<br>快速找到主成分的近似值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rnd_pca = PCA(n_components=154, svd_solver=“randomized”)</span><br><span class="line">X_reduced =rnd_pca.fit_transform(X_mnist)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>核主成分分析<br>核技巧，隐形地将实例映射到高维特征空间，使支持向量机能进行非线性分类和回归。</p>
+</li>
+</ul>
+<p>可应用于PCA<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.decomposition import KernelPCA</span><br><span class="line"></span><br><span class="line">Rbf_pca = KernelPCA(n_components=2, kernel=“rbf”, gamma=0.04)</span><br><span class="line">X_reduced = rbf_pca.fit_transform(X)</span><br></pre></td></tr></table></figure></p>
+<p>选择核函数核调整超参数</p>
+<blockquote>
+<p>由于kPCA是一种无监督学习方法，没有明显的性能指标来帮助选择最佳核函数核超参数值。 而降维通常是监督学习的准备步骤，所以可以使用网格搜索，来找到使任务性能最佳的核和超参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.model_selection import GridSearchCV</span><br><span class="line">from sklearn.linear_model import LogisticRegression</span><br><span class="line">from sklearn.pipeline import Pipeline</span><br><span class="line"></span><br><span class="line">clf = Pipeline([</span><br><span class="line">        (&quot;kpca&quot;, KernelPCA(n_components=2)),</span><br><span class="line">        (&quot;log_reg&quot;, LogisticRegression(solver=&quot;liblinear&quot;))</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line">param_grid = [&#123;</span><br><span class="line">        &quot;kpca__gamma&quot;: np.linspace(0.03, 0.05, 10),</span><br><span class="line">        &quot;kpca__kernel&quot;: [&quot;rbf&quot;, &quot;sigmoid&quot;]</span><br><span class="line">    &#125;]</span><br><span class="line"></span><br><span class="line">grid_search = GridSearchCV(clf, param_grid, cv=3)</span><br><span class="line">grid_search.fit(X, y)</span><br><span class="line"></span><br><span class="line">Print(grid_search.best_params_)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>法2：选择重建误差最低的核和超参数，但是因为映射维度问题实现不容易。<br>可在原始空间找一点，使其映射于重建点，这被称为重建原像。<br>通过设置fit_inverse_transform=True实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Rbf_pca = KernelPCA(n_component=2, kernel=“rbf”, gamma=0.0443,</span><br><span class="line">	fit_inverse_transform=True)</span><br><span class="line">X_reduced = rbf_pca.fit_transform(X)</span><br><span class="line">X_preimage = rbf_pca.inverse_transform(X_reduced)</span><br></pre></td></tr></table></figure></p>
+<p>计算重建原像误差。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.metrics import mean_squared_error</span><br><span class="line"></span><br><span class="line">mean_squared_error(X, X_preimage)</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>局部线性嵌入（LLE） 另一种非线性降维（NLDR）技术<br>一种流形学习技术。<br>LLE首先测量每个算法如何与其最近的邻居线性相关，然后寻找一个能最大程度保留这些局部关系的低维表示。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.manifold import LocallyLinearEmbedding</span><br><span class="line"></span><br><span class="line">Lyle = locallyLinearEmbedding(n_components=2, n_neighbors=10)</span><br><span class="line">X_reduced = ole.fit_transform(X)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>公式（P293）</p>
+<ol start="4">
+<li>其他降维技巧<br>MDS、 Isomap、 t-SNE、 LDA<br><img src="%E9%99%8D%E7%BB%B4/IMG_0016.PNG" alt></li>
+</ol>
+<p><img src="%E9%99%8D%E7%BB%B4/IMG_0017.PNG" alt></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/221B146F-F963-4421-A711-CA2215884E08/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>sklearn...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>sklearn...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

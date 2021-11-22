@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>sklearn集成学习和随机森林 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-11-06</span>
+    <h2>sklearn集成学习和...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/sklearn/">sklearn</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/集成学习，随机森林/">集成学习，随机森林</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="集成学习和随机森林"><a href="#集成学习和随机森林" class="headerlink" title="集成学习和随机森林"></a>集成学习和随机森林</h1><ol>
+<li>投票分类器<blockquote>
+<p>当预测器尽可能相互独立时，集成方法的效果最优。<br>获得更多种分类器的方法之一就是使用不同的算法进行训练。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import RandomForestClassifier</span><br><span class="line">From sklearn.ensemble import RandomForestClassifier</span><br><span class="line">From sklearn.linear_model import LogisticRegression</span><br><span class="line">From sklearn.svm import SVC</span><br><span class="line"></span><br><span class="line">Log_clf=</span><br><span class="line">Rnd_clf=</span><br><span class="line">Svm_clf=</span><br><span class="line">Voting_clf=VotingClassifier(</span><br><span class="line">		estimators=[(‘lr’, log_clf),(‘rf’,rnf_clf),(‘svc’,svm_clf)],</span><br><span class="line">		voting=‘hard</span><br><span class="line">)</span><br><span class="line">Voting_clf.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ol>
+<p>软投票法：当所有分类器都可以估算类别的概率（有predict_proba方法），可以将概率在所有当个分类器上平均，给出平均概率最高的类别作为预测，这被称为软投票法。通常比硬投票法更优。通过设置超参数voting=‘soft’完成。</p>
+<blockquote>
+<p>默认情况下SVC类没有predict_proba，需要设置超参数probabil=True。  </p>
+</blockquote>
+<ol start="2">
+<li>bagging 和 pasting<br>每个预测集使用的算法相同，但在不同的训练集随机子集上进行训练。<br>bagging采样时将样本放回，pasting采样时样本不放回（bootstrap=False）</li>
+</ol>
+<p>与直接在原始训练集上训练单个预测器相比，集成的偏差相近，但方差更低。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import BaggingClassifier</span><br><span class="line">From sklearn.tree import DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line">Bag_clf = BaggingClassifier(</span><br><span class="line">		DecisionTreeClassifier(), n_estimators=500,</span><br><span class="line">		max_samples=100, bootstrap=True, n_jobs=-1</span><br><span class="line">)</span><br><span class="line">Bag_clf.fit()</span><br><span class="line">Y_pred = Bag_clf.predict(X_test)</span><br></pre></td></tr></table></figure></p>
+<p>如果基础分类器能估算类别概率，具备predict_proba()，那么BaggingClassifier自动执行的就是软投票法而不是硬投票法。</p>
+<p>自助法给每个训练子集引入了更高的多样性，所以bagging比pasting偏差略高，但预测器之间的关联度更低，集成方差降低。bagging生成的模型通常更好。</p>
+<ul>
+<li>包外评估<br>使用bagging时有些实例可能根本不会被采样。<br>用这些实例进行评估，将每个预测器在其包外实例上的评估结果进行平均，就可以得到集成的评估。<br>通过设置oob_score=True来实现训练结束后自动包外评估。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Bag_clf = BaggingClassifier(</span><br><span class="line">		DecisionTreeClassifier(), n_estimators=500,</span><br><span class="line">		botstrap=True, n_jobs=-1, oob_score=True</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在测试集评估模型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.metrics import accuracy_score</span><br><span class="line">Y_pred= bag_clf.predict(X_test)</span><br><span class="line">accuracy_score(y_test, y_pred)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#获得每个训练实例的包外决策函数，本例中基础决策器有predict_proba()所以返回每个实例的类别概率</span><br><span class="line">Bag_clf.oob_decision_funtion_</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Random Patches 和随机子空间<br>BaggingClassifier也支持对特征进行抽样，通过超参数max_features和bootstrap_features控制，工作方式与实例抽样相同，只是对象时特征。</li>
+</ol>
+<p>对于处理高位输入特别有用（如图像）。<br>对训练实例和特征都进行抽样称为<strong>Random Patches</strong>方法。<br>保留所有训练实例（bootstrap=False且max_samples=1.0）但是对特征进行抽样(bootstrap_features=True且/或max_features&lt;1.0)，被称为<strong>随机子空间</strong>法。</p>
+<p>对特征抽样给预测器带来更大多样性，得到更高偏差和更低方差。</p>
+<ol start="4">
+<li>随机森林<br>是决策树的集成，通常用bagging训练，训练集大小通过max_samples设置。<br>两种实现方法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import RandomForestClassifer</span><br><span class="line"></span><br><span class="line">Rnd_clf = RandomForestCLassifier(n_estimators=500, max_leaf_nodes=16, n_jobs=-1)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Bag_clf = BaggingClassifier(</span><br><span class="line">		DecisionTreeClassifier(splitter=“random”, max_leaf_nodes=16),</span><br><span class="line">		n_estimators=500, </span><br><span class="line">		max_samples=1.0, </span><br><span class="line">		bootstrap=True, </span><br><span class="line">		n_jobs=-1</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>极端随机树<br>节点分裂时，每个特征使用随机阈值，而不是搜索得出的最佳阈值。<br>这种极端随机的决策树组成的森林被称为极端随机树。<br>高偏差换取低方差。<br>通过ExtraTreesClasifier创建，API与RandomForestClassifier相同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import ExtraTreesClassifier</span><br><span class="line">Ext_clf = ExtraTreesClassifier(n_estimators=500, max_leaf_nodes=16, n_jobs=-1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>特征重要性<br>重要特征更可能出现在根节点位置。<br>通过计算一个特征早森林中所有树上的平均深度可以估算一个特征的重要程度。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">For name,score in zip(iris[“feature_names”),rnd_clf.feature_importances_):</span><br><span class="line">		print(name, score)</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>提升法（Boosting）<br>指将几个弱学习器结合成一个强学习器的任意集成方法。</li>
+</ol>
+<ul>
+<li>AdaBoost<br>新预测器对其前序进行纠正的办法之一，更多关注前序拟合不足的实例。<br>无法并行，每个预测器要在前一个预测器训练评估后才能开始训练。<br>每个实例赋予初始权重，预测器依据加权误差率计算预测器权重，更新实例的权重，归一化所有实例权重，然后训练新的预测器。</li>
+</ul>
+<p>预测时计算预测器的预测结果，并通过权重加权，得到大多数加权投票的类别为预测类别。</p>
+<blockquote>
+<p>Sick it-learn使用的是Adaboost的一个多分类版本，叫SAMME（基于多类指数损失函数的逐步添加模型），只有两个类别时，SAMME等同于AdaBoost。<br>此外，预测器可以估算类别概率时，sklearn会使用SAMME的变体，称为SAMME.R，依赖的是类别概率而不是类别预测，通常表现更好。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import AdaBoostClassifier</span><br><span class="line"></span><br><span class="line">Ada_clf = AdaBoostClassifer(</span><br><span class="line">		DecisionTreeClassifier(max_depth=1, n_estimators=200,</span><br><span class="line">			algorithm=“SAMME.R”, learning_rate=0.5</span><br><span class="line">		)</span><br><span class="line">		#学习率影响误分类实例的重视程度</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>梯度提升Gradient Boosting<br>让新的预测器针对前一个预测器的残差进行拟合，各预测器预测结果相加得出最后预测结果。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">From sklearn.ensemble import GradientBoostingRegressor</span><br><span class="line"></span><br><span class="line">Gbrt = GradientBoostingRegressor(max_depth=2, n_estimators=3, learning_rate=1.0)</span><br><span class="line">#learning_rate对咩个数的贡献进行缩放。</span><br><span class="line">#如果设为低值，如0.1，则需要更多树来拟合训练集，但时预测繁华效果通常更好。</span><br></pre></td></tr></table></figure>
+<p>找到最佳的树的数量可使用<strong>早期停止法</strong>。</p>
+<blockquote>
+<p>简单的实现方法使用<strong>staged_predict()</strong>方法：在训练每个阶段都对集成的预测返回一个迭代器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Gbrt = GradientBoostingRegressor(max_depth=2, n_estimator=120)</span><br><span class="line">Gbrt.fit(X_train, y_train)</span><br><span class="line">Errors = [mean_squared_error(y_val, y_pred)</span><br><span class="line">			for y_pred in gbrt.staged_predict(X_val)]</span><br><span class="line">Bst_n_estimators = np.argmin(errors)</span><br><span class="line">Gbrt_best = GradientBoostingRegressor(max_depth=2, n_estimators=bst_n_estimator)</span><br><span class="line">Gbrt_best.fit(X_train, y_train)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>设置<strong>warm_start=True</strong>,当fit()被调用时，Scikit-learn会保留现在树，从而允许增量训练。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">gbrt = GradientBoostingRegressor(max_depth=2, warm_start=True)</span><br><span class="line"></span><br><span class="line">min_val_error = float(&quot;inf&quot;)</span><br><span class="line">error_going_up = 0 </span><br><span class="line">for n_estimators in range(1,120):</span><br><span class="line">    gbrt.n_estimators =n_estimators</span><br><span class="line">    gbrt.fit(X_train, y_train)</span><br><span class="line">    y_pred = gbrt.predict(X_val)</span><br><span class="line">    val_error = mean_squared_error(y_val, y_pred)</span><br><span class="line">    if val_error &lt; min_val_error:</span><br><span class="line">        min_val_error = val_error</span><br><span class="line">        error_going_up = 0</span><br><span class="line">    else:</span><br><span class="line">        error_going_up += 1</span><br><span class="line">			#连续5次未改善时停止训练</span><br><span class="line">        if error_going_up == 5:</span><br><span class="line">            print(n_estimators-5)</span><br><span class="line">            break</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ol start="6">
+<li>堆叠法（stacking）<br>训练一个模型来执行对所有预测器的聚合<br>混合器将预测器的输出作为输入训练集，进行最终预测。<br>Scikit-learn不直接支持堆叠。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier</span><br><span class="line">from sklearn.svm import LinearSVC</span><br><span class="line">from sklearn.neural_network import MLPClassifier</span><br><span class="line"></span><br><span class="line">random_forest_clf = RandomForestClassifier(n_estimators=10, random_state=42)</span><br><span class="line">extra_trees_clf = ExtraTreesClassifier(n_estimators=10, random_state=42)</span><br><span class="line">svm_clf = LinearSVC(random_state=42)</span><br><span class="line">mlp_clf = MLPClassifier(random_state=42)</span><br><span class="line"></span><br><span class="line">#第一层预测器训练</span><br><span class="line">estimators = [random_forest_clf, extra_trees_clf, svm_clf, mlp_clf]</span><br><span class="line">for estimator in estimators:</span><br><span class="line">    print(&quot;Training the&quot;, estimator)</span><br><span class="line">    estimator.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line">#第一层预测器形成训练集</span><br><span class="line">X_val_predictions = np.empty((len(X_val), len(estimators)), dtype=np.float32)</span><br><span class="line"></span><br><span class="line">for index, estimator in enumerate(estimators):</span><br><span class="line">    X_val_predictions[:, index] = estimator.predict(X_val)</span><br><span class="line"></span><br><span class="line">#训练混合器</span><br><span class="line">rnd_forest_blender = RandomForestClassifier(n_estimators=200, oob_score=True, random_state=42)</span><br><span class="line">rnd_forest_blender.fit(X_val_predictions, y_val)</span><br><span class="line"></span><br><span class="line">#生成测试集</span><br><span class="line">X_test_predictions = np.empty((len(X_test), len(estimators)), dtype=np.float32)</span><br><span class="line"></span><br><span class="line">for index, estimator in enumerate(estimators):</span><br><span class="line">    X_test_predictions[:, index] = estimator.predict(X_test)</span><br><span class="line"></span><br><span class="line">#预测</span><br><span class="line">y_pred = rnd_forest_blender.predict(X_test_predictions)</span><br><span class="line"></span><br><span class="line">#评估</span><br><span class="line">from sklearn.metrics import accuracy_score</span><br><span class="line">accuracy_score(y_test, y_pred)</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>sklearn...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/11/06/A8E255A0-8354-4CBC-A3C9-37F780898882/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>ANN简介基于...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>

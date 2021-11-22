@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#58b77a">
+  <title>利用Adaboost元算法提高分类性能 | 黎明已经不远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Syiao">
+  <meta name="keywords" content>
+  <meta name="description" content="“多新鲜啊~~”">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/mengxiao2000.github.io/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/mengxiao2000.github.io/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  <!--baidu_analytics-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e191a1666c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<link rel="alternate" href="/mengxiao2000.github.io/atom.xml" title="黎明已经不远" type="application/atom+xml">
+</head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg"></a></div>
+    <span>2019-03-23</span>
+    <h2>利用Adaboost元算...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/Adaboost/">Adaboost</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/ROC/">ROC</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/决策树/">决策树</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/无监督学习/">无监督学习</a> <i class="fa fa-tag"></i><a class="tag-link" href="/mengxiao2000.github.io/tags/机器学习/">机器学习</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <a id="more"></a>
+<p><img src="http://poetryisland.cn/image/roc.png" alt="img"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line"></span><br><span class="line">def loadSimpData():</span><br><span class="line">    datMat = matrix([[1. , 2.1],</span><br><span class="line">                     [2. , 1.1],</span><br><span class="line">                     [1.3, 1. ],</span><br><span class="line">                     [1. , 1. ],</span><br><span class="line">                     [2. , 1. ]])</span><br><span class="line">    classLabels = [1.0, 1.0, -1.0, -1.0, 1.0]</span><br><span class="line">    return datMat, classLabels</span><br><span class="line"></span><br><span class="line">#dataMat,classLabels = loadSimpData()</span><br><span class="line"></span><br><span class="line">#单层决策树生成</span><br><span class="line"></span><br><span class="line">def stumpClassify(dataMatrix , dimen , threshVal , threshIneq):</span><br><span class="line">    retArray = ones((shape(dataMatrix)[0],1))</span><br><span class="line">    if threshIneq == &apos;lt&apos;:</span><br><span class="line">        retArray[dataMatrix[:,dimen] &lt;= threshVal]  = -1.0</span><br><span class="line">    else:</span><br><span class="line">        retArray[dataMatrix[:,dimen] &gt; threshVal] = -1.0</span><br><span class="line">    return retArray</span><br><span class="line"></span><br><span class="line">#建立单层决策树</span><br><span class="line">#只基于一个特征进行分类  选出最优的树</span><br><span class="line">def buildStump(dataArray , classLabels,D):</span><br><span class="line">    dataMatrix = mat(dataArray)</span><br><span class="line">    labelMat = mat(classLabels).T</span><br><span class="line">    m,n = shape(dataArray)</span><br><span class="line">    numSteps = 10.0 #步数与精度</span><br><span class="line">    bestStump = &#123;&#125;</span><br><span class="line">    bestClasEst = mat(zeros((m,1)))</span><br><span class="line">    minError = inf</span><br><span class="line">    for i in range(n): #对每一个特征值</span><br><span class="line">        rangeMin = dataMatrix[:,i].min()</span><br><span class="line">        rangeMax = dataMatrix[:,i].max()</span><br><span class="line">        stepSize = (rangeMax - rangeMin)/numSteps</span><br><span class="line"></span><br><span class="line">        for j in range(-1,int(numSteps) + 1):</span><br><span class="line">            for inequel in [&apos;lt&apos;,&apos;gt&apos;]: #因为不能确定 +1 和 -1 分类 因此要进行两次操作</span><br><span class="line">                threshVal = (rangeMin + float(j)*stepSize )</span><br><span class="line">                predictedVals = stumpClassify(dataMatrix , i, threshVal , inequel) #预测结果</span><br><span class="line">                errArr = mat(ones((m,1)))</span><br><span class="line">                errArr[predictedVals == labelMat] = 0 #预测正确的样本标签为0 其他样本预测标签与正确标签数值相反</span><br><span class="line">                weightedError = D.T*errArr #大权重的样本预测对错误值会降低</span><br><span class="line"></span><br><span class="line">                if weightedError &lt; minError :</span><br><span class="line">                    minError = weightedError</span><br><span class="line">                    bestClasEst = predictedVals.copy()</span><br><span class="line">                    bestStump[&apos;dim&apos;] = i #特征</span><br><span class="line">                    bestStump[&apos;thresh&apos;] = threshVal #分割的特征值大小</span><br><span class="line">                    bestStump[&apos;ineq&apos;] = inequel #分割方式</span><br><span class="line"></span><br><span class="line">    return bestStump,minError,bestClasEst #返回错误水平最低的桩 ， 最小错误水平， 预测结果</span><br><span class="line"></span><br><span class="line">#基于单层决策树的Adaboost训练过程</span><br><span class="line">def adaBoostTrainDS (dataArr , classLabels , numIt =40):</span><br><span class="line">    weakClassArr = []</span><br><span class="line">    m = shape(dataArr)[0]</span><br><span class="line">    D = mat(ones((m,1))/m)</span><br><span class="line">    aggClassEst = mat(zeros((m,1)))</span><br><span class="line">    for i in range(numIt):</span><br><span class="line">        bestStump , error ,classEst = buildStump(dataArr,classLabels ,D)</span><br><span class="line">        #print (&apos;D&apos;,D.T)</span><br><span class="line">        alpha = float(0.5 * log((1.0 -error )/max(error,1e-16))) #计算分类器的权重值 防止error为零</span><br><span class="line">        #print (alpha)</span><br><span class="line">        bestStump[&apos;alpha&apos;] = alpha</span><br><span class="line">        weakClassArr .append(bestStump)</span><br><span class="line">        #print (&apos;classEst:&apos;,classEst.T)</span><br><span class="line">        expon = multiply(-1 * alpha * mat(classLabels).T ,classEst) #权重修改 预测正确的样本结果为负 预测错误的样本结果为正</span><br><span class="line">        D = multiply(D,exp(expon))</span><br><span class="line">        D = D/D.sum() #修改权重 增加预测错误样本的权重</span><br><span class="line">        aggClassEst += alpha*classEst #依据分类器权重相加获得总的预测</span><br><span class="line">        #print (&apos;aggClassEst:&apos;,aggClassEst.T)</span><br><span class="line">        aggErrors = multiply(sign(aggClassEst) != mat(classLabels).T , ones((m,1)))#np.sign(a)，返回数组中各元素的正负符号，用1和-1表示</span><br><span class="line"></span><br><span class="line">        errorRate = aggErrors.sum()/m</span><br><span class="line">        print (&apos;total error:&apos;, errorRate , &apos;\n&apos;)</span><br><span class="line">        if errorRate == 0.0:</span><br><span class="line">            break</span><br><span class="line">    return weakClassArr,aggClassEst</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#classifierArr =  adaBoostTrainDS(dataMat,classLabels,9)</span><br><span class="line"></span><br><span class="line">#基于Adaboost分类</span><br><span class="line">def adaClassify(dataToClass,classifierArr):</span><br><span class="line">    dataMatrix = mat(dataToClass)</span><br><span class="line">    m = shape(dataMatrix)[0]</span><br><span class="line">    aggClassEst = mat(zeros((m,1)))</span><br><span class="line">    for i in range(len(classifierArr)):</span><br><span class="line">        classEst = stumpClassify(dataMatrix,classifierArr[i][&apos;dim&apos;],classifierArr[i][&apos;thresh&apos;],classifierArr[i][&apos;ineq&apos;])</span><br><span class="line">        aggClassEst += classifierArr[i][&apos;alpha&apos;]*classEst</span><br><span class="line">        #print(aggClassEst)</span><br><span class="line">    return sign(aggClassEst)</span><br><span class="line"></span><br><span class="line">#agg = adaClassify([[5,5],[0,0]],classifierArr)</span><br><span class="line">#print (agg)</span><br><span class="line"></span><br><span class="line">#自适应加载函数</span><br><span class="line"></span><br><span class="line">def loadData(filename):</span><br><span class="line">    numFeat = len(open(filename).readline().split(&apos;\t&apos;))</span><br><span class="line">    dataMat = []</span><br><span class="line">    labelMat = []</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    for line in fr.readlines():</span><br><span class="line">        lineArr = []</span><br><span class="line">        curLine = line.strip().split(&apos;\t&apos;)</span><br><span class="line">        for i in range(numFeat - 1):</span><br><span class="line">            lineArr.append(float(curLine[i]))</span><br><span class="line">        dataMat.append(lineArr)</span><br><span class="line">        labelMat.append(float(curLine[-1]))</span><br><span class="line">    return dataMat,labelMat</span><br><span class="line"></span><br><span class="line">dataArr , labelArr = loadData(&apos;horseColicTraining2.txt&apos;) #标签必须为 1 和 -1！</span><br><span class="line">classifierArr,aggClassEst = adaBoostTrainDS(dataArr,labelArr , 40)</span><br><span class="line"></span><br><span class="line">testArr,testLabelArr = loadData(&apos;horseColicTest2.txt&apos;)</span><br><span class="line">pred = adaClassify(testArr,classifierArr)</span><br><span class="line"></span><br><span class="line">errArr = mat(ones((67,1)))</span><br><span class="line">print(errArr[pred != mat(testLabelArr).T].sum())</span><br><span class="line"></span><br><span class="line">#ROC曲线绘制与AUC计算函数</span><br><span class="line">#真阳率：预测为真的正例占正例总体的比率 越大越好</span><br><span class="line">#假阳率：预测为真的反例占反例总体的比例  越小越好</span><br><span class="line">#AUC曲线下的面积，分类器的平均性能值</span><br><span class="line">def plotROC(predStrengths , classLabels): #预测结果（未划分   标签</span><br><span class="line">    import matplotlib.pyplot as plt</span><br><span class="line">    cur = (1.0 ,1.0)#绘制光标的位置</span><br><span class="line">    ySum = 0.0</span><br><span class="line">    numPosClas = sum(array(classLabels) == 1.0) #正例的总数</span><br><span class="line">    yStep = 1/float(numPosClas) #正例的步长</span><br><span class="line">    xStep = 1/float(len( classLabels)-numPosClas) #1/反例的总数</span><br><span class="line">    sortedIndicies = predStrengths.argsort() #从小到大排序</span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    fig.clf()</span><br><span class="line">    ax = plt.subplot(111)</span><br><span class="line">    for index in sortedIndicies.tolist()[0]: #每得到一个正例，要沿y下降1个步长，得到一个反例，沿x下降一个步长</span><br><span class="line">        if classLabels[index] == 1.0:</span><br><span class="line">            delX = 0</span><br><span class="line">            delY = yStep</span><br><span class="line">        else:</span><br><span class="line">            delX = xStep</span><br><span class="line">            delY = 0</span><br><span class="line">            ySum += cur[1]</span><br><span class="line">        ax.plot([cur[0],cur[0]-delX],[cur[1],cur[1]-delY],c=&apos;b&apos;) #两点绘制线段</span><br><span class="line">        cur = (cur[0] - delX , cur[1] -delY) #更新光标</span><br><span class="line">    ax.plot([0,1],[0,1],&apos;b--&apos;)</span><br><span class="line">    plt.xlabel(&apos;False Positive Rate&apos;)</span><br><span class="line">    plt.ylabel(&apos;True Positive Rate&apos;)</span><br><span class="line">    plt.title(&apos;ROC curve for Adaboost Horse Colic Detection System&apos;)</span><br><span class="line">    ax.axis([0,1,0,1])</span><br><span class="line">    plt.show()</span><br><span class="line">    print (&apos;the area under curve is :&apos;,ySum*xStep)</span><br><span class="line"></span><br><span class="line">plotROC(aggClassEst.T,labelArr)</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.cnblogs.com/ScorpioLu/p/8295990.html" target="_blank" rel="noopener">帮助理解</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/04/03/neuralnetwork/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>简单三层神经网...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/mengxiao2000.github.io/2019/03/13/Apriori/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用Aprio...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2021.<a href="/mengxiao2000.github.io/">黎明已经不远</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/mengxiao2000.github.io/"><img src="/mengxiao2000.github.io/images/avatar.jpeg" alt="Syiao"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Syiao</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
+        <li><a href="/mengxiao2000.github.io/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+
+</body>
+</html>
