@@ -104,7 +104,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=&quot;https://nbviewer.jupyter.org/github/MENGmemory/sklearn_study/blob/master/preprocessing.ipynb&quot; width=&quot;570&quot; height=&quot;2000&quot;&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
 <p>但是还是不想传，太懒。</p>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2020/02/20/nbviewer/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2020/02/20/nbviewer/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -112,7 +112,7 @@
       <h2 class="title"><a href="/mengxiao2000.github.io/2020/01/10/preprocessing/">sklearn特征工程01</a></h2>
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-01-10 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/mengxiao2000.github.io/categories/python/">python</a></span>
       <p><iframe src="https://nbviewer.jupyter.org/github/MENGmemory/sklearn_study/blob/master/preprocessing.ipynb" width="570" height="2000"></iframe></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2020/01/10/preprocessing/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2020/01/10/preprocessing/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -450,7 +450,7 @@ Freq: D, Name: a, dtype: bool
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/08/pandas/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/08/pandas/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -730,7 +730,7 @@ K3  C2  D2
        [0.74866068, 0.03565489]])
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/08/Pandas数据分析/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/08/Pandas数据分析/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -785,7 +785,7 @@ K3  C2  D2
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">n_batches = len(X_train) // batch_size</span><br><span class="line"></span><br><span class="line">with tf.Session() as sess:</span><br><span class="line">    init.run()</span><br><span class="line">    </span><br><span class="line">    restore_saver.restore(sess, &quot;./model/my_model_final.ckpt&quot;)</span><br><span class="line">    </span><br><span class="line">    #在低层跑完整个训练集</span><br><span class="line">    h2_cache = sess.run(hidden2, feed_dict=&#123;X:X_train&#125;)</span><br><span class="line">    h2_cache_valid = sess.run(hidden2, feed_dict=&#123;X:X_valid&#125;)</span><br><span class="line">    </span><br><span class="line">    #构建hidden2的输出，并进行训练</span><br><span class="line">    for epoch in range(n_epochs):</span><br><span class="line">        shuffled_idx = np.random.permutation(len(X_train))</span><br><span class="line">        hidden2_batches = np.array_split(h2_cache[shuffled_idx], n_batches)</span><br><span class="line">        y_batches = np.array_split(y_train[shuffled_idx], n_batches)</span><br><span class="line">        for hidden2_batch, y_batch in zip(hidden2_batches, y_batches):</span><br><span class="line">            sess.run(training_op, feed_dict=&#123;hidden2:hidden2_batch, y:y_batch&#125;)</span><br><span class="line">        accuracy_val = accuracy.eval(feed_dict=&#123;hidden2: h2_cache_valid, y: y_valid&#125;)</span><br><span class="line">        </span><br><span class="line">        print(epoch, &quot;Validation accuracy:&quot;, accuracy_val)</span><br><span class="line">        </span><br><span class="line">    save_path = saver.save(sess, &quot;./my_new_model_final.ckpt&quot;)</span><br></pre></td></tr></table></figure><p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/EF6E429A-DD75-410E-BA1C-D2155AE088CB/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/EF6E429A-DD75-410E-BA1C-D2155AE088CB/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -824,7 +824,7 @@ K3  C2  D2
 <p>超参数C是松弛变量的系数，用于权衡特征权重W和松弛变量的关系，增大C，会增强对松弛变量的优化，从而使允许违例程度减少，决策边界不规则  </p>
 </blockquote>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/C9585905-3174-49F4-91CB-49EEAFBA8BEC/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/C9585905-3174-49F4-91CB-49EEAFBA8BEC/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -859,7 +859,7 @@ K3  C2  D2
 <li>不稳定性<br>青睐正交垂直边界，可能导致泛化不佳，可用PCA来限制这一问题。<br>随即森林可限制这一不稳定性。</li>
 </ol>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/221B146F-F963-4421-A711-CA2215884E08/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/221B146F-F963-4421-A711-CA2215884E08/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -937,7 +937,7 @@ K3  C2  D2
 </ol>
 <p><img src="%E9%99%8D%E7%BB%B4/IMG_0017.PNG" alt></p>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/B5B2671B-F4D2-4A63-A861-775CE5E0CA85/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -1010,7 +1010,7 @@ K3  C2  D2
 <li>堆叠法（stacking）<br>训练一个模型来执行对所有预测器的聚合<br>混合器将预测器的输出作为输入训练集，进行最终预测。<br>Scikit-learn不直接支持堆叠。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier</span><br><span class="line">from sklearn.svm import LinearSVC</span><br><span class="line">from sklearn.neural_network import MLPClassifier</span><br><span class="line"></span><br><span class="line">random_forest_clf = RandomForestClassifier(n_estimators=10, random_state=42)</span><br><span class="line">extra_trees_clf = ExtraTreesClassifier(n_estimators=10, random_state=42)</span><br><span class="line">svm_clf = LinearSVC(random_state=42)</span><br><span class="line">mlp_clf = MLPClassifier(random_state=42)</span><br><span class="line"></span><br><span class="line">#第一层预测器训练</span><br><span class="line">estimators = [random_forest_clf, extra_trees_clf, svm_clf, mlp_clf]</span><br><span class="line">for estimator in estimators:</span><br><span class="line">    print(&quot;Training the&quot;, estimator)</span><br><span class="line">    estimator.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line">#第一层预测器形成训练集</span><br><span class="line">X_val_predictions = np.empty((len(X_val), len(estimators)), dtype=np.float32)</span><br><span class="line"></span><br><span class="line">for index, estimator in enumerate(estimators):</span><br><span class="line">    X_val_predictions[:, index] = estimator.predict(X_val)</span><br><span class="line"></span><br><span class="line">#训练混合器</span><br><span class="line">rnd_forest_blender = RandomForestClassifier(n_estimators=200, oob_score=True, random_state=42)</span><br><span class="line">rnd_forest_blender.fit(X_val_predictions, y_val)</span><br><span class="line"></span><br><span class="line">#生成测试集</span><br><span class="line">X_test_predictions = np.empty((len(X_test), len(estimators)), dtype=np.float32)</span><br><span class="line"></span><br><span class="line">for index, estimator in enumerate(estimators):</span><br><span class="line">    X_test_predictions[:, index] = estimator.predict(X_test)</span><br><span class="line"></span><br><span class="line">#预测</span><br><span class="line">y_pred = rnd_forest_blender.predict(X_test_predictions)</span><br><span class="line"></span><br><span class="line">#评估</span><br><span class="line">from sklearn.metrics import accuracy_score</span><br><span class="line">accuracy_score(y_test, y_pred)</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/203B2692-33BD-423D-A525-C3406A10F6B5/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
   <div class="lx-entry padding">
@@ -1041,7 +1041,7 @@ K3  C2  D2
 <li>激活函数<br>大多情况可以在隐藏层中用ReLU<br>对于输出层：softmax对于互斥的分类任务是个不错的选择，回归任务可以不用激活函数</li>
 </ul>
 <p></p>
-      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/A8E255A0-8354-4CBC-A3C9-37F780898882/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+      <div class="post-button"><a class="btn" href="/mengxiao2000.github.io/2019/11/06/A8E255A0-8354-4CBC-A3C9-37F780898882/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>阅读更多</a></div>
     </div>
   </div>
 
@@ -1083,18 +1083,18 @@ K3  C2  D2
   </div>
   <nav class="menu-container">
   <ul class="menu-items">
-    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
-    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/mengxiao2000.github.io/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
     
     <li class="has-sub"><span class="dropdown-heading">
-      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
         <ul>
           <li><a href="/mengxiao2000.github.io/guestbook/">Guestbook</a></li>
         <li><a href="/mengxiao2000.github.io/about/">About</a></li>
         </ul>
     </li>
     <li class="has-sub"><span class="dropdown-heading">
-      <i class="fa fa-link fa-fw"></i>Friends</span>
+      <i class="fa fa-link fa-fw"></i>友链</span>
         <ul>
           <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
         </ul>
